@@ -154,5 +154,42 @@ class Nekoriku_Music_Prefix(commands.Cog):
         
         await self.send_typing(ctx, f'เลือกโหมด **`{player.autoplay.name}**` แล้ว')
 
+    @commands.command(name="volume", aliases=[
+        "10",
+        "20",
+        "30",
+        "40",
+        "50",
+        "60",
+        "70",
+        "80"
+        "90",
+        "100"
+    ])
+    async def volume_music(self, ctx: commands.Context, vol: str) -> None:
+        if not ctx.guild:
+            return
+        
+        player: Optional[wavelink.Player] = ctx.voice_client
+        if not player or not isinstance(player, wavelink.Player):
+            await self.send_typing(ctx, 'หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            return
+        
+        if player.channel != ctx.author.voice.channel:
+            await self.send_typing(ctx, 'คุณต้องอยู่ในช่องเดียวกับหนูสิ ลองอีกครั้งนะ')
+            return
+        
+        try:
+            volume = int(vol)
+        except ValueError:
+            await self.send_typing(ctx, f'ไม่มีค่าที่คุณระบุมา **`{vol}%`**')
+            return
+        
+        if volume in {10, 20, 30, 40, 50, 60, 70, 80, 90, 100}:
+            await player.set_volume(volume)
+            await self.send_typing(ctx, f'ปรับระดับเสียงเป็น **`{volume}%`** แล้ว')
+        else:
+            await self.send_typing(ctx, f'ไม่มีค่าที่คุณระบุมา **`{vol}%`**')
+
 async def setup(bot: commands.Bot):
     await bot.add_cog(Nekoriku_Music_Prefix(bot))
