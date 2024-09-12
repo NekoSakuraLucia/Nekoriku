@@ -4,6 +4,7 @@ from ..colored_logging import get_logger
 import wavelink
 from typing import Optional
 from ..embeds import NekorikuEmbeds
+from ..utils import Nekoriku_Utils
 
 logger = get_logger('nekoriku_logger')
 
@@ -210,6 +211,28 @@ class Nekoriku_Music_Prefix(commands.Cog):
         
         await player.pause(False)
         await self.send_typing(ctx, message="ทำการเล่นเพลงต่อหลังจากหยุดชั่วคราว")
+
+    @commands.command(name="seek")
+    async def seek_music(self, ctx: commands.Context, time_str: str) -> None:
+        if not ctx.guild:
+            return
+        
+        player: Optional[wavelink.Player] = ctx.voice_client
+        if not player or not isinstance(player, wavelink.Player):
+            await self.send_typing(ctx, message='หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            return
+        
+        if player.channel != ctx.author.voice.channel:
+            await self.send_typing(ctx, message='คุณต้องอยู่ในช่องเดียวกับหนูสิ ลองอีกครั้งนะ')
+            return
+        
+        total_ms = Nekoriku_Utils.convert_time(time_str)
+        if total_ms is None:
+            await self.send_typing(ctx, message="รูปแบบเวลาไม่ถูกต้อง กรุณาใช้รูปแบบ 00:00")
+            return
+        
+        await player.seek(total_ms)
+        await self.send_typing(ctx, message=f"กรอเพลงไปยัง **`{time_str}`** แล้ว")
 
     @commands.command(name="volume", aliases=[
         "10",

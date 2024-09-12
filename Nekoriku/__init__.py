@@ -12,6 +12,8 @@ The setup is very easy, just a few lines of code and you have your music bot rea
 TH / EN:
 **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
 **As for other languages You can continue adding it yourself. If you are a translator**
+
+&copy; 2024 • Nekoriku (Made by: NekoSakuraLucia)
 """
 from .bot import start, setup_nodes
 from .plugins import create

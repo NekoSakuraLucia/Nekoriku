@@ -1,6 +1,5 @@
 from typing import Dict
 from ..bot import bot
-import logging
 import asyncio
 
 def create(module: Dict[str, bool], event: Dict[str, bool]):

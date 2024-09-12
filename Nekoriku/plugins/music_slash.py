@@ -149,6 +149,30 @@ class Nekoriku_Music_Slash(commands.Cog):
 
         await player.pause(toggle_mode == "pause")
         await interaction.followup.send(f'คุณเลือกโหมด **`{toggle_mode}`** แล้ว')
+
+    @app_commands.command(name="volume", description="TH: ปรับระดับเสียงเพลง / EN: Adjust the music volume")
+    @app_commands.describe(vol="TH: ค่าระดับเสียงที่คุณต้องการ / EN: Your desired volume level")
+    async def volume_music(self, interaction: discord.Interaction, vol: str) -> None:
+        await interaction.response.defer()
+
+        if not interaction.guild:
+            await interaction.followup.send(
+                'TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.'
+            )
+            return
+    
+        player: Optional[wavelink.Player] = interaction.guild.voice_client
+        if not player or not isinstance(player, wavelink.Player):
+            await interaction.followup.send('หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            return
+        
+        if player.channel != interaction.user.voice.channel:
+            await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
+            return
+        
+        volume = int(vol)
+        await player.set_volume(volume)
+        await interaction.followup.send(f'ปรับระดับเสียงเป็น **`{volume}%`** แล้ว')
     
     @app_commands.command(name="loop", description="TH: วนเพลงซ้ำไปเรื่อยๆ / EN: Repeat the song continuously.")
     @app_commands.describe(repeat_mode="TH: เลือกโหมดที่ต้องการวนเพลง / EN: Select the mode in which you want to loop the song.")
