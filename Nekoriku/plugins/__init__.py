@@ -21,6 +21,9 @@ def create(module: Dict[str, bool], event: Dict[str, bool]):
     loop = asyncio.get_event_loop()
     if module.get("music_prefix"):
         loop.run_until_complete(load_cog('Nekoriku.plugins.music_prefix'))
+    if module.get("music_slash"):
+        bot.music_slash = True
+        loop.run_until_complete(load_cog('Nekoriku.plugins.music_slash'))
     
     if event.get("music_event"):
         loop.run_until_complete(load_cog('Nekoriku.plugins.music_event'))
