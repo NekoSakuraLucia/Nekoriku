@@ -1,6 +1,7 @@
 import discord
 from discord import app_commands
 from discord.ext import commands
+from typing import Optional
 from ..colored_logging import get_logger
 import wavelink
 from ..embeds import NekorikuEmbeds
@@ -79,6 +80,23 @@ class Nekoriku_Music_Slash(commands.Cog):
                 player.queue.get(),
                 volume=60
             )
+
+    @app_commands.command(name="leave", description="TH: ทำลายเพลงและออกจากช่องเสียง / EN: Destroyed the song and left the sound room.")
+    async def leave_music(self, interaction: discord.Interaction) -> None:
+        await interaction.response.defer()
+
+        if not interaction.guild:
+            await interaction.followup.send('TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
+            return
+        
+        player: Optional[wavelink.Player] = interaction.guild.voice_client
+        if not player or not isinstance(player, wavelink.Player):
+            await interaction.followup.send('หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            return
+        
+        await player.disconnect()
+        embed = NekorikuEmbeds.leave_music_embed(interaction.user, self.bot)
+        await interaction.followup.send(embed=embed)
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Nekoriku_Music_Slash(bot))
