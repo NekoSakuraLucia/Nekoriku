@@ -3,10 +3,20 @@ from discord import app_commands
 from discord.ext import commands
 from ..colored_logging import get_logger
 import wavelink
+from ..embeds import NekorikuEmbeds
 
 logger = get_logger('nekoriku_logger')
 
 class Nekoriku_Music_Slash(commands.Cog):
+    """
+    TH: คำสั่งเพลง Slash Commands คือคำสั่งที่เริ่มต้นด้วยสแลช (/) เช่น /play, /pause, /skip ซึ่งช่วยให้คุณควบคุมเพลงในเซิร์ฟเวอร์ดิสคอร์ดของคุณได้
+
+    EN: Music Slash Commands start with a slash (/), like /play, /pause, /skip, allowing you to control music in a Discord server.
+
+    TH / EN:
+    **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+    **As for other languages You can continue adding it yourself. If you are a translator**
+    """
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
 
@@ -38,10 +48,12 @@ class Nekoriku_Music_Slash(commands.Cog):
             try:
                 player = await interaction.user.voice.channel.connect(cls=wavelink.Player)
             except AttributeError:
-                await interaction.followup.send('TH: กรุณาเข้าร่วมช่องเสียงก่อนที่จะใช้คำสั่งนี้\nEN: Please Join Voice Channel')
+                embed = NekorikuEmbeds.join_voice_embed(interaction.user, self.bot)
+                await interaction.followup.send(embeds=embed)
                 return
             except discord.ClientException:
-                await interaction.followup.send('TH: กรุณาเข้าร่วมช่องเสียงก่อนที่จะใช้คำสั่งนี้\nEN: Please Join Voice Channel')
+                embed = NekorikuEmbeds.join_voice_embed(interaction.user, self.bot)
+                await interaction.followup.send(embed=embed)
                 return
         
         if player.channel != interaction.user.voice.channel:
@@ -59,7 +71,8 @@ class Nekoriku_Music_Slash(commands.Cog):
         else:
             track: wavelink.Playable = tracks[0]
             await player.queue.put_wait(track)
-            await interaction.followup.send(f'เพิ่มคิวเพลงแล้ว **`{track.title}`**')
+            embed = NekorikuEmbeds.playing_music_embed(interaction.user, self.bot, track)
+            await interaction.followup.send(embed=embed)
         
         if not player.playing:
             await player.play(

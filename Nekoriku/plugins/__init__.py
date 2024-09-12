@@ -32,4 +32,4 @@ async def load_cog(cog_path: str):
     try:
         await bot.load_extension(cog_path)
     except Exception as e:
-        logging.error(f"Failed to load extension {cog_path}: {e}")
+        print(f"Failed to load extension {cog_path}: {e}")
