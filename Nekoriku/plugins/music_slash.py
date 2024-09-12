@@ -94,9 +94,61 @@ class Nekoriku_Music_Slash(commands.Cog):
             await interaction.followup.send('หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
             return
         
+        if player.channel != interaction.user.voice.channel:
+            await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
+            return
+        
         await player.disconnect()
         embed = NekorikuEmbeds.leave_music_embed(interaction.user, self.bot)
         await interaction.followup.send(embed=embed)
+
+    @app_commands.command(name="skip", description="TH: ข้ามไปยังเพลงถัดไป / EN: Skip to the next song.")
+    async def skip_music(self, interaction: discord.Interaction) -> None:
+        await interaction.response.defer()
+
+        if not interaction.guild:
+            await interaction.followup.send('TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
+            return
+        
+        player: Optional[wavelink.Player] = interaction.guild.voice_client
+        if not player or not isinstance(player, wavelink.Player):
+            await interaction.followup.send('หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            return
+        
+        if player.channel != interaction.user.voice.channel:
+            await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
+            return
+        
+        await player.stop()
+        embed = NekorikuEmbeds.skip_music_embed(interaction.user, self.bot)
+        await interaction.followup.send(embed=embed)
+
+    @app_commands.command(name="toggle", description="TH: เลือกโหมดสำหรับการหยุดเพลงหรือคืนค่าเพลง / EN: Choose a mode for pause music or resume music.")
+    @app_commands.describe(mode="TH: เลือกโหมด / EN: Select mode")
+    @app_commands.choices(
+        mode=[
+            app_commands.Choice(name="Pause", value="pause"),
+            app_commands.Choice(name="Resume", value="resume")
+        ]
+    )
+    async def toggle_pause_resume(self, interaction: discord.Interaction, toggle_mode: str) -> None:
+        await interaction.response.defer()
+
+        if not interaction.guild:
+            await interaction.followup.send('TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
+            return
+        
+        player: Optional[wavelink.Player] = interaction.guild.voice_client
+        if not player or not isinstance(player, wavelink.Player):
+            await interaction.followup.send('หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            return
+        
+        if player.channel != interaction.user.voice.channel:
+            await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
+            return
+        
+        await player.pause(toggle_mode == "pause")
+        await interaction.followup.send(f'คุณเลือกโหมด **`{toggle_mode}`** แล้ว')
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Nekoriku_Music_Slash(bot))
