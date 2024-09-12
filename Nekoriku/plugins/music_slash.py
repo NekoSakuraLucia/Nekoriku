@@ -190,5 +190,53 @@ class Nekoriku_Music_Slash(commands.Cog):
 
         await interaction.followup.send(f'เปิดการใช้งาน **`{player.queue.mode.name}`** แล้ว')
 
+    @app_commands.command(name="filters", description="TH: เปิดการใช้งานฟิลเตอร์ / EN: Activate the Filters.")
+    @app_commands.describe(filter="TH: เลือกรูปแบบฟิลเตอร์ที่ต้องการ / EN: Select the desired filter style.")
+    @app_commands.choices(
+        filter=[
+            app_commands.Choice(name="Nightcore", value="nightcore"),
+            app_commands.Choice(name="Karaoke", value="karaoke"),
+            app_commands.Choice(name="LowPass", value="lowpass"),
+            app_commands.Choice(name="None", value="none")
+        ]
+    )
+    # TH: ตอนนี้เราจะทำฟิลเตอร์แค่สี่ตัวก่อน แล้วค่อยเพิ่มตัวอื่นๆ ทีหลัง
+    # EN: Let's start with just four filters for now and add more later.
+
+    # TH / EN:
+    # **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+    # **As for other languages You can continue adding it yourself. If you are a translator**
+    async def filter_mode(self, interaction: discord.Interaction, filter: str) -> None:
+        await interaction.response.defer()
+
+        if not interaction.guild:
+            await interaction.followup.send(
+                'TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.'
+            )
+            return
+        
+        player: Optional[wavelink.Player] = interaction.guild.voice_client
+        if not player or not isinstance(player, wavelink.Player):
+            await interaction.followup.send('หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            return
+        
+        if player.channel != interaction.user.voice.channel:
+            await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
+            return
+        
+        filters: wavelink.Filters = player.filters
+        if filter == "nightcore":
+            filters.timescale.set(speed=1.2, pitch=1.2, rate=1)
+        elif filter == "karaoke":
+            filters.karaoke.set(level=2, mono_level=1, filter_band=220, filter_width=100)
+        elif filter == "lowpass":
+            filters.low_pass.set(smoothing=20)
+        elif filter == "none":
+            filters.reset()
+
+        await player.set_filters(filters)
+        embed = NekorikuEmbeds.filters_music_embed(interaction.user, self.bot, filter)
+        await interaction.followup.send(embed=embed)
+
 async def setup(bot: commands.Bot):
     await bot.add_cog(Nekoriku_Music_Slash(bot))
