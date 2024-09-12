@@ -22,7 +22,7 @@ class BotClient(commands.Bot):
         if hasattr(self, 'node_uri') and hasattr(self, 'node_password'):
             node = wavelink.Node(uri=self.node_uri, password=self.node_password)
             await wavelink.Pool.connect(nodes=[node], client=self, cache_capacity=100)
-        logger.info(f"Logged in as {self.user} | {self.user.id}")
+        logger.info(f"[READY] -> Logged in as {self.user} | {self.user.id}")
         if self.music_slash:
             await self.tree.sync()
             logger.info("[READY] -> Slash Commands Synced.")
