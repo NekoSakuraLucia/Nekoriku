@@ -124,9 +124,9 @@ class Nekoriku_Music_Slash(commands.Cog):
         await interaction.followup.send(embed=embed)
 
     @app_commands.command(name="toggle", description="TH: เลือกโหมดสำหรับการหยุดเพลงหรือคืนค่าเพลง / EN: Choose a mode for pause music or resume music.")
-    @app_commands.describe(mode="TH: เลือกโหมด / EN: Select mode")
+    @app_commands.describe(toggle_mode="TH: เลือกโหมด / EN: Select mode")
     @app_commands.choices(
-        mode=[
+        toggle_mode=[
             app_commands.Choice(name="Pause", value="pause"),
             app_commands.Choice(name="Resume", value="resume")
         ]
@@ -146,9 +146,49 @@ class Nekoriku_Music_Slash(commands.Cog):
         if player.channel != interaction.user.voice.channel:
             await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
             return
-        
+
         await player.pause(toggle_mode == "pause")
         await interaction.followup.send(f'คุณเลือกโหมด **`{toggle_mode}`** แล้ว')
+    
+    @app_commands.command(name="loop", description="TH: วนเพลงซ้ำไปเรื่อยๆ / EN: Repeat the song continuously.")
+    @app_commands.describe(repeat_mode="TH: เลือกโหมดที่ต้องการวนเพลง / EN: Select the mode in which you want to loop the song.")
+    @app_commands.choices(
+        repeat_mode=[
+            app_commands.Choice(name="Repeat Track", value="track"),
+            app_commands.Choice(name="Repeat Queue", value="queue"),
+            app_commands.Choice(name="None", value="none")
+        ]
+    )
+    async def repeat_song(self, interaction: discord.Interaction, repeat_mode: str) -> None:
+        await interaction.response.defer()
+
+        if not interaction.guild:
+            await interaction.followup.send(
+                'TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.'
+            )
+            return
+        
+        player: Optional[wavelink.Player] = interaction.guild.voice_client
+        if not player or not isinstance(player, wavelink.Player):
+            await interaction.followup.send('หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            return
+        
+        if player.channel != interaction.user.voice.channel:
+            await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
+            return
+        
+        if player.autoplay != wavelink.AutoPlayMode.enabled:
+            await interaction.followup.send("กรุณาเปิดการใช้งาน autoplay ก่อนที่จะเปิดโหมดวนเพลงซ้ำ")
+            return
+        
+        if repeat_mode == "track":
+            player.queue.mode = wavelink.QueueMode.loop
+        elif repeat_mode == "queue":
+            player.queue.mode = wavelink.QueueMode.loop_all
+        elif repeat_mode == "none":
+            player.queue.mode = wavelink.QueueMode.normal
+
+        await interaction.followup.send(f'เปิดการใช้งาน **`{player.queue.mode.name}`** แล้ว')
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Nekoriku_Music_Slash(bot))
