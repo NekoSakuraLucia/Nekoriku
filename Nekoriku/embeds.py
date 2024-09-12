@@ -13,6 +13,35 @@ class NekorikuEmbeds:
     **As for other languages You can continue adding it yourself. If you are a translator**
     """
     @staticmethod
+    def format_duration(ms: int) -> str:
+        """
+        TH:
+        ฟังก์ชัน format_duration รับพารามิเตอร์เป็นจำนวนมิลลิวินาที (ms) และแปลงเป็นสตริงที่แสดงเวลาในรูปแบบ HH:MM:SS หรือ MM:SS 
+        ขึ้นอยู่กับจำนวนชั่วโมง ถ้ามีชั่วโมงมากกว่าศูนย์ จะคืนค่าในรูปแบบ HH:MM:SS หากไม่มีชั่วโมง ก็จะคืนค่าในรูปแบบ MM:SS
+
+        EN:
+        The format_duration function takes a parameter in milliseconds (ms) and converts it into a string that shows time in the format HH:MM:SS or MM:SS, 
+        depending on whether there are hours. If there are more than zero hours, it returns the format HH:MM:SS. If there are no hours, it returns the format MM:SS.
+
+        TH:
+        ฟังก์ชันนี้ไม่เกี่ยวกับ embed อะไรทั้งสิ้นแค่ขี้เกียจแยกไฟล์55555
+
+        EN:
+        This function has nothing to do with embed. I'm just lazy to separate files. Haha.
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
+        total_seconds = ms // 1000
+        hours, remainder = divmod(total_seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        if hours > 0:
+            return f"{hours:02}:{minutes:02}:{seconds:02}"
+        else:
+            return f"{minutes:02}:{seconds:02}"
+
+    @staticmethod
     def join_voice_embed(member: discord.Member, bot: commands.Bot) -> discord.Embed:
         """
         TH:
@@ -67,9 +96,10 @@ class NekorikuEmbeds:
         **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
         **As for other languages You can continue adding it yourself. If you are a translator**
         """
+        track_length_formatted = NekorikuEmbeds.format_duration(track.length)
         embed = discord.Embed(
             title="Now Playing..",
-            description=f"{member.mention}\nเพิ่มเพลง **`{track.title}`** เข้าคิวเพลงแล้ว",
+            description=f"{member.mention}\nเพิ่มเพลง **`{track.title}`** เข้าคิวเพลงแล้ว | ระยะเวลา **`{track_length_formatted}`**",
             color=0xFFC0CB
         )
         embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
