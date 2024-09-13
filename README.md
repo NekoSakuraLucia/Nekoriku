@@ -1,3 +1,28 @@
+# Example:
+```py
+# Default Prefix: !>
+
+import Nekoriku
+from Nekoriku.plugins import create
+
+create(
+    module={
+        "music_prefix": True,
+        "music_slash": True
+    },
+    event={
+        "music_event": True
+    }
+)
+
+Nekoriku.setup_nodes(
+    uri="",
+    password=""
+)
+Nekoriku.start('โทเค้นบอทของคุณ / YOUR_BOT_TOKEN')
+```
+
+
 ### TH:
 `Nekoriku` เป็นแพ็คเกจสำหรับบอทดิสคอร์ดที่อำนวยความสะดวก สำหรับคนที่อยากได้บอทเพลง
 แต่ไม่อยากทำเอง แต่อยากได้บอทเพลงแบบมีทั้ง prefix, slash แต่เนโกะริคุมีให้พร้อม ไม่ต้องเขียนโค้ดเอง
