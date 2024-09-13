@@ -228,11 +228,13 @@ class Nekoriku_Music_Prefix(commands.Cog):
         
         total_ms = Nekoriku_Utils.convert_time(time_str)
         if total_ms is None:
-            await self.send_typing(ctx, message="รูปแบบเวลาไม่ถูกต้อง กรุณาใช้รูปแบบ 00:00")
+            embed = NekorikuEmbeds.forward_music_embed_error(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         await player.seek(total_ms)
-        await self.send_typing(ctx, message=f"กรอเพลงไปยัง **`{time_str}`** แล้ว")
+        embed = NekorikuEmbeds.forward_music_embed(ctx.author, self.bot, time_str)
+        await self.send_typing(ctx, embed=embed)
 
     @commands.command(name="volume", aliases=[
         "10",

@@ -244,11 +244,13 @@ class Nekoriku_Music_Slash(commands.Cog):
         
         total_ms = Nekoriku_Utils.convert_time(time)
         if total_ms is None:
-            await interaction.followup.send('รูปแบบเวลาไม่ถูกต้อง กรุณาใช้รูปแบบ 00:00')
+            embed = NekorikuEmbeds.forward_music_embed_error(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         await player.seek(total_ms)
-        await interaction.followup.send(f'กรอเพลงไปยัง **`{time}`** แล้ว')
+        embed = NekorikuEmbeds.forward_music_embed(interaction.user, self.bot, time)
+        await interaction.followup.send(embed=embed)
 
     @app_commands.command(name="autoplay", description="TH: ต่อคิวเพลงไปเรื่อยๆ / EN: Continue the song auto queue when the song ends.")
     @app_commands.describe(mode="TH: เลือกเปิดหรือปิด / EN: Select On or Off.")
