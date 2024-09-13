@@ -6,6 +6,11 @@ setup(
     description="แพ็คเกจสำหรับบอทดิสคอร์ดที่มีฟีเจอร์คำสั่งสำหรับเล่นเพลงครบถ้วน",
     long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
+    install_requires=[
+        'discord.py',
+        'wavelink',
+        'colorama'
+    ],
     author="NekoSakuraLucia",
     packages=find_packages(),
     python_requires=">=3.10"
