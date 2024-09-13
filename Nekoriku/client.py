@@ -28,6 +28,12 @@ class BotClient(commands.Bot):
             logger.info("[READY] -> Slash Commands Synced.")
         activity = discord.Activity(type=discord.ActivityType.watching, name="!>play | /play | Nekoriku v0.1")
         await self.change_presence(activity=activity)
+
+    async def on_command_error(self, ctx: commands.Context, error: commands.CommandError) -> None:
+        if isinstance(error, commands.CommandNotFound):
+            await ctx.send('ไม่มีคำสั่งนี้')
+        else:
+            await ctx.send('เกิดข้อผิดพลาดบางอย่าง')
     
     async def on_wavelink_node_ready(self, payload: wavelink.NodeReadyEventPayload) -> None:
         logger.info(f"[READY] -> Wavelink Node connected: {payload.node}")

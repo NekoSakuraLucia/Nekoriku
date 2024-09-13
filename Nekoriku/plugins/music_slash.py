@@ -220,6 +220,37 @@ class Nekoriku_Music_Slash(commands.Cog):
 
         await interaction.followup.send(f'เปิดการใช้งาน **`{player.queue.mode.name}`** แล้ว')
 
+    @app_commands.command(name="autoplay", description="TH: ต่อคิวเพลงไปเรื่อยๆ / EN: Continue the song auto queue when the song ends.")
+    @app_commands.describe(mode="TH: เลือกเปิดหรือปิด / EN: Select On or Off.")
+    @app_commands.choices(
+        app_commands.Choice(name="Autoplay (Enabled)", value="enabled"),
+        app_commands.Choice(name="Autoplay (Diabled)", value="disabled")
+    )
+    async def autoplay_mode(self, interaction: discord.Interaction, mode: str) -> None:
+        await interaction.response.defer()
+
+        if not interaction.guild:
+            await interaction.followup.send(
+                'TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.'
+            )
+            return
+
+        player: Optional[wavelink.Player] = interaction.guild.voice_client
+        if not player or not isinstance(player, wavelink.Player):
+            await interaction.followup.send('หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            return
+        
+        if player.channel != interaction.user.voice.channel:
+            await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
+            return
+
+        if mode == "enabled":
+            player.autoplay = wavelink.AutoPlayMode.enabled
+        elif mode == "disabled":
+            player.autoplay = wavelink.AutoPlayMode.disabled
+
+        await interaction.followup.send(f'เลือกโหมด **`{player.autoplay.name}**` แล้ว')
+
     @app_commands.command(name="filters", description="TH: เปิดการใช้งานฟิลเตอร์ / EN: Activate the Filters.")
     @app_commands.describe(filter="TH: เลือกรูปแบบฟิลเตอร์ที่ต้องการ / EN: Select the desired filter style.")
     @app_commands.choices(
