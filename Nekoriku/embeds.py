@@ -223,6 +223,27 @@ class NekorikuEmbeds:
     
     @staticmethod
     def forward_music_embed(member: discord.Member, bot: commands.Bot, time: str) -> discord.Embed:
+        """
+        TH:
+            สร้าง embed เพื่อแจ้งผู้ใช้เกี่ยวกับการกรอเวลาเพลง
+
+            Embed ประกอบด้วย:
+            - ชื่อ: "Forward Songs"
+            - คำอธิบายที่เลือกเวลาที่ต้องการกรอ
+            - สีชมพูอ่อน
+
+        EN:
+            Create an embed to inform users about skipping song time.
+
+            The embed should include:
+            - A title: 'Forward Songs'
+            - A description: Choose the time you want to skip to
+            - A light pink color"
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         embed = discord.Embed(
             description=f'กรอเพลงไปยัง **`{time}`** แล้ว',
             color=0xFFC0CB
@@ -233,6 +254,27 @@ class NekorikuEmbeds:
     
     @staticmethod
     def forward_music_embed_error(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        """
+        TH:
+            สร้าง embed เพื่อแจ้งผู้ใช้เกี่ยวกับแสดงข้อผิดพลาดการใช้รูปแบบเวลา
+
+            Embed ประกอบด้วย:
+            - ชื่อ: "Forward Songs"
+            - คำอธิบายที่แสดงรูปแบบเวลาไม่ถูกต้อง
+            - สีชมพูอ่อน
+
+        EN:
+            Create an embed to notify users about displaying errors in time format usage
+
+            The embed should include:
+            - A title: 'Forward Songs'
+            - A description: time format is incorrect
+            - A light pink color"
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         embed = discord.Embed(
             description='รูปแบบเวลาไม่ถูกต้อง กรุณาใช้รูปแบบ 00:00',
             color=0xFFC0CB
@@ -243,6 +285,27 @@ class NekorikuEmbeds:
     
     @staticmethod
     def player_autoplay_embed_error(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        """
+        TH:
+            สร้าง embed เพื่อแจ้งผู้ใช้เกี่ยวกับแสดงข้อผิดพลาดกรุณาเปิดการใช้งาน autoplay
+
+            Embed ประกอบด้วย:
+            - ชื่อ: "Autoplay Mode"
+            - คำอธิบายที่แสดงข้อผิดพลาดกรุณาเปิดการใช้งาน autoplay
+            - สีชมพูอ่อน
+
+        EN:
+            Create an embed to notify users about displaying an error message: please enable autoplay.
+
+            The embed should include:
+            - A title: 'Forward Songs'
+            - A description: the error message: please enable autoplay.
+            - A light pink color"
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         embed = discord.Embed(
             description="กรุณาเปิดการใช้งาน autoplay ก่อนที่จะเปิดโหมดวนเพลงซ้ำ",
             color=0xFFC0CB
@@ -253,6 +316,27 @@ class NekorikuEmbeds:
     
     @staticmethod
     def player_autoplay_embed(member: discord.Member, bot: commands.Bot, autoplay_name: wavelink.AutoPlayMode) -> discord.Embed:
+        """
+        TH:
+            สร้าง embed เพื่อแจ้งผู้ใช้เกี่ยวกับแสดงข้อความเลือกโหมด autoplay
+
+            Embed ประกอบด้วย:
+            - ชื่อ: "Autoplay Mode"
+            - คำอธิบายที่แสดงข้อความเลือกโหมด autoplay
+            - สีชมพูอ่อน
+
+        EN:
+            Create an embed to notify users about selecting autoplay mode.
+
+            The embed should include:
+            - A title: 'Forward Songs'
+            - A description: the message: select autoplay mode.
+            - A light pink color"
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         embed = discord.Embed(
             description=f"เลือกโหมด **`{autoplay_name.name}`** แล้ว",
             color=0xFFC0CB
