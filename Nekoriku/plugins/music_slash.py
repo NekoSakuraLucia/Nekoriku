@@ -219,12 +219,12 @@ class Nekoriku_Music_Slash(commands.Cog):
         elif repeat_mode == "none":
             player.queue.mode = wavelink.QueueMode.normal
         
-        embed = NekorikuEmbeds.repeat_music_embed(self.bot, repeat_mode)
+        embed = NekorikuEmbeds.repeat_music_embed(interaction.user, self.bot, repeat_mode)
         await interaction.followup.send(embed=embed)
 
     @app_commands.command(name="seek", description="TH: กรอเวลาของเพลง / Fast forward the time of the song")
     @app_commands.describe(time="TH: เวลาที่ต้องการกรอเช่น 00:00 / EN: Time to fast forward the song, such as 00:00")
-    async def forward_music(self, interaction: discord.Interaction, time) -> None:
+    async def forward_music(self, interaction: discord.Interaction, time: str) -> None:
         await interaction.response.defer()
         
         if not interaction.guild:
@@ -247,14 +247,16 @@ class Nekoriku_Music_Slash(commands.Cog):
             await interaction.followup.send('รูปแบบเวลาไม่ถูกต้อง กรุณาใช้รูปแบบ 00:00')
             return
         
-        await player.seek(time)
+        await player.seek(total_ms)
         await interaction.followup.send(f'กรอเพลงไปยัง **`{time}`** แล้ว')
 
     @app_commands.command(name="autoplay", description="TH: ต่อคิวเพลงไปเรื่อยๆ / EN: Continue the song auto queue when the song ends.")
     @app_commands.describe(mode="TH: เลือกเปิดหรือปิด / EN: Select On or Off.")
     @app_commands.choices(
-        app_commands.Choice(name="Autoplay (Enabled)", value="enabled"),
-        app_commands.Choice(name="Autoplay (Diabled)", value="disabled")
+        mode=[
+            app_commands.Choice(name="Autoplay (Enabled)", value="enabled"),
+            app_commands.Choice(name="Autoplay (Diabled)", value="disabled")
+        ]
     )
     async def autoplay_mode(self, interaction: discord.Interaction, mode: str) -> None:
         await interaction.response.defer()
