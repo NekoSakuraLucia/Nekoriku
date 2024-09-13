@@ -5,6 +5,7 @@ from typing import Optional
 from ..colored_logging import get_logger
 import wavelink
 from ..embeds import NekorikuEmbeds
+from ..utils import Nekoriku_Utils
 
 logger = get_logger('nekoriku_logger')
 
@@ -217,8 +218,37 @@ class Nekoriku_Music_Slash(commands.Cog):
             player.queue.mode = wavelink.QueueMode.loop_all
         elif repeat_mode == "none":
             player.queue.mode = wavelink.QueueMode.normal
+        
+        embed = NekorikuEmbeds.repeat_music_embed(self.bot, repeat_mode)
+        await interaction.followup.send(embed=embed)
 
-        await interaction.followup.send(f'เปิดการใช้งาน **`{player.queue.mode.name}`** แล้ว')
+    @app_commands.command(name="seek", description="TH: กรอเวลาของเพลง / Fast forward the time of the song")
+    @app_commands.describe(time="TH: เวลาที่ต้องการกรอเช่น 00:00 / EN: Time to fast forward the song, such as 00:00")
+    async def forward_music(self, interaction: discord.Interaction, time) -> None:
+        await interaction.response.defer()
+        
+        if not interaction.guild:
+            await interaction.followup.send(
+                'TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.'
+            )
+            return
+        
+        player: Optional[wavelink.Player] = interaction.guild.voice_client
+        if not player or not isinstance(player, wavelink.Player):
+            await interaction.followup.send('หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            return
+        
+        if player.channel != interaction.user.voice.channel:
+            await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
+            return
+        
+        total_ms = Nekoriku_Utils.convert_time(time)
+        if total_ms is None:
+            await interaction.followup.send('รูปแบบเวลาไม่ถูกต้อง กรุณาใช้รูปแบบ 00:00')
+            return
+        
+        await player.seek(time)
+        await interaction.followup.send(f'กรอเพลงไปยัง **`{time}`** แล้ว')
 
     @app_commands.command(name="autoplay", description="TH: ต่อคิวเพลงไปเรื่อยๆ / EN: Continue the song auto queue when the song ends.")
     @app_commands.describe(mode="TH: เลือกเปิดหรือปิด / EN: Select On or Off.")

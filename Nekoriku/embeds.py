@@ -174,3 +174,14 @@ class NekorikuEmbeds:
         embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="ฟิลเตอร์ปัจจุบัน..", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed
+    
+    @staticmethod
+    def repeat_music_embed(member: discord.Member, bot: commands.Bot, mode: str) -> discord.Embed:
+        embed = discord.Embed(
+            title="Repeat Songs",
+            description=f"เลือกโหมดวนเพลงซ้ำเป็น **`{mode}`** แล้ว",
+            color=0xFFC0CB
+        )
+        embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_footer(text="วนเพลงซ้ำเป็นปัจจุบัน..", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        return embed
