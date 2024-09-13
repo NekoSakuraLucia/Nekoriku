@@ -170,9 +170,15 @@ class Nekoriku_Music_Slash(commands.Cog):
             await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
             return
         
-        volume = int(vol)
-        await player.set_volume(volume)
-        await interaction.followup.send(f'ปรับระดับเสียงเป็น **`{volume}%`** แล้ว')
+        try:
+            volume = int(vol)
+            if 0 <= volume <= 100:
+                await player.set_volume(volume)
+                await interaction.followup.send(f'ปรับระดับเสียงเป็น **`{volume}%`** แล้ว')
+            else:
+                await interaction.followup.send('กรุณาใส่ระดับเสียงที่ถูกต้องระหว่าง 0 ถึง 100')
+        except ValueError:
+            await interaction.followup.send('กรุณาใส่ค่าระดับเสียงเป็นตัวเลขที่ถูกต้อง')
     
     @app_commands.command(name="loop", description="TH: วนเพลงซ้ำไปเรื่อยๆ / EN: Repeat the song continuously.")
     @app_commands.describe(repeat_mode="TH: เลือกโหมดที่ต้องการวนเพลง / EN: Select the mode in which you want to loop the song.")
