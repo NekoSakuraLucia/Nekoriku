@@ -1,4 +1,11 @@
-# Example:
+# Nekoriku
+### TH:
+แพ็คเกจของเราใช้ discord.py และ wavelink เป็นฐานในการทำบอท
+
+### EN:
+Our package uses discord.py and wavelink as the base for bots.
+
+## Example:
 ```py
 # Default Prefix: !>
 
