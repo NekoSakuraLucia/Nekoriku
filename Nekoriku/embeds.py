@@ -38,11 +38,10 @@ class NekorikuEmbeds:
         **As for other languages You can continue adding it yourself. If you are a translator**
         """
         embed = discord.Embed(
-            title="Join Voice Channel",
             description="TH: กรุณาเข้าร่วมช่องเสียงก่อนที่จะใช้คำสั่งนี้\nEN: Please join the voice channel before using this command.",
             color=0xFFC0CB
         )
-        embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_author(name='Join Voice Channel', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="กรุณาเข้าช่องเสียงก่อน..", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed
     
@@ -52,18 +51,17 @@ class NekorikuEmbeds:
             description="คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้\n\nEN: You must be in the same room as me.",
             color=0xFFC0CB
         )
-        embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_author(name='Player Voice Channel', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="คุณต้องอยู่ห้องเดียวกับหนู..", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed
     
     @staticmethod
     def create_player_embed(member: discord.Member, bot: commands.Bot) -> discord.Embed:
         embed = discord.Embed(
-            title="Create Player",
             description="หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้\n\nEN: I am not connected to the audio channel or cannot access the Player.",
             color=0xFFC0CB
         )
-        embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_author(name='Create Player', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="ไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้..", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed
     
@@ -92,11 +90,10 @@ class NekorikuEmbeds:
         """
         track_length_formatted = Nekoriku_Utils.format_duration(track.length)
         embed = discord.Embed(
-            title="Now Playing..",
             description=f"เพิ่มเพลง **`{track.title}`** เข้าคิวเพลงแล้ว | ระยะเวลา **`{track_length_formatted}`**",
             color=0xFFC0CB
         )
-        embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_author(name='Now Playing..', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="กำลังเล่นเพลง..", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed
 
@@ -124,11 +121,10 @@ class NekorikuEmbeds:
         **As for other languages You can continue adding it yourself. If you are a translator**
         """
         embed = discord.Embed(
-            title="Leave Room Channel Songs",
             description='TH: ทำลายเพลงและออกจากช่องเสียงแล้ว\nEN: Destroyed the song and left the sound room.',
             color=0xFFC0CB
         )
-        embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_author(name='Leave Room Channel Songs', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="ออกจากช่องเสียงแล้ว..", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed
     
@@ -156,11 +152,10 @@ class NekorikuEmbeds:
         **As for other languages You can continue adding it yourself. If you are a translator**
         """
         embed = discord.Embed(
-            title="Skip the song",
             description="TH: ข้ามไปยังเพลงถัดไปแล้ว\nEN: Skip to the next song.",
             color=0xFFC0CB
         )
-        embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_author(name='Skip the song', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="ข้ามเพลงแล้ว..", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed
     
@@ -188,11 +183,10 @@ class NekorikuEmbeds:
         **As for other languages You can continue adding it yourself. If you are a translator**
         """
         embed = discord.Embed(
-            title="Current song Filters",
             description=f"เลือกฟิลเตอร์ **`{filter}`** แล้ว.",
             color=0xFFC0CB
         )
-        embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_author(name='Current song Filters', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="ฟิลเตอร์ปัจจุบัน..", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed
     
@@ -220,33 +214,30 @@ class NekorikuEmbeds:
         **As for other languages You can continue adding it yourself. If you are a translator**
         """
         embed = discord.Embed(
-            title="Repeat Songs",
             description=f"เลือกโหมดวนเพลงซ้ำเป็น **`{mode}`** แล้ว",
             color=0xFFC0CB
         )
-        embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_author(name='Repeat Songs', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="วนเพลงซ้ำเป็นปัจจุบัน..", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed
     
     @staticmethod
     def forward_music_embed(member: discord.Member, bot: commands.Bot, time: str) -> discord.Embed:
         embed = discord.Embed(
-            title="Forward Songs",
             description=f'กรอเพลงไปยัง **`{time}`** แล้ว',
             color=0xFFC0CB
         )
-        embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_author(name='Forward Songs', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="กรอเพลงไปยังจุดปัจจุบัน..", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed
     
     @staticmethod
     def forward_music_embed_error(member: discord.Member, bot: commands.Bot) -> discord.Embed:
         embed = discord.Embed(
-            title="Forward Songs",
             description='รูปแบบเวลาไม่ถูกต้อง กรุณาใช้รูปแบบ 00:00',
             color=0xFFC0CB
         )
-        embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_author(name='Forward Songs', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="กรอเพลงไปยังจุดปัจจุบัน..", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed
     
@@ -256,7 +247,7 @@ class NekorikuEmbeds:
             description="กรุณาเปิดการใช้งาน autoplay ก่อนที่จะเปิดโหมดวนเพลงซ้ำ",
             color=0xFFC0CB
         )
-        embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_author(name='Autoplay Mode', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="กรุณาเปิดการใช้งาน autoplay..", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed
     
@@ -266,6 +257,6 @@ class NekorikuEmbeds:
             description=f"เลือกโหมด **`{autoplay_name.name}`** แล้ว",
             color=0xFFC0CB
         )
-        embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_author(name='Autoplay Mode', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="เลือกโหมด autoplay..", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed
