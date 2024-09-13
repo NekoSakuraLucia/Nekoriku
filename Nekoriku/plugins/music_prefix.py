@@ -100,7 +100,13 @@ class Nekoriku_Music_Prefix(commands.Cog):
         
         player: Optional[wavelink.Player] = ctx.voice_client
         if not player or not isinstance(player, wavelink.Player):
-            await self.send_typing(ctx, message='หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            embed = NekorikuEmbeds.create_player_embed(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
+            return
+        
+        if player.channel != ctx.author.voice.channel:
+            embed = NekorikuEmbeds.player_voice_channel(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         await player.disconnect()
@@ -114,7 +120,13 @@ class Nekoriku_Music_Prefix(commands.Cog):
         
         player: Optional[wavelink.Player] = ctx.voice_client
         if not player or not isinstance(player, wavelink.Player):
-            await self.send_typing(ctx, message='หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            embed = NekorikuEmbeds.create_player_embed(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
+            return
+        
+        if player.channel != ctx.author.voice.channel:
+            embed = NekorikuEmbeds.player_voice_channel(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         await player.stop()
@@ -128,11 +140,13 @@ class Nekoriku_Music_Prefix(commands.Cog):
 
         player: Optional[wavelink.Player] = ctx.voice_client
         if not player or not isinstance(player, wavelink.Player):
-            await self.send_typing(ctx, message='หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            embed = NekorikuEmbeds.create_player_embed(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         if player.channel != ctx.author.voice.channel:
-            await self.send_typing(ctx, message='คุณต้องอยู่ในช่องเดียวกับหนูสิ ลองอีกครั้งนะ')
+            embed = NekorikuEmbeds.player_voice_channel(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         valid_filters = ["nightcore", "karaoke", "reset"]
@@ -161,11 +175,13 @@ class Nekoriku_Music_Prefix(commands.Cog):
         
         player: Optional[wavelink.Player] = ctx.voice_client
         if not player or not isinstance(player, wavelink.Player):
-            await self.send_typing(ctx, message='หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            embed = NekorikuEmbeds.create_player_embed(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         if player.channel != ctx.author.voice.channel:
-            await self.send_typing(ctx, message='คุณต้องอยู่ในช่องเดียวกับหนูสิ ลองอีกครั้งนะ')
+            embed = NekorikuEmbeds.player_voice_channel(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         if mode == "enabled":
@@ -176,7 +192,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
             await self.send_typing(ctx, message='ไม่มีโหมดที่คุณพิมพ์มา "enabled" หรือ "disabled')
             return
         
-        await self.send_typing(ctx, message=f'เลือกโหมด **`{player.autoplay.name}**` แล้ว')
+        embed = NekorikuEmbeds.player_autoplay_embed(ctx.author, self.bot, player.autoplay.name)
+        await self.send_typing(ctx, embed=embed)
 
     @commands.command(name="pause")
     async def pause_music(self, ctx: commands.Context) -> None:
@@ -185,11 +202,13 @@ class Nekoriku_Music_Prefix(commands.Cog):
         
         player: Optional[wavelink.Player] = ctx.voice_client
         if not player or not isinstance(player, wavelink.Player):
-            await self.send_typing(ctx, message='หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            embed = NekorikuEmbeds.create_player_embed(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         if player.channel != ctx.author.voice.channel:
-            await self.send_typing(ctx, message='คุณต้องอยู่ในช่องเดียวกับหนูสิ ลองอีกครั้งนะ')
+            embed = NekorikuEmbeds.player_voice_channel(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         await player.pause(True)
@@ -202,11 +221,13 @@ class Nekoriku_Music_Prefix(commands.Cog):
         
         player: Optional[wavelink.Player] = ctx.voice_client
         if not player or not isinstance(player, wavelink.Player):
-            await self.send_typing(ctx, message='หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            embed = NekorikuEmbeds.create_player_embed(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         if player.channel != ctx.author.voice.channel:
-            await self.send_typing(ctx, message='คุณต้องอยู่ในช่องเดียวกับหนูสิ ลองอีกครั้งนะ')
+            embed = NekorikuEmbeds.player_voice_channel(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         await player.pause(False)
@@ -219,11 +240,13 @@ class Nekoriku_Music_Prefix(commands.Cog):
         
         player: Optional[wavelink.Player] = ctx.voice_client
         if not player or not isinstance(player, wavelink.Player):
-            await self.send_typing(ctx, message='หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            embed = NekorikuEmbeds.create_player_embed(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         if player.channel != ctx.author.voice.channel:
-            await self.send_typing(ctx, message='คุณต้องอยู่ในช่องเดียวกับหนูสิ ลองอีกครั้งนะ')
+            embed = NekorikuEmbeds.player_voice_channel(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         total_ms = Nekoriku_Utils.convert_time(time_str)
@@ -254,11 +277,13 @@ class Nekoriku_Music_Prefix(commands.Cog):
         
         player: Optional[wavelink.Player] = ctx.voice_client
         if not player or not isinstance(player, wavelink.Player):
-            await self.send_typing(ctx, message='หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            embed = NekorikuEmbeds.create_player_embed(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         if player.channel != ctx.author.voice.channel:
-            await self.send_typing(ctx, message='คุณต้องอยู่ในช่องเดียวกับหนูสิ ลองอีกครั้งนะ')
+            embed = NekorikuEmbeds.player_voice_channel(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         try:

@@ -57,6 +57,17 @@ class NekorikuEmbeds:
         return embed
     
     @staticmethod
+    def create_player_embed(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        embed = discord.Embed(
+            title="Create Player",
+            description="หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้\n\nEN: I am not connected to the audio channel or cannot access the Player.",
+            color=0xFFC0CB
+        )
+        embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_footer(text="ไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้..", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        return embed
+    
+    @staticmethod
     def playing_music_embed(member: discord.Member, bot: commands.Bot, track: wavelink.Playable) -> discord.Embed:
         """
         TH:
@@ -237,4 +248,24 @@ class NekorikuEmbeds:
         )
         embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="กรอเพลงไปยังจุดปัจจุบัน..", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        return embed
+    
+    @staticmethod
+    def player_autoplay_embed_error(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        embed = discord.Embed(
+            description="กรุณาเปิดการใช้งาน autoplay ก่อนที่จะเปิดโหมดวนเพลงซ้ำ",
+            color=0xFFC0CB
+        )
+        embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_footer(text="กรุณาเปิดการใช้งาน autoplay..", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        return embed
+    
+    @staticmethod
+    def player_autoplay_embed(member: discord.Member, bot: commands.Bot, autoplay_name: wavelink.AutoPlayMode) -> discord.Embed:
+        embed = discord.Embed(
+            description=f"เลือกโหมด **`{autoplay_name.name}`** แล้ว",
+            color=0xFFC0CB
+        )
+        embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_footer(text="เลือกโหมด autoplay..", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed

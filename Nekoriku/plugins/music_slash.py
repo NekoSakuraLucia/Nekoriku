@@ -92,11 +92,13 @@ class Nekoriku_Music_Slash(commands.Cog):
         
         player: Optional[wavelink.Player] = interaction.guild.voice_client
         if not player or not isinstance(player, wavelink.Player):
-            await interaction.followup.send('หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            embed = NekorikuEmbeds.create_player_embed(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         if player.channel != interaction.user.voice.channel:
-            await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
+            embed = NekorikuEmbeds.player_voice_channel(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         await player.disconnect()
@@ -113,11 +115,13 @@ class Nekoriku_Music_Slash(commands.Cog):
         
         player: Optional[wavelink.Player] = interaction.guild.voice_client
         if not player or not isinstance(player, wavelink.Player):
-            await interaction.followup.send('หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            embed = NekorikuEmbeds.create_player_embed(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         if player.channel != interaction.user.voice.channel:
-            await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
+            embed = NekorikuEmbeds.player_voice_channel(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         await player.stop()
@@ -141,11 +145,13 @@ class Nekoriku_Music_Slash(commands.Cog):
         
         player: Optional[wavelink.Player] = interaction.guild.voice_client
         if not player or not isinstance(player, wavelink.Player):
-            await interaction.followup.send('หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            embed = NekorikuEmbeds.create_player_embed(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         if player.channel != interaction.user.voice.channel:
-            await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
+            embed = NekorikuEmbeds.player_voice_channel(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
 
         await player.pause(toggle_mode == "pause")
@@ -164,11 +170,13 @@ class Nekoriku_Music_Slash(commands.Cog):
     
         player: Optional[wavelink.Player] = interaction.guild.voice_client
         if not player or not isinstance(player, wavelink.Player):
-            await interaction.followup.send('หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            embed = NekorikuEmbeds.create_player_embed(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         if player.channel != interaction.user.voice.channel:
-            await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
+            embed = NekorikuEmbeds.player_voice_channel(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         try:
@@ -201,15 +209,18 @@ class Nekoriku_Music_Slash(commands.Cog):
         
         player: Optional[wavelink.Player] = interaction.guild.voice_client
         if not player or not isinstance(player, wavelink.Player):
-            await interaction.followup.send('หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            embed = NekorikuEmbeds.create_player_embed(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         if player.channel != interaction.user.voice.channel:
-            await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
+            embed = NekorikuEmbeds.player_voice_channel(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         if player.autoplay != wavelink.AutoPlayMode.enabled:
-            await interaction.followup.send("กรุณาเปิดการใช้งาน autoplay ก่อนที่จะเปิดโหมดวนเพลงซ้ำ")
+            embed = NekorikuEmbeds.player_autoplay_embed_error(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         if repeat_mode == "track":
@@ -235,11 +246,13 @@ class Nekoriku_Music_Slash(commands.Cog):
         
         player: Optional[wavelink.Player] = interaction.guild.voice_client
         if not player or not isinstance(player, wavelink.Player):
-            await interaction.followup.send('หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            embed = NekorikuEmbeds.create_player_embed(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         if player.channel != interaction.user.voice.channel:
-            await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
+            embed = NekorikuEmbeds.player_voice_channel(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         total_ms = Nekoriku_Utils.convert_time(time)
@@ -271,11 +284,13 @@ class Nekoriku_Music_Slash(commands.Cog):
 
         player: Optional[wavelink.Player] = interaction.guild.voice_client
         if not player or not isinstance(player, wavelink.Player):
-            await interaction.followup.send('หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            embed = NekorikuEmbeds.create_player_embed(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         if player.channel != interaction.user.voice.channel:
-            await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
+            embed = NekorikuEmbeds.player_voice_channel(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
 
         if mode == "enabled":
@@ -283,7 +298,8 @@ class Nekoriku_Music_Slash(commands.Cog):
         elif mode == "disabled":
             player.autoplay = wavelink.AutoPlayMode.disabled
 
-        await interaction.followup.send(f'เลือกโหมด **`{player.autoplay.name}**` แล้ว')
+        embed = NekorikuEmbeds.player_autoplay_embed(interaction.user, self.bot, player.autoplay.name)
+        await interaction.followup.send(embed=embed)
 
     @app_commands.command(name="filters", description="TH: เปิดการใช้งานฟิลเตอร์ / EN: Activate the Filters.")
     @app_commands.describe(filter="TH: เลือกรูปแบบฟิลเตอร์ที่ต้องการ / EN: Select the desired filter style.")
@@ -312,11 +328,13 @@ class Nekoriku_Music_Slash(commands.Cog):
         
         player: Optional[wavelink.Player] = interaction.guild.voice_client
         if not player or not isinstance(player, wavelink.Player):
-            await interaction.followup.send('หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้')
+            embed = NekorikuEmbeds.create_player_embed(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         if player.channel != interaction.user.voice.channel:
-            await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
+            embed = NekorikuEmbeds.player_voice_channel(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         filters: wavelink.Filters = player.filters
