@@ -12,7 +12,7 @@ create(
 )
 
 Nekoriku.setup_nodes(
-    uri="http://node.lewdhutao.my.eu.org:80",
-    password="youshallnotpass"
+    uri="",
+    password=""
 )
-Nekoriku.start('MTI4MTkyMzA1NzUxODI1MjA1NQ.Gix63f.05DqAQKxhd6-y4N8BTswxL_KyNRkmCKnx-oqbg')
+Nekoriku.start('')
