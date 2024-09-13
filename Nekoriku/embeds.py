@@ -39,7 +39,7 @@ class NekorikuEmbeds:
         """
         embed = discord.Embed(
             title="Join Voice Channel",
-            description=f"{member.mention}\nTH: กรุณาเข้าร่วมช่องเสียงก่อนที่จะใช้คำสั่งนี้\nEN: Please join the voice channel before using this command.",
+            description="TH: กรุณาเข้าร่วมช่องเสียงก่อนที่จะใช้คำสั่งนี้\nEN: Please join the voice channel before using this command.",
             color=0xFFC0CB
         )
         embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
@@ -93,7 +93,7 @@ class NekorikuEmbeds:
         track_length_formatted = Nekoriku_Utils.format_duration(track.length)
         embed = discord.Embed(
             title="Now Playing..",
-            description=f"{member.mention}\nเพิ่มเพลง **`{track.title}`** เข้าคิวเพลงแล้ว | ระยะเวลา **`{track_length_formatted}`**",
+            description=f"เพิ่มเพลง **`{track.title}`** เข้าคิวเพลงแล้ว | ระยะเวลา **`{track_length_formatted}`**",
             color=0xFFC0CB
         )
         embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
@@ -125,7 +125,7 @@ class NekorikuEmbeds:
         """
         embed = discord.Embed(
             title="Leave Room Channel Songs",
-            description=f'{member.mention}\n\nTH: ทำลายเพลงและออกจากช่องเสียงแล้ว\nEN: Destroyed the song and left the sound room.',
+            description='TH: ทำลายเพลงและออกจากช่องเสียงแล้ว\nEN: Destroyed the song and left the sound room.',
             color=0xFFC0CB
         )
         embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
@@ -157,7 +157,7 @@ class NekorikuEmbeds:
         """
         embed = discord.Embed(
             title="Skip the song",
-            description=f"{member.mention}\n\nTH: ข้ามไปยังเพลงถัดไปแล้ว\nEN: Skip to the next song.",
+            description="TH: ข้ามไปยังเพลงถัดไปแล้ว\nEN: Skip to the next song.",
             color=0xFFC0CB
         )
         embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
@@ -189,7 +189,7 @@ class NekorikuEmbeds:
         """
         embed = discord.Embed(
             title="Current song Filters",
-            description=f"{member.mention}\n\nเลือกฟิลเตอร์ **`{filter}`** แล้ว.",
+            description=f"เลือกฟิลเตอร์ **`{filter}`** แล้ว.",
             color=0xFFC0CB
         )
         embed.set_author(name=f'{member.name}', icon_url=f'{member.display_avatar}?size=512')
