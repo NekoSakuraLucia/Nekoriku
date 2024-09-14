@@ -195,8 +195,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
         embed = NekorikuEmbeds.player_autoplay_embed(ctx.author, self.bot, mode)
         await self.send_typing(ctx, embed=embed)
 
-    @commands.command(name="pause")
-    async def pause_music(self, ctx: commands.Context) -> None:
+    @commands.command(name="toggle", aliases=["pause", "resume"])
+    async def pause_and_resume(self, ctx: commands.Context, toggle_mode: str) -> None:
         if not ctx.guild:
             return
         
@@ -210,28 +210,51 @@ class Nekoriku_Music_Prefix(commands.Cog):
             embed = NekorikuEmbeds.player_voice_channel(ctx.author, self.bot)
             await self.send_typing(ctx, embed=embed)
             return
+
+        if toggle_mode not in ["pause", "resume"]:
+            await self.send_typing(ctx, message='ไม่มีโหมดที่คุณพิมพ์มา "pause" หรือ "resume')
+            return
         
-        await player.pause(True)
-        await self.send_typing(ctx, message="หยุดเล่นเพลงชั่วคราวแล้ว")
+        await player.pause(toggle_mode == "pause")
+        await self.send_typing(ctx, message=f'คุณเลือกโหมด **`{toggle_mode}`** แล้ว')
+
+    # @commands.command(name="pause")
+    # async def pause_music(self, ctx: commands.Context) -> None:
+    #     if not ctx.guild:
+    #         return
+        
+    #     player: Optional[wavelink.Player] = ctx.voice_client
+    #     if not player or not isinstance(player, wavelink.Player):
+    #         embed = NekorikuEmbeds.create_player_embed(ctx.author, self.bot)
+    #         await self.send_typing(ctx, embed=embed)
+    #         return
+        
+    #     if player.channel != ctx.author.voice.channel:
+    #         embed = NekorikuEmbeds.player_voice_channel(ctx.author, self.bot)
+    #         await self.send_typing(ctx, embed=embed)
+    #         return
+        
+    #     await player.pause(True)
+    #     await self.send_typing(ctx, message="หยุดเล่นเพลงชั่วคราวแล้ว")
     
-    @commands.command(name="resume")
-    async def resume_music(self, ctx: commands.Context) -> None:
-        if not ctx.guild:
-            return
+    # @commands.command(name="resume")
+    # async def resume_music(self, ctx: commands.Context) -> None:
+    #     if not ctx.guild:
+    #         return
         
-        player: Optional[wavelink.Player] = ctx.voice_client
-        if not player or not isinstance(player, wavelink.Player):
-            embed = NekorikuEmbeds.create_player_embed(ctx.author, self.bot)
-            await self.send_typing(ctx, embed=embed)
-            return
+    #     player: Optional[wavelink.Player] = ctx.voice_client
+    #     if not player or not isinstance(player, wavelink.Player):
+    #         embed = NekorikuEmbeds.create_player_embed(ctx.author, self.bot)
+    #         await self.send_typing(ctx, embed=embed)
+    #         return
         
-        if player.channel != ctx.author.voice.channel:
-            embed = NekorikuEmbeds.player_voice_channel(ctx.author, self.bot)
-            await self.send_typing(ctx, embed=embed)
-            return
+    #     if player.channel != ctx.author.voice.channel:
+    #         embed = NekorikuEmbeds.player_voice_channel(ctx.author, self.bot)
+    #         await self.send_typing(ctx, embed=embed)
+    #         return
         
-        await player.pause(False)
-        await self.send_typing(ctx, message="ทำการเล่นเพลงต่อหลังจากหยุดชั่วคราว")
+    #     await player.pause(False)
+    #     await self.send_typing(ctx, message="ทำการเล่นเพลงต่อหลังจากหยุดชั่วคราว")
 
     @commands.command(name="seek")
     async def seek_music(self, ctx: commands.Context, time_str: str) -> None:
