@@ -344,3 +344,33 @@ class NekorikuEmbeds:
         embed.set_author(name='Autoplay Mode', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="เลือกโหมด autoplay..", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed
+    
+    @staticmethod
+    def volume_music_embed(member: discord.Member, bot: commands.Bot, volume: str) -> discord.Embed:
+        embed = discord.Embed(
+            description=f"ปรับระดับเสียงเป็น **`{volume}%`** แล้ว",
+            color=0xFFC0CB
+        )
+        embed.set_author(name='Volume Set', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_footer(text="ปรับระดับเสียงเพลง", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        return embed
+    
+    @staticmethod
+    def volume_music_embed_else(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        embed = discord.Embed(
+            description="กรุณาใส่ระดับเสียงที่ถูกต้องระหว่าง 0 ถึง 100",
+            color=0xFFC0CB
+        )
+        embed.set_author(name='Volume Set', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_footer(text="ปรับระดับเสียงเพลง", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        return embed
+    
+    @staticmethod
+    def volume_music_embed_error(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        embed = discord.Embed(
+            description="กรุณาใส่ค่าระดับเสียงเป็นตัวเลขที่ถูกต้อง",
+            color=0xFFC0CB
+        )
+        embed.set_author(name='Volume Set', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_footer(text="ปรับระดับเสียงเพลง", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        return embed
