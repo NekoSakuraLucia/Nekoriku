@@ -289,14 +289,17 @@ class Nekoriku_Music_Prefix(commands.Cog):
         try:
             volume = int(vol)
         except ValueError:
-            await self.send_typing(ctx, message=f'ไม่มีค่าที่คุณระบุมา **`{vol}%`**')
+            embed = NekorikuEmbeds.volume_music_embed_else(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         if volume in {10, 20, 30, 40, 50, 60, 70, 80, 90, 100}:
             await player.set_volume(volume)
-            await self.send_typing(ctx, message=f'ปรับระดับเสียงเป็น **`{volume}%`** แล้ว')
+            embed = NekorikuEmbeds.volume_music_embed(ctx.author, self.bot, volume)
+            await self.send_typing(ctx, embed=embed)
         else:
-            await self.send_typing(ctx, message=f'ไม่มีค่าที่คุณระบุมา **`{vol}%`**')
+            embed = NekorikuEmbeds.volume_music_embed_else(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Nekoriku_Music_Prefix(bot))
