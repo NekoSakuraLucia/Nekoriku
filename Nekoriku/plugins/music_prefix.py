@@ -192,7 +192,7 @@ class Nekoriku_Music_Prefix(commands.Cog):
             await self.send_typing(ctx, message='ไม่มีโหมดที่คุณพิมพ์มา "enabled" หรือ "disabled')
             return
         
-        embed = NekorikuEmbeds.player_autoplay_embed(ctx.author, self.bot, player.autoplay.name)
+        embed = NekorikuEmbeds.player_autoplay_embed(ctx.author, self.bot, mode)
         await self.send_typing(ctx, embed=embed)
 
     @commands.command(name="pause")

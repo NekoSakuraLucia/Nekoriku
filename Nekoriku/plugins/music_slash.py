@@ -301,7 +301,7 @@ class Nekoriku_Music_Slash(commands.Cog):
         elif mode == "disabled":
             player.autoplay = wavelink.AutoPlayMode.disabled
 
-        embed = NekorikuEmbeds.player_autoplay_embed(interaction.user, self.bot, player.autoplay.name)
+        embed = NekorikuEmbeds.player_autoplay_embed(interaction.user, self.bot, mode)
         await interaction.followup.send(embed=embed)
 
     @app_commands.command(name="filters", description="TH: เปิดการใช้งานฟิลเตอร์ / EN: Activate the Filters.")

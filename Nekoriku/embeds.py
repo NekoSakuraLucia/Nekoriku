@@ -315,7 +315,7 @@ class NekorikuEmbeds:
         return embed
     
     @staticmethod
-    def player_autoplay_embed(member: discord.Member, bot: commands.Bot, autoplay_name: wavelink.AutoPlayMode) -> discord.Embed:
+    def player_autoplay_embed(member: discord.Member, bot: commands.Bot, autoplay_name: str) -> discord.Embed:
         """
         TH:
             สร้าง embed เพื่อแจ้งผู้ใช้เกี่ยวกับแสดงข้อความเลือกโหมด autoplay
@@ -338,7 +338,7 @@ class NekorikuEmbeds:
         **As for other languages You can continue adding it yourself. If you are a translator**
         """
         embed = discord.Embed(
-            description=f"เลือกโหมด **`{autoplay_name.name}`** แล้ว",
+            description=f"เลือกโหมด **`{autoplay_name}`** แล้ว",
             color=0xFFC0CB
         )
         embed.set_author(name='Autoplay Mode', icon_url=f'{member.display_avatar}?size=512')
