@@ -1,4 +1,9 @@
 # Nekoriku
+
+<p align="center">
+    <img src="/images/image.jpg" />
+</p>
+
 ### TH:
 แพ็คเกจของเราใช้ discord.py และ wavelink เป็นฐานในการทำบอท
 
