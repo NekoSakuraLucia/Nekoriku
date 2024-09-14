@@ -195,7 +195,7 @@ class Nekoriku_Music_Prefix(commands.Cog):
         embed = NekorikuEmbeds.player_autoplay_embed(ctx.author, self.bot, mode)
         await self.send_typing(ctx, embed=embed)
 
-    @commands.command(name="toggle", aliases=["pause", "resume"])
+    @commands.command(name="toggle")
     async def pause_and_resume(self, ctx: commands.Context, toggle_mode: str) -> None:
         if not ctx.guild:
             return
