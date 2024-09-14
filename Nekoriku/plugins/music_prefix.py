@@ -133,8 +133,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
         embed = NekorikuEmbeds.skip_music_embed(ctx.author, self.bot)
         await self.send_typing(ctx, embed=embed)
 
-    @commands.command(name="filters", aliases=["nightcore", "karaoke", "reset"])
-    async def filter_mode(self, ctx: commands.Context, filter_type: str) -> None:
+    @commands.command(name="filters")
+    async def filter_mode(self, ctx: commands.Context, *, filter_type: str) -> None:
         if not ctx.guild:
             return
 
@@ -169,7 +169,7 @@ class Nekoriku_Music_Prefix(commands.Cog):
         await self.send_typing(ctx, embed=embed)
 
     @commands.command(name="autoplay")
-    async def autoplay_mode(self, ctx: commands.Context, mode: str) -> None:
+    async def autoplay_mode(self, ctx: commands.Context, *, mode: str) -> None:
         if not ctx.guild:
             return
         
@@ -196,7 +196,7 @@ class Nekoriku_Music_Prefix(commands.Cog):
         await self.send_typing(ctx, embed=embed)
 
     @commands.command(name="toggle")
-    async def pause_and_resume(self, ctx: commands.Context, toggle_mode: str) -> None:
+    async def pause_and_resume(self, ctx: commands.Context, *, toggle_mode: str) -> None:
         if not ctx.guild:
             return
         
@@ -257,7 +257,7 @@ class Nekoriku_Music_Prefix(commands.Cog):
     #     await self.send_typing(ctx, message="ทำการเล่นเพลงต่อหลังจากหยุดชั่วคราว")
 
     @commands.command(name="seek")
-    async def seek_music(self, ctx: commands.Context, time_str: str) -> None:
+    async def seek_music(self, ctx: commands.Context, *, time_str: str) -> None:
         if not ctx.guild:
             return
         
@@ -282,19 +282,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
         embed = NekorikuEmbeds.forward_music_embed(ctx.author, self.bot, time_str)
         await self.send_typing(ctx, embed=embed)
 
-    @commands.command(name="volume", aliases=[
-        "10",
-        "20",
-        "30",
-        "40",
-        "50",
-        "60",
-        "70",
-        "80"
-        "90",
-        "100"
-    ])
-    async def volume_music(self, ctx: commands.Context, vol: str) -> None:
+    @commands.command(name="volume")
+    async def volume_music(self, ctx: commands.Context, *, vol: str) -> None:
         if not ctx.guild:
             return
         
