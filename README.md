@@ -1,7 +1,7 @@
 # Nekoriku
 
 <p align="center">
-    <img src="/images/image.jpg" />
+    <img src="/images/image.jpg" alt="Nekoriku" />
 </p>
 
 ### TH:
