@@ -347,6 +347,27 @@ class NekorikuEmbeds:
     
     @staticmethod
     def volume_music_embed(member: discord.Member, bot: commands.Bot, volume: str) -> discord.Embed:
+        """
+        TH:
+            สร้าง embed เพื่อแจ้งผู้ใช้เกี่ยวกับแสดงข้อความปรับระดับเสียง
+
+            Embed ประกอบด้วย:
+            - ชื่อ: "Volume Set"
+            - คำอธิบายที่แสดงข้อความปรับระดับเสียง
+            - สีชมพูอ่อน
+
+        EN:
+            Create an embed to notify users about the volume adjustment message.
+
+            The embed should include:
+            - A title: 'Volume Set'
+            - A description: displaying the volume adjustment message
+            - A light pink color"
+            
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         embed = discord.Embed(
             description=f"ปรับระดับเสียงเป็น **`{volume}%`** แล้ว",
             color=0xFFC0CB
@@ -357,6 +378,27 @@ class NekorikuEmbeds:
     
     @staticmethod
     def volume_music_embed_else(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        """
+        TH:
+            สร้าง embed เพื่อแจ้งผู้ใช้เกี่ยวกับแสดงข้อความกรุณาใส่ระดับเสียงที่ถูกต้อง
+
+            Embed ประกอบด้วย:
+            - ชื่อ: "Volume Set"
+            - คำอธิบายที่แสดงข้อความกรุณาใส่ระดับเสียงที่ถูกต้อง
+            - สีชมพูอ่อน
+
+        EN:
+            Create an embed to notify users about the message asking them to provide a valid volume level.
+
+            The embed should include:
+            - A title: 'Volume Set'
+            - A description: displaying the message asking to provide a valid volume level
+            - A light pink color"
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         embed = discord.Embed(
             description="กรุณาใส่ระดับเสียงที่ถูกต้องระหว่าง 0 ถึง 100",
             color=0xFFC0CB
@@ -367,6 +409,27 @@ class NekorikuEmbeds:
     
     @staticmethod
     def volume_music_embed_error(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        """
+        TH:
+            สร้าง embed เพื่อแจ้งผู้ใช้เกี่ยวกับแสดงข้อความกรุณาใส่ค่าระดับเสียงเป็นตัวเลข
+
+            Embed ประกอบด้วย:
+            - ชื่อ: "Volume Set"
+            - คำอธิบายที่แสดงข้อความกรุณาใส่ค่าระดับเสียงเป็นตัวเลขที่ถูกต้อง
+            - สีชมพูอ่อน
+
+        EN:
+            Create an embed to notify users about the message asking them to enter a numeric volume value.
+
+            The embed should include:
+            - A title: 'Volume Set'
+            - A description: displaying the message asking to enter a correct numeric volume value
+            - A light pink color"
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         embed = discord.Embed(
             description="กรุณาใส่ค่าระดับเสียงเป็นตัวเลขที่ถูกต้อง",
             color=0xFFC0CB
