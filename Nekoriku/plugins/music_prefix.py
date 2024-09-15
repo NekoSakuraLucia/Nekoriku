@@ -212,11 +212,45 @@ class Nekoriku_Music_Prefix(commands.Cog):
             return
 
         if toggle_mode not in ["pause", "resume"]:
-            await self.send_typing(ctx, message='ไม่มีโหมดที่คุณพิมพ์มา "pause" หรือ "resume')
+            await self.send_typing(ctx, message='ไม่มีโหมดที่คุณพิมพ์มา "pause" หรือ "resume"')
             return
         
         await player.pause(toggle_mode == "pause")
         await self.send_typing(ctx, message=f'คุณเลือกโหมด **`{toggle_mode}`** แล้ว')
+
+    @commands.command(name="loop")
+    async def repeat_song(self, ctx: commands.Context, *, repeat_mode: str) -> None:
+        if not ctx.guild:
+            return
+        
+        player: Optional[wavelink.Player] = ctx.voice_client
+        if not player or not isinstance(player, wavelink.Player):
+            embed = NekorikuEmbeds.create_player_embed(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
+            return
+        
+        if player.channel != ctx.author.voice.channel:
+            embed = NekorikuEmbeds.player_voice_channel(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
+            return
+        
+        if player.autoplay != wavelink.AutoPlayMode.enabled:
+            embed = NekorikuEmbeds.player_autoplay_embed_error(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
+            return
+        
+        if repeat_mode == "track":
+            player.queue.mode = wavelink.QueueMode.loop
+        elif repeat_mode == "queue":
+            player.queue.mode = wavelink.QueueMode.loop_all
+        elif repeat_mode == "none":
+            player.queue.mode = wavelink.QueueMode.normal
+        else:
+            await self.send_typing(ctx, message='ไม่มีโหมดที่คุณพิมพ์มา "track" หรือ "queue" และ "none"')
+            return
+
+        embed = NekorikuEmbeds.repeat_music_embed(ctx.author, self.bot, repeat_mode)
+        await self.send_typing(ctx, embed=embed)
 
     # @commands.command(name="pause")
     # async def pause_music(self, ctx: commands.Context) -> None:
