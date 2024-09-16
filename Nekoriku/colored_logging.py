@@ -21,22 +21,19 @@ class ColoredFormatter(logging.Formatter):
         super().__init__(fmt, datefmt)
 
     def format(self, record):
-        levelname = record.levelname
-        if levelname == 'DEBUG':
-            color = Fore.CYAN
-        elif levelname == 'INFO':
-            color = Fore.BLUE
-        elif levelname == 'WARNING':
-            color = Fore.YELLOW
-        elif levelname == 'ERROR':
-            color = Fore.RED
-        elif levelname == 'CRITICAL':
-            color = Fore.RED + Style.BRIGHT
-        else:
-            color = Fore.WHITE
+        levelname_color = Fore.CYAN
+        message_color = Fore.MAGENTA
+        asctime_color = Fore.LIGHTGREEN_EX
+        name_color = Fore.LIGHTYELLOW_EX
 
         formatted_message = super().format(record)
-        return f"{color}{formatted_message}{Style.RESET_ALL}"
+
+        formatted_message = formatted_message.replace(record.levelname, f"{levelname_color}{record.levelname}{Style.RESET_ALL}")
+        formatted_message = formatted_message.replace(record.message, f"{message_color}{record.message}{Style.RESET_ALL}")
+        formatted_message = formatted_message.replace(record.asctime, f"{asctime_color}{record.asctime}{Style.RESET_ALL}")
+        formatted_message = formatted_message.replace(record.name, f"{name_color}{record.name}{Style.RESET_ALL}")
+
+        return formatted_message
 
 def get_logger(name: str):
     """
