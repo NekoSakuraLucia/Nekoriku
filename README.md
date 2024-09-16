@@ -10,6 +10,11 @@
 ### EN:
 Our package uses discord.py and wavelink as the base for bots.
 
+## Installation
+```
+python3 -m pip install nekoriku
+```
+
 ## Example:
 ```py
 # Default Prefix: !>
