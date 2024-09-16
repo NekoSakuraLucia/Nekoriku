@@ -445,5 +445,15 @@ class NekorikuEmbeds:
             color=0xFFC0CB
         )
         embed.set_author(name='Toggle Mode', icon_url=f'{member.display_avatar}?size=512')
-        embed.set_footer(text="ปรับระดับเสียงเพลง", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        embed.set_footer(text="สลับโหมด pause หรือ resume", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        return embed
+    
+    @staticmethod
+    def toggle_pause_resume_embed(member: discord.Member, bot: commands.Bot, toggle_mode: str) -> discord.Embed:
+        embed = discord.Embed(
+            description=f'คุณเลือกโหมด **`{toggle_mode}`** แล้ว',
+            color=0xFFC0CB
+        )
+        embed.set_author(name='Toggle Mode', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_footer(text="สลับโหมด pause หรือ resume", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed

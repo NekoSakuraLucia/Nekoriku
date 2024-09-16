@@ -223,7 +223,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
             return
         
         await player.pause(toggle_mode == "pause")
-        await self.send_typing(ctx, message=f'คุณเลือกโหมด **`{toggle_mode}`** แล้ว')
+        embed = NekorikuEmbeds.toggle_pause_resume_embed(ctx.author, self.bot, toggle_mode)
+        await self.send_typing(ctx, embed=embed)
 
     @commands.command(name="loop")
     async def repeat_song(self, ctx: commands.Context, *, repeat_mode: str) -> None:
