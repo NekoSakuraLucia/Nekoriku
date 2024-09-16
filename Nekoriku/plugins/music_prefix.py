@@ -218,7 +218,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
             return
 
         if toggle_mode not in ["pause", "resume"]:
-            await self.send_typing(ctx, message='ไม่มีโหมดที่คุณพิมพ์มา "pause" หรือ "resume"')
+            embed = NekorikuEmbeds.toggle_pause_resume_embed_error(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         await player.pause(toggle_mode == "pause")
