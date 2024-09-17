@@ -54,7 +54,7 @@ class Nekoriku_Music_Prefix(commands.Cog):
             await self.send_typing(ctx, message='TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
             return
         
-        player: Optional[wavelink.Player] = ctx.voice_client
+        player: Optional[discord.VoiceClient] = ctx.voice_client
         if not player:
             try:
                 player = await ctx.author.voice.channel.connect(cls=wavelink.Player, self_deaf=True)
