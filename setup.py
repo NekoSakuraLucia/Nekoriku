@@ -14,5 +14,6 @@ setup(
     author="NekoSakuraLucia",
     packages=find_packages(),
     url="https://github.com/NekoSakuraLucia/Nekoriku",
-    python_requires=">=3.10"
+    python_requires=">=3.10",
+    license="MIT"
 )

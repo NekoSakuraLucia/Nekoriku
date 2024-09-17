@@ -4,6 +4,10 @@
     <img src="/images/image.jpg" alt="Nekoriku" />
 </p>
 
+<p align="center">
+    <img src="https://badge.fury.io/py/nekoriku.svg" alt="Nekoriku" />
+</p>
+
 ### TH:
 แพ็คเกจของเราใช้ discord.py และ wavelink เป็นฐานในการทำบอท
 

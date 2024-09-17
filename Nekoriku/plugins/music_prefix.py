@@ -48,6 +48,24 @@ class Nekoriku_Music_Prefix(commands.Cog):
         else:
             raise RuntimeError('TH: Logger ไม่ได้ถูกติดตั้งอย่างถูกต้อง / EN: Logger is not initialized.')
 
+    @commands.command(name="join")
+    async def connect_voice(self, ctx: commands.Context) -> None:
+        if not ctx.guild:
+            await self.send_typing(ctx, message='TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
+            return
+        
+        player: Optional[wavelink.Player] = ctx.voice_client
+        if not player:
+            try:
+                player = await ctx.author.voice.channel.connect(cls=wavelink.Player, self_deaf=True)
+                await self.send_typing(ctx, message=f"เข้าร่วมช่องเสียง: **{ctx.author.voice.channel.name}** แล้ว")
+            except AttributeError:
+                await self.send_typing(ctx, message="กรุณาเข้าร่วมช่องเสียงก่อนใช้คำสั่งนี้")
+                return
+            except discord.ClientException:
+                await self.send_typing(ctx, message="ขออภัยหนูไม่สามารถเข้าร่วมช่องเสียงของคุณได้ ลองใหม่อีกครั้งสิ")
+                return
+
     @commands.command(name="play")
     async def play(self, ctx: commands.Context, *, url: str) -> None:
         if not ctx.guild:
@@ -57,7 +75,7 @@ class Nekoriku_Music_Prefix(commands.Cog):
         player: Optional[wavelink.Player] = ctx.voice_client
         if not player:
             try:
-                player = await ctx.author.voice.channel.connect(cls=wavelink.Player)
+                player = await ctx.author.voice.channel.connect(cls=wavelink.Player, self_deaf=True)
             except AttributeError:
                 await self.send_typing(ctx, message="กรุณาเข้าร่วมช่องเสียงก่อนใช้คำสั่งนี้")
                 return
