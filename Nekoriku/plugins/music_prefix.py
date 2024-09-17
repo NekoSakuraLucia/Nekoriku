@@ -61,7 +61,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
                 await self.send_typing(ctx, message=f"เข้าร่วมช่องเสียง: **{ctx.voice_client.channel}** แล้ว")
                 return
             except AttributeError:
-                await self.send_typing(ctx, message="กรุณาเข้าร่วมช่องเสียงก่อนใช้คำสั่งนี้")
+                embed = NekorikuEmbeds.join_voice_embed(ctx.author, self.bot)
+                await self.send_typing(ctx, embed=embed)
                 return
             except discord.ClientException:
                 await self.send_typing(ctx, message="ขออภัยหนูไม่สามารถเข้าร่วมช่องเสียงของคุณได้ ลองใหม่อีกครั้งสิ")

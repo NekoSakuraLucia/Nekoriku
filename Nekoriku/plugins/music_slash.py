@@ -50,7 +50,8 @@ class Nekoriku_Music_Slash(commands.Cog):
                 await interaction.followup.send(f"เข้าร่วมช่องเสียง: **{interaction.guild.voice_client.channel}** แล้ว")
                 return
             except AttributeError:
-                await interaction.followup.send("กรุณาเข้าร่วมช่องเสียงก่อนใช้คำสั่งนี้")
+                embed = NekorikuEmbeds.join_voice_embed(interaction.user, self.bot)
+                await interaction.followup.send(embed=embed)
                 return
             except discord.ClientException:
                 await interaction.followup.send("ขออภัยหนูไม่สามารถเข้าร่วมช่องเสียงของคุณได้ ลองใหม่อีกครั้งสิ")
