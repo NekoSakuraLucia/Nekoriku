@@ -58,13 +58,18 @@ class Nekoriku_Music_Prefix(commands.Cog):
         if not player:
             try:
                 player = await ctx.author.voice.channel.connect(cls=wavelink.Player, self_deaf=True)
-                await self.send_typing(ctx, message=f"เข้าร่วมช่องเสียง: **{ctx.author.voice.channel.name}** แล้ว")
+                await self.send_typing(ctx, message=f"เข้าร่วมช่องเสียง: **{ctx.voice_client.channel}** แล้ว")
+                return
             except AttributeError:
                 await self.send_typing(ctx, message="กรุณาเข้าร่วมช่องเสียงก่อนใช้คำสั่งนี้")
                 return
             except discord.ClientException:
                 await self.send_typing(ctx, message="ขออภัยหนูไม่สามารถเข้าร่วมช่องเสียงของคุณได้ ลองใหม่อีกครั้งสิ")
                 return
+            
+        if ctx.voice_client:
+            await self.send_typing(ctx, message=f"บอทเชื่อมต่ออยู่แล้ว: **{ctx.voice_client.channel}**")
+            return
 
     @commands.command(name="play")
     async def play(self, ctx: commands.Context, *, url: str) -> None:
