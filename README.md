@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-    <a href="https://pypi.org/project/nekoriku/" target="_blank">
+    <a href="https://pypi.org/project/nekoriku/">
         <img src="https://badge.fury.io/py/nekoriku.svg" alt="Nekoriku" />
     </a>
 </p>
