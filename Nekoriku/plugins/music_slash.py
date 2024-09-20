@@ -35,31 +35,6 @@ class Nekoriku_Music_Slash(commands.Cog):
 
         await interaction.followup.send("Pong.")
 
-    @app_commands.command(name="join", description="TH: สั่งบอทเข้าร่วมช่องเสียง / EN: Command the bot to join the voice channel")
-    async def connect_voice(self, interaction: discord.Interaction) -> None:
-        await interaction.response.defer()
-
-        if not interaction.guild:
-            await interaction.followup.send('TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
-            return
-        
-        player: Optional[discord.VoiceClient] = interaction.guild.voice_client
-        if not player:
-            try:
-                player = await interaction.user.voice.channel.connect(cls=wavelink.Player, self_deaf=True)
-                await interaction.followup.send(f"เข้าร่วมช่องเสียง: **{interaction.guild.voice_client.channel}** แล้ว")
-                return
-            except AttributeError:
-                embed = NekorikuEmbeds.join_voice_embed(interaction.user, self.bot)
-                await interaction.followup.send(embed=embed)
-                return
-            except discord.ClientException:
-                await interaction.followup.send("ขออภัยหนูไม่สามารถเข้าร่วมช่องเสียงของคุณได้ ลองใหม่อีกครั้งสิ")
-
-        if interaction.guild.voice_client:
-            await interaction.followup.send(f"บอทเชื่อมต่ออยู่แล้ว: **{interaction.guild.voice_client.channel}**")
-            return
-
     @app_commands.command(name="play", description="TH: ให้หนูเล่นเพลงให้คุณฟัง / EN: Let me play a song for you.")
     @app_commands.describe(song="TH: ป้อน URL ของเพลงเพื่อให้หนูเล่นเพลงให้คุณฟังได้ / EN: Enter the URL of the song so we can play it for you.")
     async def play_music(self, interaction: discord.Interaction, song: str) -> None:
