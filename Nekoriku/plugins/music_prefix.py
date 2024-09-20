@@ -49,7 +49,7 @@ class Nekoriku_Music_Prefix(commands.Cog):
             raise RuntimeError('TH: Logger ไม่ได้ถูกติดตั้งอย่างถูกต้อง / EN: Logger is not initialized.')
 
     @commands.command(name="join")
-    async def connect_voice(self, ctx: commands.Context) -> None:
+    async def connect_voice(self, member: discord.Member, ctx: commands.Context) -> None:
         if not ctx.guild:
             await self.send_typing(ctx, message='TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
             return
@@ -58,7 +58,13 @@ class Nekoriku_Music_Prefix(commands.Cog):
         if not player:
             try:
                 player = await ctx.author.voice.channel.connect(cls=wavelink.Player, self_deaf=True)
-                await self.send_typing(ctx, message=f"เข้าร่วมช่องเสียง: **{ctx.voice_client.channel}** แล้ว")
+                embed = discord.Embed(
+                    description=f"เข้าร่วมช่องเสียง: **{ctx.voice_client.channel}** แล้ว",
+                    color=0xFFC0CB
+                )
+                embed.set_author(name='Player Voice Channel', icon_url=f'{member.display_avatar}?size=512')
+                embed.set_footer(text="คุณต้องอยู่ห้องเดียวกับหนู..", icon_url=f'{self.bot.user.display_avatar.url}?size=256')
+                await self.send_typing(ctx, embed=embed)
                 return
             except AttributeError:
                 embed = NekorikuEmbeds.join_voice_embed(ctx.author, self.bot)
