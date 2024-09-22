@@ -61,6 +61,6 @@ TH: ไม่แนะนำให้เอาไปใช้งานจริ�
 
 EN: It is not recommended to use it for real use. Because it may be duplicated with other bots..
 
-<br/>
+---
 
 <p align="center">&copy; 2024 - Nekoriku. Permission is granted to modify this content under the MIT License. ❤</p>
