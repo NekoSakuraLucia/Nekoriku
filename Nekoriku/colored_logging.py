@@ -38,6 +38,17 @@ class ColoredFormatter(logging.Formatter):
         name_color = Fore.LIGHTYELLOW_EX
 
         def colorize(text: str, color: str) -> str:
+            """
+            TH:
+            เพิ่มสีให้กับข้อความที่กำหนด
+
+            EN:
+            Apply color to the given text.
+            
+            TH / EN:
+            **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+            **As for other languages You can continue adding it yourself. If you are a translator**
+            """
             return f"{color}{text}{Style.RESET_ALL}"
 
         formatted_message = super().format(record)
