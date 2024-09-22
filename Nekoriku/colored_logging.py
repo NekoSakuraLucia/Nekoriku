@@ -31,10 +31,10 @@ class ColoredFormatter(logging.Formatter):
 
         formatted_message = super().format(record)
 
-        formatted_message = formatted_message.replace(record.levelname, f"{levelname_color}{record.levelname}{Style.RESET_ALL}")
-        formatted_message = formatted_message.replace(record.message, f"{message_color}{record.message}{Style.RESET_ALL}")
-        formatted_message = formatted_message.replace(record.asctime, f"{asctime_color}{record.asctime}{Style.RESET_ALL}")
-        formatted_message = formatted_message.replace(record.name, f"{name_color}{record.name}{Style.RESET_ALL}")
+        formatted_message = formatted_message.replace(record.levelname, colorize(record.levelname, levelname_color))
+        formatted_message = formatted_message.replace(record.message, colorize(record.message, message_color))
+        formatted_message = formatted_message.replace(record.asctime, colorize(record.asctime, asctime_color))
+        formatted_message = formatted_message.replace(record.name, colorize(record.name, name_color))
 
         return formatted_message
 
