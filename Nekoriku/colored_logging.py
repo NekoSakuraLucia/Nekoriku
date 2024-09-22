@@ -21,6 +21,17 @@ class ColoredFormatter(logging.Formatter):
         super().__init__(fmt, datefmt)
 
     def format(self, record):
+        """
+        TH:
+        จัดรูปแบบบันทึกการล็อกด้วยสีสำหรับแต่ละส่วน"
+
+        EN:
+        Format the log record with colors for different components.
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         levelname_color = Fore.CYAN
         message_color = Fore.MAGENTA
         asctime_color = Fore.LIGHTGREEN_EX
