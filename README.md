@@ -56,7 +56,7 @@ setup ง่ายมากแค่โค้ดไม่กี่บรรท�
 But I don't want to do it myself. But I want a music bot with prefix and slash, but Nekoriku has it ready. No need to write code yourself.
 The setup is very easy, just a few lines of code and you have your music bot ready to work.
 
-<p align="center">WARNING ❗</p>
+## WARNING ❗
 TH: ไม่แนะนำให้เอาไปใช้งานจริง เพราะอาจซ้ำกับบอทตัวอื่นได้..
 
 EN: It is not recommended to use it for real use. Because it may be duplicated with other bots..
