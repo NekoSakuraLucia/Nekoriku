@@ -471,6 +471,27 @@ class NekorikuEmbeds:
     
     @staticmethod
     def toggle_pause_resume_embed(member: discord.Member, bot: commands.Bot, toggle_mode: str) -> discord.Embed:
+        """
+        TH:
+            สร้าง embed เพื่อแจ้งผู้ใช้เกี่ยวกับแสดงข้อความคุณเลือกโหมดแล้ว
+
+            Embed ประกอบด้วย:
+            - ชื่อ: "Toggle Mode"
+            - คำอธิบายที่แสดงข้อความคุณเลือกโหมดแล้ว
+            - สีชมพูอ่อน
+
+        EN:
+            Create an embed to notify users about the message stating that you have selected a mode.
+
+            The embed should include:
+            - A title: 'Toggle Mode'
+            - A description: showing the message that you have selected a mode
+            - A light pink color"
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         embed = discord.Embed(
             description=f'คุณเลือกโหมด **`{toggle_mode}`** แล้ว',
             color=0xFFC0CB
