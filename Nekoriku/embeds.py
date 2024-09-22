@@ -453,7 +453,7 @@ class NekorikuEmbeds:
             Create an embed to notify users about the message stating that the mode you typed does not exist.
 
             The embed should include:
-            - A title: 'Volume Set'
+            - A title: 'Toggle Mode'
             - A description: showing the message that the mode you typed does not exist
             - A light pink color"
 
