@@ -440,6 +440,27 @@ class NekorikuEmbeds:
     
     @staticmethod
     def toggle_pause_resume_embed_error(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        """
+        TH:
+            สร้าง embed เพื่อแจ้งผู้ใช้เกี่ยวกับแสดงข้อความไม่มีโหมดที่คุณพิมพ์
+
+            Embed ประกอบด้วย:
+            - ชื่อ: "Toggle Mode"
+            - คำอธิบายที่แสดงข้อความไม่มีโหมดที่คุณพิมพ์
+            - สีชมพูอ่อน
+
+        EN:
+            Create an embed to notify users about the message stating that the mode you typed does not exist.
+
+            The embed should include:
+            - A title: 'Volume Set'
+            - A description: showing the message that the mode you typed does not exist
+            - A light pink color"
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         embed = discord.Embed(
             description='ไม่มีโหมดที่คุณพิมพ์มา "pause" หรือ "resume"',
             color=0xFFC0CB
