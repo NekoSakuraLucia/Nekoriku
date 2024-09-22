@@ -26,6 +26,9 @@ class ColoredFormatter(logging.Formatter):
         asctime_color = Fore.LIGHTGREEN_EX
         name_color = Fore.LIGHTYELLOW_EX
 
+        def colorize(text: str, color: str) -> str:
+            return f"{color}{text}{Style.RESET_ALL}"
+
         formatted_message = super().format(record)
 
         formatted_message = formatted_message.replace(record.levelname, f"{levelname_color}{record.levelname}{Style.RESET_ALL}")
