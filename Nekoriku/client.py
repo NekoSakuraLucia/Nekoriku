@@ -7,6 +7,17 @@ import wavelink
 logger = get_logger('nekoriku_logger')
 
 class BotClient(commands.Bot):
+    """
+    TH:
+    `BotClient` Class หลักสำหรับเริ่มบอท
+
+    EN:
+    `BotClient` Main class for starting bots.
+
+    TH / EN:
+    **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+    **As for other languages You can continue adding it yourself. If you are a translator**
+    """
     def __init__(self, music_slash=False) -> None:
         intents = discord.Intents.default()
         intents.message_content = True
