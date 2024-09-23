@@ -28,6 +28,17 @@ def create(module: Dict[str, bool], event: Dict[str, bool]):
         loop.run_until_complete(load_cog('Nekoriku.plugins.music_event'))
 
 async def load_cog(cog_path: str):
+    """
+    TH:
+    `Load_Cog` โหลดคำสั่งทั้งหมด
+
+    EN:
+    `Load_Cog` loads all commands.
+
+    TH / EN:
+    **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+    **As for other languages You can continue adding it yourself. If you are a translator**
+    """
     try:
         await bot.load_extension(cog_path)
     except Exception as e:
