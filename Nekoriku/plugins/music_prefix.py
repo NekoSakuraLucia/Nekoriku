@@ -248,12 +248,24 @@ class Nekoriku_Music_Prefix(commands.Cog):
             await self.send_typing(ctx, embed=embed)
             return
         
-        if repeat_mode == "track":
-            player.queue.mode = wavelink.QueueMode.loop
-        elif repeat_mode == "queue":
-            player.queue.mode = wavelink.QueueMode.loop_all
-        elif repeat_mode == "none":
-            player.queue.mode = wavelink.QueueMode.normal
+        # if repeat_mode == "track":
+        #     player.queue.mode = wavelink.QueueMode.loop
+        # elif repeat_mode == "queue":
+        #     player.queue.mode = wavelink.QueueMode.loop_all
+        # elif repeat_mode == "none":
+        #     player.queue.mode = wavelink.QueueMode.normal
+        # else:
+        #     await self.send_typing(ctx, message='ไม่มีโหมดที่คุณพิมพ์มา "track" หรือ "queue" และ "none"')
+        #     return
+
+        repeat_modes = {
+            "track": wavelink.QueueMode.loop,
+            "queue": wavelink.QueueMode.loop_all,
+            "none": wavelink.QueueMode.normal
+        }
+
+        if repeat_mode in repeat_modes:
+            player.queue.mode = repeat_modes[repeat_mode]
         else:
             await self.send_typing(ctx, message='ไม่มีโหมดที่คุณพิมพ์มา "track" หรือ "queue" และ "none"')
             return
