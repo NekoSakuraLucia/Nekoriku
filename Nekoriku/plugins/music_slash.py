@@ -59,7 +59,8 @@ class Nekoriku_Music_Slash(commands.Cog):
                 return
         
         if player.channel != interaction.user.voice.channel:
-            await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
+            embed = NekorikuEmbeds.player_voice_channel(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         tracks: wavelink.Player = await wavelink.Playable.search(song)
@@ -225,14 +226,14 @@ class Nekoriku_Music_Slash(commands.Cog):
             embed = NekorikuEmbeds.player_autoplay_embed_error(interaction.user, self.bot)
             await interaction.followup.send(embed=embed)
             return
-        
-        if repeat_mode == "track":
-            player.queue.mode = wavelink.QueueMode.loop
-        elif repeat_mode == "queue":
-            player.queue.mode = wavelink.QueueMode.loop_all
-        elif repeat_mode == "none":
-            player.queue.mode = wavelink.QueueMode.normal
-        
+
+        mode_mapping = {
+            "track": wavelink.QueueMode.loop,
+            "queue": wavelink.QueueMode.loop_all,
+            "none": wavelink.QueueMode.normal
+        }
+
+        player.queue.mode = mode_mapping.get(repeat_mode, wavelink.QueueMode.normal)
         embed = NekorikuEmbeds.repeat_music_embed(interaction.user, self.bot, repeat_mode)
         await interaction.followup.send(embed=embed)
 
@@ -341,14 +342,17 @@ class Nekoriku_Music_Slash(commands.Cog):
             return
         
         filters: wavelink.Filters = player.filters
-        if filter == "nightcore":
-            filters.timescale.set(speed=1.2, pitch=1.2, rate=1)
-        elif filter == "karaoke":
-            filters.karaoke.set(level=2, mono_level=1, filter_band=220, filter_width=100)
-        elif filter == "lowpass":
-            filters.low_pass.set(smoothing=20)
-        elif filter == "none":
-            filters.reset()
+        filter_settings = {
+            "nightcore": lambda: filters.timescale.set(speed=1.2, pitch=1.2, rate=1),
+            "karaoke": lambda: filters.karaoke.set(level=2, mono_level=1, filter_band=220, filter_width=100),
+            "lowpass": lambda: filters.low_pass.set(smoothing=20),
+            "none": lambda: filters.reset()
+        }
+
+        if filter in filter_settings:
+            filter_settings[filter]()
+        else:
+            logger.info("Invalid filter / ไม่พบฟิลเตอร์")
 
         await player.set_filters(filters)
         embed = NekorikuEmbeds.filters_music_embed(interaction.user, self.bot, filter)
