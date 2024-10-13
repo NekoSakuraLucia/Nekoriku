@@ -59,7 +59,8 @@ class Nekoriku_Music_Slash(commands.Cog):
                 return
         
         if player.channel != interaction.user.voice.channel:
-            await interaction.followup.send('คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้')
+            embed = NekorikuEmbeds.player_voice_channel(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         tracks: wavelink.Player = await wavelink.Playable.search(song)
