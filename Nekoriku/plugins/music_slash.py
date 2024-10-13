@@ -226,14 +226,14 @@ class Nekoriku_Music_Slash(commands.Cog):
             embed = NekorikuEmbeds.player_autoplay_embed_error(interaction.user, self.bot)
             await interaction.followup.send(embed=embed)
             return
-        
-        if repeat_mode == "track":
-            player.queue.mode = wavelink.QueueMode.loop
-        elif repeat_mode == "queue":
-            player.queue.mode = wavelink.QueueMode.loop_all
-        elif repeat_mode == "none":
-            player.queue.mode = wavelink.QueueMode.normal
-        
+
+        mode_mapping = {
+            "track": wavelink.QueueMode.loop,
+            "queue": wavelink.QueueMode.loop_all,
+            "none": wavelink.QueueMode.normal
+        }
+
+        player.queue.mode = mode_mapping.get(repeat_mode, wavelink.QueueMode.normal)
         embed = NekorikuEmbeds.repeat_music_embed(interaction.user, self.bot, repeat_mode)
         await interaction.followup.send(embed=embed)
 
