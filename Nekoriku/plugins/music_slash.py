@@ -342,14 +342,17 @@ class Nekoriku_Music_Slash(commands.Cog):
             return
         
         filters: wavelink.Filters = player.filters
-        if filter == "nightcore":
-            filters.timescale.set(speed=1.2, pitch=1.2, rate=1)
-        elif filter == "karaoke":
-            filters.karaoke.set(level=2, mono_level=1, filter_band=220, filter_width=100)
-        elif filter == "lowpass":
-            filters.low_pass.set(smoothing=20)
-        elif filter == "none":
-            filters.reset()
+        filter_settings = {
+            "nightcore": lambda: filters.timescale.set(speed=1.2, pitch=1.2, rate=1),
+            "karaoke": lambda: filters.karaoke.set(level=2, mono_level=1, filter_band=220, filter_width=100),
+            "lowpass": lambda: filters.low_pass.set(smoothing=20),
+            "none": lambda: filters.reset()
+        }
+
+        if filter in filter_settings:
+            filter_settings[filter]()
+        else:
+            logger.info("Invalid filter / ไม่พบฟิลเตอร์")
 
         await player.set_filters(filters)
         embed = NekorikuEmbeds.filters_music_embed(interaction.user, self.bot, filter)
