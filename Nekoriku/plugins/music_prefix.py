@@ -153,19 +153,19 @@ class Nekoriku_Music_Prefix(commands.Cog):
             await self.send_typing(ctx, embed=embed)
             return
         
-        valid_filters = ["nightcore", "karaoke", "reset"]
-        
         filters: wavelink.Filters = player.filters
-        if filter_type == "nightcore":
-            filters.timescale.set(speed=1.2, pitch=1.2, rate=1)
-        elif filter_type == "karaoke":
-            filters.karaoke.set(level=2, mono_level=1, filter_band=220, filter_width=100)
-        elif filter_type == "reset":
-            filters.reset()
+        valid_filters = {
+            "nightcore": lambda filters: filters.timescale.set(speed=1.2, pitch=1.2, rate=1),
+            "karaoke": lambda filters: filters.karaoke.set(level=2, mono_level=1, filter_band=220, filter_width=100),
+            "lowpass": lambda filters: filters.low_pass.set(smoothing=20),
+            "reset": lambda filters: filters.reset()
+        }
+
+        if filter_type in valid_filters:
+            valid_filters[filter_type](filters)
         else:
-            valid_filters_list = ', '.join(valid_filters)
-            all_options = f'{valid_filters_list}'
-            await self.send_typing(ctx, message=f'ไม่มีฟิลเตอร์ที่คุณพิมพ์มา ฟิลเตอร์ทั้งหมด: {all_options}.')
+            valid_filters_list = ', '.join(valid_filters.keys())
+            await self.send_typing(ctx, message=f'ไม่มีฟิลเตอร์ที่คุณพิมพ์มา ฟิลเตอร์ทั้งหมด: {valid_filters_list}.')
             return
         
         await player.set_filters(filters)
