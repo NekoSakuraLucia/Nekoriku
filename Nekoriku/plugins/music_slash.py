@@ -6,6 +6,7 @@ from ..colored_logging import get_logger
 import wavelink
 from ..embeds import NekorikuEmbeds
 from ..utils import Nekoriku_Utils
+import re
 
 logger = get_logger('nekoriku_logger')
 
@@ -34,6 +35,74 @@ class Nekoriku_Music_Slash(commands.Cog):
         await interaction.response.defer()
 
         await interaction.followup.send("Pong.")
+
+    @app_commands.command(name="search", description="TH: ค้นหาเพลงด้วยชื่อ / EN: Search for songs by name")
+    @app_commands.describe(search="TH: ป้อนชื่อเพลงเพื่อค้นหา / EN: Enter the name of the song to search.")
+    async def search_song(self, interaction: discord.Interaction, search: str) -> None:
+        await interaction.response.defer()
+
+        if not interaction.guild:
+            embed = NekorikuEmbeds.server_only(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
+            return
+        
+        url_pattern = re.compile(r'https?://[^\s]+')
+        if url_pattern.match(search):
+            await interaction.followup.send("โปรดป้อนคำค้นหาเป็นชื่อเพลง ไม่ใช่ลิงก์.")
+            return
+        
+        player: Optional[wavelink.Player] = interaction.guild.voice_client
+        if not player:
+            try:
+                player = await interaction.user.voice.channel.connect(cls=wavelink.Player, self_deaf=True)
+            except Exception:
+                embed = NekorikuEmbeds.join_voice_embed(interaction.user, self.bot)
+                await interaction.followup.send(embed=embed)
+                return
+        
+        if player.channel != interaction.user.voice.channel:
+            embed = NekorikuEmbeds.player_voice_channel(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
+            return
+        
+        embed = discord.Embed(title="ผลลัพธ์การค้นหา", description="นี้คือรายการเพลงที่ตรงกับที่คุณพิมพ์มา:", color=0xFFC0CB)
+        
+        search_tracks: list[wavelink.Playable] = await wavelink.Playable.search(search)
+        if search_tracks:
+            for index, track in enumerate(search_tracks):
+                embed.add_field(name=f"{index + 1}. {track.title}", value=track.uri, inline=False)
+        else:
+            embed.add_field(name="ไม่พบเพลง", value="ไม่พบเพลงใด ๆ ที่ตรงกับคำค้นหานั้น โปรดลองอีกครั้ง.", inline=False)
+
+        view = discord.ui.View()
+        options = [discord.SelectOption(label=f"{index + 1}. {track.title}", value=str(index)) for index, track in enumerate(search_tracks)]
+        select = discord.ui.Select(placeholder="เลือกเพลง...", options=options)
+
+        async def select_callback(interaction: discord.Interaction):
+            try:
+                index = int(select.values[0])
+                selected_track: wavelink.Playable = search_tracks[index]
+                player: Optional[wavelink.Player] = interaction.guild.voice_client
+                
+                if player:
+                    await player.queue.put_wait(selected_track)
+                    embed = NekorikuEmbeds.playing_music_embed(interaction.user, self.bot, selected_track)
+                    await interaction.response.send_message(embed=embed, ephemeral=True) 
+                    
+                    if not player.playing:
+                        await player.play(
+                        player.queue.get(),
+                        volume=60
+                    )
+                else:
+                    await interaction.response.send_message("ไม่พบผู้เล่นในช่องเสียง.", ephemeral=True)
+            except Exception as e:
+                await interaction.response.send_message(f"เกิดข้อผิดพลาด: {str(e)}", ephemeral=True)
+        
+        select.callback = select_callback
+        view.add_item(select)
+
+        await interaction.followup.send(embed=embed, view=view)
 
     @app_commands.command(name="play", description="TH: ให้หนูเล่นเพลงให้คุณฟัง / EN: Let me play a song for you.")
     @app_commands.describe(song="TH: ป้อน URL ของเพลงเพื่อให้หนูเล่นเพลงให้คุณฟังได้ / EN: Enter the URL of the song so we can play it for you.")
