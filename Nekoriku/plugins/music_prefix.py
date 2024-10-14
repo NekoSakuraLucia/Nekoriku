@@ -178,7 +178,7 @@ class Nekoriku_Music_Prefix(commands.Cog):
         await self.send_typing(ctx, embed=embed)
 
     @commands.command(name="autoplay")
-    async def autoplay_mode(self, ctx: commands.Context, *, mode: str) -> None:
+    async def autoplay_mode(self, ctx: commands.Context, *, mode: str = "enabled") -> None:
         if not ctx.guild:
             embed = NekorikuEmbeds.server_only(ctx.author, self.bot)
             await self.send_typing(ctx, embed=embed)
