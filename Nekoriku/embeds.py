@@ -15,6 +15,37 @@ class NekorikuEmbeds:
     """
 
     @staticmethod
+    def server_only(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        """
+        TH:
+           สร้าง embed เพื่อแจ้งผู้ใช้ให้เข้าร่วมช่องเสียงก่อน
+
+           Embed ประกอบด้วย:
+           - ชื่อ: "This command can only be used on the server."
+           - คำอธิบายที่กล่าวถึงผู้ใช้ว่าคำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น
+           - สีชมพูอ่อน
+
+        EN:
+            Creates an embed to inform the user to join a voice channel first.
+
+            The embed includes:
+            - A title: "This command can only be used on the server."
+            - A description addressed to the user states that this command can only be used on the server.
+            - A light pink color
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
+        embed = discord.Embed(
+            description="TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.",
+            color=0xFFC0CB
+        )
+        embed.set_author(name='This command can only be used on the server.', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_footer(text="คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น..", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        return embed
+
+    @staticmethod
     def join_voice_embed(member: discord.Member, bot: commands.Bot) -> discord.Embed:
         """
         TH:
@@ -47,6 +78,27 @@ class NekorikuEmbeds:
     
     @staticmethod
     def player_voice_channel(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        """
+        TH:
+           สร้าง embed เพื่อแจ้งผู้ใช้ให้เข้าร่วมช่องเสียงก่อน
+
+           Embed ประกอบด้วย:
+           - ชื่อ: "Player Voice Channel"
+           - คำอธิบายที่กล่าวถึงผู้ใช้ว่าคุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้
+           - สีชมพูอ่อน
+
+        EN:
+            Creates an embed to inform the user to join a voice channel first.
+
+            The embed includes:
+            - A title: "Player Voice Channel"
+            - A description states that you must be on the same voice channel as the me to use this command.
+            - A light pink color
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         embed = discord.Embed(
             description="คุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้\n\nEN: You must be in the same room as me.",
             color=0xFFC0CB
@@ -57,6 +109,27 @@ class NekorikuEmbeds:
     
     @staticmethod
     def create_player_embed(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        """
+        TH:
+           สร้าง embed เพื่อแจ้งผู้ใช้ให้เข้าร่วมช่องเสียงก่อน
+
+           Embed ประกอบด้วย:
+           - ชื่อ: "Create Player"
+           - คำอธิบายที่กล่าวถึงผู้ใช้ว่าหนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้
+           - สีชมพูอ่อน
+
+        EN:
+            Creates an embed to inform the user to join a voice channel first.
+
+            The embed includes:
+            - A title: "Create Player"
+            - A description mentioning I'm not connected to the audio channel or can't access the Player.
+            - A light pink color
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         embed = discord.Embed(
             description="หนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้\n\nEN: I am not connected to the audio channel or cannot access the Player.",
             color=0xFFC0CB
