@@ -6,6 +6,7 @@ from typing import Optional, Callable
 from ..embeds import NekorikuEmbeds
 from ..utils import Nekoriku_Utils
 import asyncio
+import re
 
 logger = get_logger('nekoriku_logger')
 
@@ -54,6 +55,11 @@ class Nekoriku_Music_Prefix(commands.Cog):
         if not ctx.guild:
             embed = NekorikuEmbeds.server_only(ctx.author, self.bot)
             await self.send_typing(ctx, embed=embed)
+            return
+        
+        url_pattern = re.compile(r'https?://[^\s]+')
+        if url_pattern.match(search_name):
+            await ctx.send("โปรดป้อนคำค้นหาเป็นชื่อเพลง ไม่ใช่ลิงก์.")
             return
         
         player: Optional[wavelink.Player] = ctx.voice_client
