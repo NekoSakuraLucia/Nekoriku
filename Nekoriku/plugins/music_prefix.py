@@ -66,7 +66,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
                 return
         
         if player.channel != ctx.author.voice.channel:
-            await self.send_typing(ctx, message="คุณต้องอยู่ในช่องเดียวกับหนูสิ ลองอีกครั้งนะ")
+            embed = NekorikuEmbeds.player_voice_channel(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         tracks: wavelink.Playable = await wavelink.Playable.search(url)
