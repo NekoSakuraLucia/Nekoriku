@@ -47,6 +47,70 @@ class Nekoriku_Music_Prefix(commands.Cog):
           logger.info("[READY] -> Music_prefix plugins is ready")
         else:
             raise RuntimeError('TH: Logger ไม่ได้ถูกติดตั้งอย่างถูกต้อง / EN: Logger is not initialized.')
+        
+    @commands.command(name="search")
+    async def search_song(self, ctx: commands.Context, *, search_name) -> None:
+        if not ctx.guild:
+            embed = NekorikuEmbeds.server_only(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
+            return
+        
+        player: Optional[wavelink.Player] = ctx.voice_client
+        if not player:
+            try:
+                player = await ctx.author.voice.channel.connect(cls=wavelink.Player, self_deaf=True)
+            except Exception:
+                embed = NekorikuEmbeds.join_voice_embed(ctx.author, self.bot)
+                await self.send_typing(ctx, embed=embed)
+                return
+        
+        if player.channel != ctx.author.voice.channel:
+            embed = NekorikuEmbeds.player_voice_channel(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
+            return
+        
+        search_tracks: list[wavelink.Playable] = await wavelink.Playable.search(search_name)
+        if not search_tracks:
+            await self.send_typing(ctx, message=f'{ctx.author.mention} - ไม่พบเพลงใด ๆ ที่ตรงกับคำค้นหานั้น โปรดลองอีกครั้ง')
+            return
+        
+        embed = discord.Embed(title="ผลลัพธ์การค้นหา", description="นี้คือรายการเพลงที่ตรงกับที่คุณพิมพ์มา:", color=0xFFC0CB)
+        for index, track in enumerate(search_tracks):
+            embed.add_field(name=f"{index + 1}. {track.title}", value=track.uri, inline=False)
+
+        msg = await ctx.send(embed=embed)
+
+        options = [
+            discord.SelectOption(label=track.title, value=str(index)) for index, track in enumerate(search_tracks)
+        ]
+
+        select = discord.ui.Select(placeholder="เลือกเพลง...", options=options)
+
+        async def select_callback(interaction: discord.Interaction):
+            index = int(select.values[0])
+            selected_track: wavelink.Playable = search_tracks[index]
+            player: Optional[wavelink.Player] = ctx.voice_client
+
+            if player:
+                await player.queue.put_wait(selected_track)
+                embed = NekorikuEmbeds.playing_music_embed(ctx.author, self.bot, selected_track)
+                await interaction.response.send_message(embed=embed, ephemeral=True) 
+
+                if not player.playing:
+                    await player.play(
+                        player.queue.get(),
+                        volume=60
+                    )
+            else:
+                await interaction.response.send_message("ไม่พบผู้เล่นในช่องเสียง.", ephemeral=True)
+
+        select.callback = select_callback
+
+        view = discord.ui.View()
+        view.add_item(select)
+
+        await msg.edit(view=view)
+
 
     @commands.command(name="play")
     async def play(self, ctx: commands.Context, *, url: str) -> None:
