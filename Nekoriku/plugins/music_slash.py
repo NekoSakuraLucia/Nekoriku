@@ -41,7 +41,8 @@ class Nekoriku_Music_Slash(commands.Cog):
         await interaction.response.defer()
 
         if not interaction.guild:
-            await interaction.followup.send('TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
+            embed = NekorikuEmbeds.server_only(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
 
         player = interaction.guild.voice_client
@@ -88,7 +89,8 @@ class Nekoriku_Music_Slash(commands.Cog):
         await interaction.response.defer()
 
         if not interaction.guild:
-            await interaction.followup.send('TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
+            embed = NekorikuEmbeds.server_only(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         player: Optional[wavelink.Player] = interaction.guild.voice_client
@@ -111,7 +113,8 @@ class Nekoriku_Music_Slash(commands.Cog):
         await interaction.response.defer()
 
         if not interaction.guild:
-            await interaction.followup.send('TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
+            embed = NekorikuEmbeds.server_only(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         player: Optional[wavelink.Player] = interaction.guild.voice_client
@@ -141,7 +144,8 @@ class Nekoriku_Music_Slash(commands.Cog):
         await interaction.response.defer()
 
         if not interaction.guild:
-            await interaction.followup.send('TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
+            embed = NekorikuEmbeds.server_only(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         player: Optional[wavelink.Player] = interaction.guild.voice_client
@@ -164,9 +168,8 @@ class Nekoriku_Music_Slash(commands.Cog):
         await interaction.response.defer()
 
         if not interaction.guild:
-            await interaction.followup.send(
-                'TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.'
-            )
+            embed = NekorikuEmbeds.server_only(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
     
         player: Optional[wavelink.Player] = interaction.guild.voice_client
@@ -206,9 +209,8 @@ class Nekoriku_Music_Slash(commands.Cog):
         await interaction.response.defer()
 
         if not interaction.guild:
-            await interaction.followup.send(
-                'TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.'
-            )
+            embed = NekorikuEmbeds.server_only(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         player: Optional[wavelink.Player] = interaction.guild.voice_client
@@ -243,9 +245,8 @@ class Nekoriku_Music_Slash(commands.Cog):
         await interaction.response.defer()
         
         if not interaction.guild:
-            await interaction.followup.send(
-                'TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.'
-            )
+            embed = NekorikuEmbeds.server_only(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         player: Optional[wavelink.Player] = interaction.guild.voice_client
@@ -281,9 +282,8 @@ class Nekoriku_Music_Slash(commands.Cog):
         await interaction.response.defer()
 
         if not interaction.guild:
-            await interaction.followup.send(
-                'TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.'
-            )
+            embed = NekorikuEmbeds.server_only(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
 
         player: Optional[wavelink.Player] = interaction.guild.voice_client
@@ -325,9 +325,8 @@ class Nekoriku_Music_Slash(commands.Cog):
         await interaction.response.defer()
 
         if not interaction.guild:
-            await interaction.followup.send(
-                'TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.'
-            )
+            embed = NekorikuEmbeds.server_only(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         player: Optional[wavelink.Player] = interaction.guild.voice_client

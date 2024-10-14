@@ -15,6 +15,16 @@ class NekorikuEmbeds:
     """
 
     @staticmethod
+    def server_only(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        embed = discord.Embed(
+            description="TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.",
+            color=0xFFC0CB
+        )
+        embed.set_author(name='This command can only be used on the server.', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_footer(text="คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น..", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        return embed
+
+    @staticmethod
     def join_voice_embed(member: discord.Member, bot: commands.Bot) -> discord.Embed:
         """
         TH:

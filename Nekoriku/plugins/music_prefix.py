@@ -51,7 +51,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
     @commands.command(name="play")
     async def play(self, ctx: commands.Context, *, url: str) -> None:
         if not ctx.guild:
-            await self.send_typing(ctx, message='TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
+            embed = NekorikuEmbeds.server_only(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
 
         player: Optional[wavelink.Player] = ctx.voice_client
@@ -98,7 +99,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
     @commands.command(name="leave")
     async def leave_voice(self, ctx: commands.Context) -> None:
         if not ctx.guild:
-            await self.send_typing(ctx, message='TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
+            embed = NekorikuEmbeds.server_only(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         player: Optional[wavelink.Player] = ctx.voice_client
@@ -119,7 +121,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
     @commands.command(name="skip")
     async def skip_voice(self, ctx: commands.Context) -> None:
         if not ctx.guild:
-            await self.send_typing(ctx, message='TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
+            embed = NekorikuEmbeds.server_only(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         player: Optional[wavelink.Player] = ctx.voice_client
@@ -140,7 +143,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
     @commands.command(name="filters")
     async def filter_mode(self, ctx: commands.Context, *, filter_type: str) -> None:
         if not ctx.guild:
-            await self.send_typing(ctx, message='TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
+            embed = NekorikuEmbeds.server_only(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
 
         player: Optional[wavelink.Player] = ctx.voice_client
@@ -176,7 +180,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
     @commands.command(name="autoplay")
     async def autoplay_mode(self, ctx: commands.Context, *, mode: str) -> None:
         if not ctx.guild:
-            await self.send_typing(ctx, message='TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
+            embed = NekorikuEmbeds.server_only(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         player: Optional[wavelink.Player] = ctx.voice_client
@@ -204,7 +209,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
     @commands.command(name="toggle")
     async def pause_and_resume(self, ctx: commands.Context, *, toggle_mode: str) -> None:
         if not ctx.guild:
-            await self.send_typing(ctx, message='TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
+            embed = NekorikuEmbeds.server_only(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         player: Optional[wavelink.Player] = ctx.voice_client
@@ -230,7 +236,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
     @commands.command(name="loop")
     async def repeat_song(self, ctx: commands.Context, *, repeat_mode: str) -> None:
         if not ctx.guild:
-            await self.send_typing(ctx, message='TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
+            embed = NekorikuEmbeds.server_only(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         player: Optional[wavelink.Player] = ctx.voice_client
@@ -277,7 +284,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
     @commands.command(name="seek")
     async def seek_music(self, ctx: commands.Context, *, time_str: str) -> None:
         if not ctx.guild:
-            await self.send_typing(ctx, message='TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
+            embed = NekorikuEmbeds.server_only(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         player: Optional[wavelink.Player] = ctx.voice_client
@@ -304,7 +312,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
     @commands.command(name="volume")
     async def volume_music(self, ctx: commands.Context, *, vol: str) -> None:
         if not ctx.guild:
-            await self.send_typing(ctx, message='TH: คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น\nEN: This command can only be used on the server.')
+            embed = NekorikuEmbeds.server_only(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         player: Optional[wavelink.Player] = ctx.voice_client
