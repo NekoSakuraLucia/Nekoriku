@@ -32,8 +32,20 @@ class ColoredFormatter(logging.Formatter):
         **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
         **As for other languages You can continue adding it yourself. If you are a translator**
         """
-        levelname_color = Fore.CYAN
-        message_color = Fore.MAGENTA
+        if record.levelname == "DEBUG":
+            levelname_color = Fore.LIGHTBLUE_EX
+        elif record.levelname == "INFO":
+            levelname_color = Fore.LIGHTMAGENTA_EX
+        elif record.levelname == "WARNING":
+            levelname_color = Fore.LIGHTYELLOW_EX
+        elif record.levelname == "ERROR":
+            levelname_color = Fore.RED
+        elif record.levelname == "CRITICAL":
+            levelname_color = Fore.MAGENTA
+        else:
+            levelname_color = Fore.WHITE
+        
+        message_color = Fore.WHITE
         asctime_color = Fore.LIGHTGREEN_EX
         name_color = Fore.LIGHTYELLOW_EX
 
