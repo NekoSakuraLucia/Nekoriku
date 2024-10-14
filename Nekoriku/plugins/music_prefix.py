@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from ..colored_logging import get_logger
 import wavelink
-from typing import Optional
+from typing import Optional, Callable
 from ..embeds import NekorikuEmbeds
 from ..utils import Nekoriku_Utils
 
@@ -155,7 +155,7 @@ class Nekoriku_Music_Prefix(commands.Cog):
             return
         
         filters: wavelink.Filters = player.filters
-        valid_filters = {
+        valid_filters: dict[str, Callable[[wavelink.Filters], None]] = {
             "nightcore": lambda filters: filters.timescale.set(speed=1.2, pitch=1.2, rate=1),
             "karaoke": lambda filters: filters.karaoke.set(level=2, mono_level=1, filter_band=220, filter_width=100),
             "lowpass": lambda filters: filters.low_pass.set(smoothing=20),
