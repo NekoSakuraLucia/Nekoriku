@@ -56,6 +56,16 @@ class NekorikuEmbeds:
         return embed
 
     @staticmethod
+    def search_url_embed(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        embed = discord.Embed(
+            description="TH: โปรดป้อนคำค้นหาเป็นชื่อเพลง ไม่ใช่ลิงก์.\nEN: Please enter your search term as a song title, not a link.",
+            color=0xFFC0CB
+        )
+        embed.set_author(name='Please enter your search term', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_footer(text="โปรดป้อนคำค้นหาเป็นชื่อเพลง ไม่ใช่ลิงก์.", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        return embed
+
+    @staticmethod
     def join_voice_embed(member: discord.Member, bot: commands.Bot) -> discord.Embed:
         """
         TH:

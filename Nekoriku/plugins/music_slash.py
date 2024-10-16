@@ -49,7 +49,8 @@ class Nekoriku_Music_Slash(commands.Cog):
         
         url_pattern = re.compile(r'https?://[^\s]+')
         if url_pattern.match(search):
-            await interaction.followup.send("โปรดป้อนคำค้นหาเป็นชื่อเพลง ไม่ใช่ลิงก์.")
+            embed = NekorikuEmbeds.search_url_embed(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         if len(search) > 128:

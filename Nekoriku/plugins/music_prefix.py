@@ -60,7 +60,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
         
         url_pattern = re.compile(r'https?://[^\s]+')
         if url_pattern.match(search_name):
-            await self.send_typing(ctx, message="โปรดป้อนคำค้นหาเป็นชื่อเพลง ไม่ใช่ลิงก์.")
+            embed = NekorikuEmbeds.search_url_embed(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
 
         if len(search_name) > 128:
