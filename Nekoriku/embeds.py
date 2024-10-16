@@ -18,7 +18,7 @@ class NekorikuEmbeds:
     def server_only(member: discord.Member, bot: commands.Bot) -> discord.Embed:
         """
         TH:
-           สร้าง embed เพื่อแจ้งผู้ใช้ให้เข้าร่วมช่องเสียงก่อน
+           สร้าง embed เพื่อแจ้งผู้ใช้ให้ว่าคำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น
 
            Embed ประกอบด้วย:
            - ชื่อ: "This command can only be used on the server."
@@ -26,7 +26,7 @@ class NekorikuEmbeds:
            - สีชมพูอ่อน
 
         EN:
-            Creates an embed to inform the user to join a voice channel first.
+            Creates an embed to addressed to the user states that this command can only be used on the server.
 
             The embed includes:
             - A title: "This command can only be used on the server."
@@ -47,6 +47,27 @@ class NekorikuEmbeds:
     
     @staticmethod
     def serach_limit_embed(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        """
+        TH:
+           สร้าง embed เพื่อแจ้งผู้ใช้ว่าคำค้นหาต้องไม่เกิน 128 ตัวอักษร
+
+           Embed ประกอบด้วย:
+           - ชื่อ: "To prevent search errors"
+           - คำอธิบายที่กล่าวถึงผู้ใช้ว่าคำค้นหาต้องไม่เกิน 128 ตัวอักษร
+           - สีชมพูอ่อน
+
+        EN:
+            Creates an embed to That search terms must not exceed 128 characters.
+
+            The embed includes:
+            - A title: "To prevent search errors"
+            - A description That search terms must not exceed 128 characters.
+            - A light pink color
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         embed = discord.Embed(
             description="TH: คำค้นหาต้องไม่เกิน 128 ตัวอักษร.\nEN: Search terms must not exceed 128 characters.",
             color=0xFFC0CB
@@ -57,6 +78,27 @@ class NekorikuEmbeds:
 
     @staticmethod
     def search_url_embed(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        """
+        TH:
+           สร้าง embed เพื่อแจ้งผู้ใช้ว่าโปรดป้อนคำค้นหาเป็นชื่อเพลง ไม่ใช่ลิงก์.
+
+           Embed ประกอบด้วย:
+           - ชื่อ: "To prevent search errors"
+           - คำอธิบายที่กล่าวถึงผู้ใช้ว่าโปรดป้อนคำค้นหาเป็นชื่อเพลง ไม่ใช่ลิงก์.
+           - สีชมพูอ่อน
+
+        EN:
+            Creates an embed to Please enter your search term as a song title, not a link.
+            
+            The embed includes:
+            - A title: "To prevent search errors"
+            - A description Please enter your search term as a song title, not a link.
+            - A light pink color
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         embed = discord.Embed(
             description="TH: โปรดป้อนคำค้นหาเป็นชื่อเพลง ไม่ใช่ลิงก์.\nEN: Please enter your search term as a song title, not a link.",
             color=0xFFC0CB
@@ -77,7 +119,7 @@ class NekorikuEmbeds:
            - สีชมพูอ่อน
 
         EN:
-            Creates an embed to inform the user to join a voice channel first.
+            Creates an embed to mentioning the user and advising them to join a voice channel before using the command
 
             The embed includes:
             - A title: "Join Voice Channel"
@@ -100,7 +142,7 @@ class NekorikuEmbeds:
     def player_voice_channel(member: discord.Member, bot: commands.Bot) -> discord.Embed:
         """
         TH:
-           สร้าง embed เพื่อแจ้งผู้ใช้ให้เข้าร่วมช่องเสียงก่อน
+           สร้าง embed เพื่อแจ้งผู้ใช้ว่าคุณต้องอยู่ในช่องเสียงเดียวกับหนูเพื่อใช้คำสั่งนี้
 
            Embed ประกอบด้วย:
            - ชื่อ: "Player Voice Channel"
@@ -108,7 +150,7 @@ class NekorikuEmbeds:
            - สีชมพูอ่อน
 
         EN:
-            Creates an embed to inform the user to join a voice channel first.
+            Creates an embed to states that you must be on the same voice channel as the me to use this command.
 
             The embed includes:
             - A title: "Player Voice Channel"
@@ -131,7 +173,7 @@ class NekorikuEmbeds:
     def create_player_embed(member: discord.Member, bot: commands.Bot) -> discord.Embed:
         """
         TH:
-           สร้าง embed เพื่อแจ้งผู้ใช้ให้เข้าร่วมช่องเสียงก่อน
+           สร้าง embed เพื่อแจ้งผู้ใช้ว่าหนูไม่ได้เชื่อมต่อกับช่องเสียงหรือไม่สามารถเข้าถึง Player ได้
 
            Embed ประกอบด้วย:
            - ชื่อ: "Create Player"
@@ -139,7 +181,7 @@ class NekorikuEmbeds:
            - สีชมพูอ่อน
 
         EN:
-            Creates an embed to inform the user to join a voice channel first.
+            Creates an embed to mentioning I'm not connected to the audio channel or can't access the Player.
 
             The embed includes:
             - A title: "Create Player"
