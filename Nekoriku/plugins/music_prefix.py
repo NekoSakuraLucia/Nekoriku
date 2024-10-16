@@ -51,7 +51,7 @@ class Nekoriku_Music_Prefix(commands.Cog):
             raise RuntimeError('TH: Logger ไม่ได้ถูกติดตั้งอย่างถูกต้อง / EN: Logger is not initialized.')
         
     @commands.command(name="search")
-    async def search_song(self, ctx: commands.Context, *, search_name) -> None:
+    async def search_song(self, ctx: commands.Context, *, search_name: str) -> None:
         if not ctx.guild:
             embed = NekorikuEmbeds.server_only(ctx.author, self.bot)
             await self.send_typing(ctx, embed=embed)
@@ -59,7 +59,12 @@ class Nekoriku_Music_Prefix(commands.Cog):
         
         url_pattern = re.compile(r'https?://[^\s]+')
         if url_pattern.match(search_name):
-            await ctx.send("โปรดป้อนคำค้นหาเป็นชื่อเพลง ไม่ใช่ลิงก์.")
+            await self.send_typing(ctx, message="โปรดป้อนคำค้นหาเป็นชื่อเพลง ไม่ใช่ลิงก์.")
+            return
+
+        if len(search_name) > 128:
+            embed = NekorikuEmbeds.serach_limit_embed(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         player: Optional[wavelink.Player] = ctx.voice_client
