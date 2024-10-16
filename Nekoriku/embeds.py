@@ -44,6 +44,16 @@ class NekorikuEmbeds:
         embed.set_author(name='This command can only be used on the server.', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="คำสั่งนี้สามารถใช้ได้เฉพาะในเซิร์ฟเวอร์เท่านั้น..", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed
+    
+    @staticmethod
+    def serach_limit_embed(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        embed = discord.Embed(
+            description="TH: คำค้นหาต้องไม่เกิน 128 ตัวอักษร.\nEN: Search terms must not exceed 128 characters.",
+            color=0xFFC0CB
+        )
+        embed.set_author(name='To prevent search errors', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_footer(text="คำค้นหาต้องไม่เกิน 128 ตัวอักษร...", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        return embed
 
     @staticmethod
     def join_voice_embed(member: discord.Member, bot: commands.Bot) -> discord.Embed:
