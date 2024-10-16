@@ -51,6 +51,11 @@ class Nekoriku_Music_Slash(commands.Cog):
             await interaction.followup.send("โปรดป้อนคำค้นหาเป็นชื่อเพลง ไม่ใช่ลิงก์.")
             return
         
+        if len(search) > 128:
+            embed = NekorikuEmbeds.serach_limit_embed(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
+            return
+        
         player: Optional[wavelink.Player] = interaction.guild.voice_client
         if not player:
             try:
