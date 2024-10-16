@@ -7,6 +7,7 @@ from ..embeds import NekorikuEmbeds
 from ..utils import Nekoriku_Utils
 import asyncio
 import re
+import random
 
 logger = get_logger('nekoriku_logger')
 
@@ -59,7 +60,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
         
         url_pattern = re.compile(r'https?://[^\s]+')
         if url_pattern.match(search_name):
-            await self.send_typing(ctx, message="โปรดป้อนคำค้นหาเป็นชื่อเพลง ไม่ใช่ลิงก์.")
+            embed = NekorikuEmbeds.search_url_embed(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
 
         if len(search_name) > 128:
@@ -91,11 +93,32 @@ class Nekoriku_Music_Prefix(commands.Cog):
             embed.add_field(name="ไม่พบเพลง", value="ไม่พบเพลงใด ๆ ที่ตรงกับคำค้นหานั้น โปรดลองอีกครั้ง.", inline=False)
 
         msg = await ctx.send(embed=embed)
+        view = discord.ui.View()
 
-        options = [
-            discord.SelectOption(label=f"{index + 1}. {track.title}", value=str(index)) for index, track in enumerate(search_tracks)
-        ]
+        ramdom_button = discord.ui.Button(label="🎶 สุ่มเพลง", style=discord.ButtonStyle.green)
 
+        async def random_song_callback(interaction: discord.Interaction):
+            if search_tracks:
+                index = random.randint(0, len(search_tracks) - 1)
+                selected_track = search_tracks[index]
+                player: Optional[wavelink.Player] = interaction.guild.voice_client
+
+                if player:
+                    await player.queue.put_wait(selected_track)
+                    embed = NekorikuEmbeds.playing_music_embed(interaction.user, self.bot, selected_track)
+                    await interaction.response.send_message(embed=embed, ephemeral=True)
+
+                    if not player.playing:
+                        await player.play(player.queue.get(), volume=60)
+                else:
+                    await interaction.response.send_message("ไม่พบผู้เล่นในช่องเสียง.", ephemeral=True)
+            else:
+                await interaction.response.send_message("ไม่พบเพลงในรายการ.", ephemeral=True)
+
+        ramdom_button.callback = random_song_callback
+        view.add_item(ramdom_button)
+
+        options = [discord.SelectOption(label=f"{index + 1}. {track.title}", value=str(index)) for index, track in enumerate(search_tracks)]
         select = discord.ui.Select(placeholder="เลือกเพลง...", options=options)
 
         async def select_callback(interaction: discord.Interaction):
@@ -124,7 +147,6 @@ class Nekoriku_Music_Prefix(commands.Cog):
         
         select.callback = select_callback
 
-        view = discord.ui.View()
         view.add_item(select)
 
         await msg.edit(view=view)
