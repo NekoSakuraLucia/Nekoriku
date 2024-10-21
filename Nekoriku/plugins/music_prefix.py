@@ -172,10 +172,12 @@ class Nekoriku_Music_Prefix(commands.Cog):
             try:
                 player = await ctx.author.voice.channel.connect(cls=wavelink.Player, self_deaf=True)
             except AttributeError:
-                await self.send_typing(ctx, message="กรุณาเข้าร่วมช่องเสียงก่อนใช้คำสั่งนี้")
+                embed = NekorikuEmbeds.join_voice_embed(ctx.author, self.bot)
+                await self.send_typing(ctx, embed=embed)
                 return
             except discord.ClientException:
-                await self.send_typing(ctx, message="ขออภัยหนูไม่สามารถเข้าร่วมช่องเสียงของคุณได้ ลองใหม่อีกครั้งสิ")
+                embed = NekorikuEmbeds.unable_join_voice_channel(ctx.author, self.bot)
+                await self.send_typing(ctx, embed=embed)
                 return
         
         if player.channel != ctx.author.voice.channel:

@@ -157,7 +157,7 @@ class Nekoriku_Music_Slash(commands.Cog):
                 await interaction.followup.send(embeds=embed)
                 return
             except discord.ClientException:
-                embed = NekorikuEmbeds.join_voice_embed(interaction.user, self.bot)
+                embed = NekorikuEmbeds.unable_join_voice_channel(interaction.user, self.bot)
                 await interaction.followup.send(embed=embed)
                 return
         

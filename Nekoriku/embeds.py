@@ -139,6 +139,37 @@ class NekorikuEmbeds:
         return embed
     
     @staticmethod
+    def unable_join_voice_channel(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        """
+        TH:
+           สร้าง embed เพื่อแจ้งผู้ใช้ว่าขออภัยไม่สามารถเข้าร่วมช่องเสียงของคุณได้
+
+           Embed ประกอบด้วย:
+           - ชื่อ: "Join Voice Channel"
+           - คำอธิบายที่กล่าวถึงผู้ใช้ว่าขออภัยไม่สามารถเข้าร่วมช่องเสียงของคุณได้
+           - สีชมพูอ่อน
+
+        EN:
+            Creates an embed to mentioning the user Sorry, I can't join your voice channel. Try again.
+
+            The embed includes:
+            - A title: "Join Voice Channel"
+            - A description mentioning the user Sorry, I can't join your voice channel. Try again.
+            - A light pink color
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
+        embed = discord.Embed(
+            description="TH: ขออภัยหนูไม่สามารถเข้าร่วมช่องเสียงของคุณได้ ลองใหม่อีกครั้งสิ\nEN: Sorry, I can't join your voice channel. Try again.",
+            color=0xFFC0CB
+        )
+        embed.set_author(name='Join Voice Channel', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_footer(text="ไม่สามารถเข้าร่วมช่องเสียงของคุณได้..", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        return embed
+    
+    @staticmethod
     def player_voice_channel(member: discord.Member, bot: commands.Bot) -> discord.Embed:
         """
         TH:
