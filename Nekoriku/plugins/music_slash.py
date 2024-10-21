@@ -97,7 +97,8 @@ class Nekoriku_Music_Slash(commands.Cog):
                     await interaction.response.send_message(embed=embed, ephemeral=True)
 
                     if not player.playing:
-                        await player.play(player.queue.get(), volume=60)
+                        next_track = player.queue.get()
+                        await player.play(next_track, volume=60)
                 else:
                     embed = NekorikuEmbeds.no_player_found_in_voice(interaction.user, self.bot)
                     await interaction.response.send_message(embed=embed, ephemeral=True)
@@ -123,10 +124,8 @@ class Nekoriku_Music_Slash(commands.Cog):
                     await interaction.response.send_message(embed=embed, ephemeral=True) 
                     
                     if not player.playing:
-                        await player.play(
-                        player.queue.get(),
-                        volume=60
-                    )
+                        next_track = player.queue.get()
+                        await player.play(next_track, volume=60)
                 else:
                     embed = NekorikuEmbeds.no_player_found_in_voice(interaction.user, self.bot)
                     await interaction.response.send_message(embed=embed, ephemeral=True)
@@ -184,10 +183,8 @@ class Nekoriku_Music_Slash(commands.Cog):
             await interaction.followup.send(embed=embed)
         
         if not player.playing:
-            await player.play(
-                player.queue.get(),
-                volume=60
-            )
+            next_track = player.queue.get()
+            await player.play(next_track, volume=60)
 
     @app_commands.command(name="leave", description="TH: ทำลายเพลงและออกจากช่องเสียง / EN: Destroyed the song and left the sound room.")
     async def leave_music(self, interaction: discord.Interaction) -> None:

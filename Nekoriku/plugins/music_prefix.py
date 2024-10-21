@@ -109,7 +109,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
                     await interaction.response.send_message(embed=embed, ephemeral=True)
 
                     if not player.playing:
-                        await player.play(player.queue.get(), volume=60)
+                        next_track = player.queue.get()
+                        await player.play(next_track, volume=60)
                 else:
                     embed = NekorikuEmbeds.no_player_found_in_voice(ctx.author, self.bot)
                     await interaction.response.send_message(embed=embed, ephemeral=True)
@@ -133,12 +134,10 @@ class Nekoriku_Music_Prefix(commands.Cog):
                     await player.queue.put_wait(selected_track)
                     embed = NekorikuEmbeds.playing_music_embed(ctx.author, self.bot, selected_track)
                     await interaction.response.send_message(embed=embed, ephemeral=True) 
-                    
+
                     if not player.playing:
-                        await player.play(
-                        player.queue.get(),
-                        volume=60
-                    )
+                        next_track = player.queue.get()
+                        await player.play(next_track, volume=60)
                         
                     await asyncio.sleep(3)
                     await msg.delete()
@@ -201,10 +200,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
             await self.send_typing(ctx, embed=embed)
 
         if not player.playing:
-            await player.play(
-                player.queue.get(),
-                volume=60
-            )
+            next_track = player.queue.get()
+            await player.play(next_track, volume=60)
         
         try:
             await ctx.message.delete()
