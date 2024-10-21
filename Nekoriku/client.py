@@ -3,6 +3,7 @@ from discord.ext import commands
 from .config import BOT_PREFIX
 from .colored_logging import get_logger
 import wavelink
+from typing import Optional
 
 logger = get_logger('nekoriku_logger')
 
@@ -18,16 +19,22 @@ class BotClient(commands.Bot):
     **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
     **As for other languages You can continue adding it yourself. If you are a translator**
     """
-    def __init__(self, music_slash=False) -> None:
+    def __init__(self, music_slash=False, command_prefix="!>") -> None:
         intents = discord.Intents.default()
         intents.message_content = True
 
-        super().__init__(command_prefix=BOT_PREFIX, intents=intents)
+        super().__init__(command_prefix=command_prefix, intents=intents)
         self.music_slash = music_slash
     
     def setup_nodes(self, uri: str, password: str) -> None:
         self.node_uri = uri
         self.node_password = password
+
+    def setup_prefix(self, prefix: Optional[str] = None) -> None:
+        if prefix is None:
+            pass
+        else:
+            self.command_prefix = prefix
 
     async def on_ready(self):
         if hasattr(self, 'node_uri') and hasattr(self, 'node_password'):

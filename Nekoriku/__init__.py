@@ -15,5 +15,5 @@ TH / EN:
 
 &copy; 2024 • Nekoriku (Made by: NekoSakuraLucia)
 """
-from .bot import start, setup_nodes
+from .bot import start, setup_nodes, setup_prefix
 from .plugins import create
