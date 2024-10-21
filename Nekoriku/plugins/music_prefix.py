@@ -320,7 +320,13 @@ class Nekoriku_Music_Prefix(commands.Cog):
         elif mode == "disabled":
             player.autoplay = wavelink.AutoPlayMode.disabled
         else:
-            await self.send_typing(ctx, message='ไม่มีโหมดที่คุณพิมพ์มา "enabled" หรือ "disabled')
+            embed = discord.Embed(
+                description='ไม่มีโหมดที่คุณพิมพ์มา "enabled" หรือ "disabled',
+                color=0xFFC0CB
+            )
+            embed.set_author(name='Autoplay Mode', icon_url=f'{ctx.author.display_avatar}?size=512')
+            embed.set_footer(text="โหมดเล่นเพลงอัตโนมัติ", icon_url=f'{self.bot.user.display_avatar.url}?size=256')
+            await self.send_typing(ctx, embed=embed)
             return
         
         embed = NekorikuEmbeds.player_autoplay_embed(ctx.author, self.bot, mode)

@@ -38,6 +38,8 @@ create(
     }
 )
 
+Nekoriku.setup_prefix(prefix="!O>")
+
 Nekoriku.setup_nodes(
     uri="",
     password=""

@@ -262,7 +262,8 @@ class Nekoriku_Music_Slash(commands.Cog):
             return
 
         await player.pause(toggle_mode == "pause")
-        await interaction.followup.send(f'คุณเลือกโหมด **`{toggle_mode}`** แล้ว')
+        embed = NekorikuEmbeds.toggle_pause_resume_embed(interaction.user, self.bot, toggle_mode)
+        await interaction.followup.send(embed=embed)
 
     @app_commands.command(name="volume", description="TH: ปรับระดับเสียงเพลง / EN: Adjust the music volume")
     @app_commands.describe(vol="TH: ค่าระดับเสียงที่คุณต้องการ / EN: Your desired volume level")
@@ -453,7 +454,7 @@ class Nekoriku_Music_Slash(commands.Cog):
         if filter in filter_settings:
             filter_settings[filter]()
         else:
-            logger.info("Invalid filter / ไม่พบฟิลเตอร์")
+            pass
 
         await player.set_filters(filters)
         embed = NekorikuEmbeds.filters_music_embed(interaction.user, self.bot, filter)

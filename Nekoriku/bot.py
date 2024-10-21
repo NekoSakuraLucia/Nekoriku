@@ -1,4 +1,5 @@
 from .client import BotClient
+from typing import Optional
 
 bot = BotClient()
 
@@ -29,3 +30,17 @@ def setup_nodes(uri: str, password: str) -> None:
     **As for other languages You can continue adding it yourself. If you are a translator**
     """
     bot.setup_nodes(uri, password)
+
+def setup_prefix(prefix: Optional[str] = None) -> None:
+    """
+    TH:
+    ตั้งค่า prefix สำหรับบอท Discord
+
+    EN:
+    Sets the prefix for the Discord bot
+
+    TH / EN:
+    **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+    **As for other languages You can continue adding it yourself. If you are a translator**
+    """
+    bot.setup_prefix(prefix)
