@@ -637,6 +637,27 @@ class NekorikuEmbeds:
 
     @staticmethod
     def no_player_found_in_voice(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        """
+        TH:
+            สร้าง embed เพื่อแจ้งผู้ใช้เกี่ยวกับไม่พบผู้เล่นในช่องเสียง
+
+            Embed ประกอบด้วย:
+            - ชื่อ: "No player found in voice channel"
+            - คำอธิบายที่แสดงไม่พบผู้เล่นในช่องเสียง
+            - สีชมพูอ่อน
+
+        EN:
+            Create an embed to notify users about the No player found in voice channel
+
+            The embed should include:
+            - A title: 'No player found in voice channel'
+            - A description: showing the message No player found in voice channel
+            - A light pink color"
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         embed = discord.Embed(
             description='TH: ไม่พบผู้เล่นในช่องเสียง\nEN: No player found in voice channel',
             color=0xFFC0CB
@@ -647,6 +668,27 @@ class NekorikuEmbeds:
     
     @staticmethod
     def no_songs_found_list(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        """
+        TH:
+            สร้าง embed เพื่อแจ้งผู้ใช้เกี่ยวกับไม่พบเพลงในรายการ
+
+            Embed ประกอบด้วย:
+            - ชื่อ: "No songs found in the list"
+            - คำอธิบายที่แสดงไม่พบเพลงในรายการ
+            - สีชมพูอ่อน
+
+        EN:
+            Create an embed to notify users about the No songs found in the list
+
+            The embed should include:
+            - A title: 'No songs found in the list'
+            - A description: showing the message No songs found in the list
+            - A light pink color"
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         embed = discord.Embed(
             description='TH: ไม่พบเพลงในรายการ\nEN: No songs found in the list.',
             color=0xFFC0CB
@@ -657,6 +699,27 @@ class NekorikuEmbeds:
     
     @staticmethod
     def no_songs_found_match(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        """
+        TH:
+            สร้าง embed เพื่อแจ้งผู้ใช้เกี่ยวกับไม่พบเพลงใด ๆ ที่ตรงกับคำค้นหานั้น
+
+            Embed ประกอบด้วย:
+            - ชื่อ: "No songs found match"
+            - คำอธิบายที่แสดงไม่พบเพลงใด ๆ ที่ตรงกับคำค้นหานั้น
+            - สีชมพูอ่อน
+
+        EN:
+            Create an embed to notify users about the No songs found match
+
+            The embed should include:
+            - A title: 'No songs found match'
+            - A description: showing the message No songs found match
+            - A light pink color"
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         embed = discord.Embed(
             description=f'{member.mention} - ไม่พบเพลงใด ๆ ที่ตรงกับคำค้นหานั้น โปรดลองอีกครั้ง',
             color=0xFFC0CB
@@ -667,6 +730,27 @@ class NekorikuEmbeds:
     
     @staticmethod
     def song_playlist_added(member: discord.Member, bot: commands.Bot, track_name: str | None, track_added: int | None) -> discord.Embed:
+        """
+        TH:
+            สร้าง embed เพื่อแจ้งผู้ใช้เกี่ยวกับเพิ่มเพลลิสต์เพลง
+
+            Embed ประกอบด้วย:
+            - ชื่อ: "Song Playlist Added"
+            - คำอธิบายที่แสดงเพิ่มเพลลิสต์เพลงแล้ว
+            - สีชมพูอ่อน
+
+        EN:
+            Create an embed to notify users about the Song Playlist Added
+
+            The embed should include:
+            - A title: 'Song Playlist Added'
+            - A description: showing the message Song Playlist Added
+            - A light pink color"
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         embed = discord.Embed(
             description=f'เพิ่มเพลลิสต์เพลงแล้ว **`{track_name}`** | ({track_added} เพลงทั้งหมด) เข้าคิวแล้ว',
             color=0xFFC0CB
