@@ -109,11 +109,14 @@ class Nekoriku_Music_Prefix(commands.Cog):
                     await interaction.response.send_message(embed=embed, ephemeral=True)
 
                     if not player.playing:
-                        await player.play(player.queue.get(), volume=60)
+                        next_track = player.queue.get()
+                        await player.play(next_track, volume=60)
                 else:
-                    await interaction.response.send_message("ไม่พบผู้เล่นในช่องเสียง.", ephemeral=True)
+                    embed = NekorikuEmbeds.no_player_found_in_voice(ctx.author, self.bot)
+                    await interaction.response.send_message(embed=embed, ephemeral=True)
             else:
-                await interaction.response.send_message("ไม่พบเพลงในรายการ.", ephemeral=True)
+                embed = NekorikuEmbeds.no_songs_found_list(ctx.author, self.bot)
+                await interaction.response.send_message(embed=embed, ephemeral=True)
 
         ramdom_button.callback = random_song_callback
         view.add_item(ramdom_button)
@@ -131,17 +134,16 @@ class Nekoriku_Music_Prefix(commands.Cog):
                     await player.queue.put_wait(selected_track)
                     embed = NekorikuEmbeds.playing_music_embed(ctx.author, self.bot, selected_track)
                     await interaction.response.send_message(embed=embed, ephemeral=True) 
-                    
+
                     if not player.playing:
-                        await player.play(
-                        player.queue.get(),
-                        volume=60
-                    )
+                        next_track = player.queue.get()
+                        await player.play(next_track, volume=60)
                         
                     await asyncio.sleep(3)
                     await msg.delete()
                 else:
-                    await interaction.response.send_message("ไม่พบผู้เล่นในช่องเสียง.", ephemeral=True)
+                    embed = NekorikuEmbeds.no_player_found_in_voice(ctx.author, self.bot)
+                    await interaction.response.send_message(embed=embed, ephemeral=True)
             except Exception as e:
                 await interaction.response.send_message(f"เกิดข้อผิดพลาด: {str(e)}", ephemeral=True)
         
@@ -150,6 +152,12 @@ class Nekoriku_Music_Prefix(commands.Cog):
         view.add_item(select)
 
         await msg.edit(view=view)
+
+        try:
+            await asyncio.sleep(5)
+            await ctx.message.delete()
+        except discord.HTTPException:
+            pass
 
 
     @commands.command(name="play")
@@ -164,10 +172,12 @@ class Nekoriku_Music_Prefix(commands.Cog):
             try:
                 player = await ctx.author.voice.channel.connect(cls=wavelink.Player, self_deaf=True)
             except AttributeError:
-                await self.send_typing(ctx, message="กรุณาเข้าร่วมช่องเสียงก่อนใช้คำสั่งนี้")
+                embed = NekorikuEmbeds.join_voice_embed(ctx.author, self.bot)
+                await self.send_typing(ctx, embed=embed)
                 return
             except discord.ClientException:
-                await self.send_typing(ctx, message="ขออภัยหนูไม่สามารถเข้าร่วมช่องเสียงของคุณได้ ลองใหม่อีกครั้งสิ")
+                embed = NekorikuEmbeds.unable_join_voice_channel(ctx.author, self.bot)
+                await self.send_typing(ctx, embed=embed)
                 return
         
         if player.channel != ctx.author.voice.channel:
@@ -177,12 +187,14 @@ class Nekoriku_Music_Prefix(commands.Cog):
         
         tracks: wavelink.Playable = await wavelink.Playable.search(url)
         if not tracks:
-            await self.send_typing(ctx, message=f'{ctx.author.mention} - ไม่พบเพลงใด ๆ ที่ตรงกับคำค้นหานั้น โปรดลองอีกครั้ง')
+            embed = NekorikuEmbeds.no_songs_found_match(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         if isinstance(tracks, wavelink.Playlist):
             added: int = await player.queue.put_wait(tracks)
-            await self.send_typing(ctx, message=f"เพิ่มเพลลิสต์เพลงแล้ว **`{tracks.name}`** | ({added} เพลงทั้งหมด) เข้าคิวแล้ว")
+            embed = NekorikuEmbeds.song_playlist_added(ctx.author, self.bot, tracks.name, added)
+            await self.send_typing(ctx, embed=embed)
         else:
             track: wavelink.Playable = tracks[0]
             await player.queue.put_wait(track)
@@ -190,10 +202,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
             await self.send_typing(ctx, embed=embed)
 
         if not player.playing:
-            await player.play(
-                player.queue.get(),
-                volume=60
-            )
+            next_track = player.queue.get()
+            await player.play(next_track, volume=60)
         
         try:
             await ctx.message.delete()
@@ -274,7 +284,13 @@ class Nekoriku_Music_Prefix(commands.Cog):
             valid_filters[filter_type](filters)
         else:
             valid_filters_list = ', '.join(valid_filters.keys())
-            await self.send_typing(ctx, message=f'ไม่มีฟิลเตอร์ที่คุณพิมพ์มา ฟิลเตอร์ทั้งหมด: {valid_filters_list}.')
+            embed = discord.Embed(
+                description=f"ไม่มีฟิลเตอร์ที่คุณพิมพ์มา ฟิลเตอร์ทั้งหมด: {valid_filters_list}.",
+                color=0xFFC0CB
+            )
+            embed.set_author(name='The filter you typed does not exist.', icon_url=f'{ctx.author.display_avatar}?size=512')
+            embed.set_footer(text='ไม่มีฟิลเตอร์ที่คุณพิมพ์มา', icon_url=f'{self.bot.user.display_avatar.url}?size=256')
+            await self.send_typing(ctx, embed=embed)
             return
         
         await player.set_filters(filters)
@@ -359,16 +375,6 @@ class Nekoriku_Music_Prefix(commands.Cog):
             embed = NekorikuEmbeds.player_autoplay_embed_error(ctx.author, self.bot)
             await self.send_typing(ctx, embed=embed)
             return
-        
-        # if repeat_mode == "track":
-        #     player.queue.mode = wavelink.QueueMode.loop
-        # elif repeat_mode == "queue":
-        #     player.queue.mode = wavelink.QueueMode.loop_all
-        # elif repeat_mode == "none":
-        #     player.queue.mode = wavelink.QueueMode.normal
-        # else:
-        #     await self.send_typing(ctx, message='ไม่มีโหมดที่คุณพิมพ์มา "track" หรือ "queue" และ "none"')
-        #     return
 
         repeat_modes = {
             "track": wavelink.QueueMode.loop,
@@ -379,7 +385,13 @@ class Nekoriku_Music_Prefix(commands.Cog):
         if repeat_mode in repeat_modes:
             player.queue.mode = repeat_modes[repeat_mode]
         else:
-            await self.send_typing(ctx, message='ไม่มีโหมดที่คุณพิมพ์มา "track" หรือ "queue" และ "none"')
+            embed = discord.Embed(
+                description='ไม่มีโหมดที่คุณพิมพ์มา "track" หรือ "queue" และ "none"',
+                color=0xFFC0CB
+            )
+            embed.set_author(name='the mode you typed is not available.', icon_url=f'{ctx.author.display_avatar}?size=512')
+            embed.set_footer(text="ไม่มีโหมดที่คุณพิมพ์มา", icon_url=f'{self.bot.user.display_avatar.url}?size=256')
+            await self.send_typing(ctx, embed=embed)
             return
 
         embed = NekorikuEmbeds.repeat_music_embed(ctx.author, self.bot, repeat_mode)

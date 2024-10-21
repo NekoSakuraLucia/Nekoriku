@@ -97,11 +97,14 @@ class Nekoriku_Music_Slash(commands.Cog):
                     await interaction.response.send_message(embed=embed, ephemeral=True)
 
                     if not player.playing:
-                        await player.play(player.queue.get(), volume=60)
+                        next_track = player.queue.get()
+                        await player.play(next_track, volume=60)
                 else:
-                    await interaction.response.send_message("ไม่พบผู้เล่นในช่องเสียง.", ephemeral=True)
+                    embed = NekorikuEmbeds.no_player_found_in_voice(interaction.user, self.bot)
+                    await interaction.response.send_message(embed=embed, ephemeral=True)
             else:
-                await interaction.response.send_message("ไม่พบเพลงในรายการ.", ephemeral=True)
+                embed = NekorikuEmbeds.no_songs_found_list(interaction.user, self.bot)
+                await interaction.response.send_message(embed=embed, ephemeral=True)
 
         ramdom_button.callback = random_song_callback
         view.add_item(ramdom_button)
@@ -121,12 +124,11 @@ class Nekoriku_Music_Slash(commands.Cog):
                     await interaction.response.send_message(embed=embed, ephemeral=True) 
                     
                     if not player.playing:
-                        await player.play(
-                        player.queue.get(),
-                        volume=60
-                    )
+                        next_track = player.queue.get()
+                        await player.play(next_track, volume=60)
                 else:
-                    await interaction.response.send_message("ไม่พบผู้เล่นในช่องเสียง.", ephemeral=True)
+                    embed = NekorikuEmbeds.no_player_found_in_voice(interaction.user, self.bot)
+                    await interaction.response.send_message(embed=embed, ephemeral=True)
             except Exception as e:
                 await interaction.response.send_message(f"เกิดข้อผิดพลาด: {str(e)}", ephemeral=True)
         
@@ -155,7 +157,7 @@ class Nekoriku_Music_Slash(commands.Cog):
                 await interaction.followup.send(embeds=embed)
                 return
             except discord.ClientException:
-                embed = NekorikuEmbeds.join_voice_embed(interaction.user, self.bot)
+                embed = NekorikuEmbeds.unable_join_voice_channel(interaction.user, self.bot)
                 await interaction.followup.send(embed=embed)
                 return
         
@@ -166,12 +168,14 @@ class Nekoriku_Music_Slash(commands.Cog):
         
         tracks: wavelink.Player = await wavelink.Playable.search(song)
         if not tracks:
-            await interaction.followup.send(f'{interaction.user.mention} - ไม่พบเพลงใด ๆ ที่ตรงกับคำค้นหานั้น โปรดลองอีกครั้ง')
+            embed = NekorikuEmbeds.no_songs_found_match(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         if isinstance(tracks, wavelink.Playlist):
             added: int = await player.queue.put_wait(tracks)
-            await interaction.followup.send(f"เพิ่มเพลลิสต์เพลงแล้ว **`{tracks.name}`** | ({added} เพลงทั้งหมด) เข้าคิวแล้ว")
+            embed = NekorikuEmbeds.song_playlist_added(interaction.user, self.bot, tracks.name, added)
+            await interaction.followup.send(embed=embed)
         else:
             track: wavelink.Playable = tracks[0]
             await player.queue.put_wait(track)
@@ -179,10 +183,8 @@ class Nekoriku_Music_Slash(commands.Cog):
             await interaction.followup.send(embed=embed)
         
         if not player.playing:
-            await player.play(
-                player.queue.get(),
-                volume=60
-            )
+            next_track = player.queue.get()
+            await player.play(next_track, volume=60)
 
     @app_commands.command(name="leave", description="TH: ทำลายเพลงและออกจากช่องเสียง / EN: Destroyed the song and left the sound room.")
     async def leave_music(self, interaction: discord.Interaction) -> None:
