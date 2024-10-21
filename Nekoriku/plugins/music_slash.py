@@ -454,7 +454,7 @@ class Nekoriku_Music_Slash(commands.Cog):
         if filter in filter_settings:
             filter_settings[filter]()
         else:
-            logger.info("Invalid filter / ไม่พบฟิลเตอร์")
+            pass
 
         await player.set_filters(filters)
         embed = NekorikuEmbeds.filters_music_embed(interaction.user, self.bot, filter)

@@ -1,6 +1,5 @@
 import discord
 from discord.ext import commands
-from .config import BOT_PREFIX
 from .colored_logging import get_logger
 import wavelink
 from typing import Optional
