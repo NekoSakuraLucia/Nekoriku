@@ -364,16 +364,6 @@ class Nekoriku_Music_Prefix(commands.Cog):
             embed = NekorikuEmbeds.player_autoplay_embed_error(ctx.author, self.bot)
             await self.send_typing(ctx, embed=embed)
             return
-        
-        # if repeat_mode == "track":
-        #     player.queue.mode = wavelink.QueueMode.loop
-        # elif repeat_mode == "queue":
-        #     player.queue.mode = wavelink.QueueMode.loop_all
-        # elif repeat_mode == "none":
-        #     player.queue.mode = wavelink.QueueMode.normal
-        # else:
-        #     await self.send_typing(ctx, message='ไม่มีโหมดที่คุณพิมพ์มา "track" หรือ "queue" และ "none"')
-        #     return
 
         repeat_modes = {
             "track": wavelink.QueueMode.loop,
@@ -384,7 +374,13 @@ class Nekoriku_Music_Prefix(commands.Cog):
         if repeat_mode in repeat_modes:
             player.queue.mode = repeat_modes[repeat_mode]
         else:
-            await self.send_typing(ctx, message='ไม่มีโหมดที่คุณพิมพ์มา "track" หรือ "queue" และ "none"')
+            embed = discord.Embed(
+                description='ไม่มีโหมดที่คุณพิมพ์มา "track" หรือ "queue" และ "none"',
+                color=0xFFC0CB
+            )
+            embed.set_author(name='the mode you typed is not available.', icon_url=f'{ctx.author.display_avatar}?size=512')
+            embed.set_footer(text="ไม่มีโหมดที่คุณพิมพ์มา", icon_url=f'{self.bot.user.display_avatar.url}?size=256')
+            await self.send_typing(ctx, embed=embed)
             return
 
         embed = NekorikuEmbeds.repeat_music_embed(ctx.author, self.bot, repeat_mode)
