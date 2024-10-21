@@ -111,9 +111,11 @@ class Nekoriku_Music_Prefix(commands.Cog):
                     if not player.playing:
                         await player.play(player.queue.get(), volume=60)
                 else:
-                    await interaction.response.send_message("ไม่พบผู้เล่นในช่องเสียง.", ephemeral=True)
+                    embed = NekorikuEmbeds.no_player_found_in_voice(ctx.author, self.bot)
+                    await interaction.response.send_message(embed=embed, ephemeral=True)
             else:
-                await interaction.response.send_message("ไม่พบเพลงในรายการ.", ephemeral=True)
+                embed = NekorikuEmbeds.no_songs_found_list(ctx.author, self.bot)
+                await interaction.response.send_message(embed=embed, ephemeral=True)
 
         ramdom_button.callback = random_song_callback
         view.add_item(ramdom_button)
@@ -141,7 +143,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
                     await asyncio.sleep(3)
                     await msg.delete()
                 else:
-                    await interaction.response.send_message("ไม่พบผู้เล่นในช่องเสียง.", ephemeral=True)
+                    embed = NekorikuEmbeds.no_player_found_in_voice(ctx.author, self.bot)
+                    await interaction.response.send_message(embed=embed, ephemeral=True)
             except Exception as e:
                 await interaction.response.send_message(f"เกิดข้อผิดพลาด: {str(e)}", ephemeral=True)
         

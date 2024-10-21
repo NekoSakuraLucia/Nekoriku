@@ -634,3 +634,23 @@ class NekorikuEmbeds:
         embed.set_author(name='Toggle Mode', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="สลับโหมด pause หรือ resume", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed
+
+    @staticmethod
+    def no_player_found_in_voice(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        embed = discord.Embed(
+            description=f'TH: ไม่พบผู้เล่นในช่องเสียง\nEN: No player found in voice channel',
+            color=0xFFC0CB
+        )
+        embed.set_author(name='No player found in voice channel', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_footer(text="ไม่พบผู้เล่นในช่องเสียง", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        return embed
+    
+    @staticmethod
+    def no_songs_found_list(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        embed = discord.Embed(
+            description=f'TH: ไม่พบเพลงในรายการ\nEN: No songs found in the list.',
+            color=0xFFC0CB
+        )
+        embed.set_author(name='No songs found in the list', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_footer(text="ไม่พบเพลงในรายการ", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        return embed
