@@ -169,12 +169,14 @@ class Nekoriku_Music_Slash(commands.Cog):
         
         tracks: wavelink.Player = await wavelink.Playable.search(song)
         if not tracks:
-            await interaction.followup.send(f'{interaction.user.mention} - ไม่พบเพลงใด ๆ ที่ตรงกับคำค้นหานั้น โปรดลองอีกครั้ง')
+            embed = NekorikuEmbeds.no_songs_found_match(interaction.user, self.bot)
+            await interaction.followup.send(embed=embed)
             return
         
         if isinstance(tracks, wavelink.Playlist):
             added: int = await player.queue.put_wait(tracks)
-            await interaction.followup.send(f"เพิ่มเพลลิสต์เพลงแล้ว **`{tracks.name}`** | ({added} เพลงทั้งหมด) เข้าคิวแล้ว")
+            embed = NekorikuEmbeds.song_playlist_added(interaction.user, self.bot, tracks.name, added)
+            await interaction.followup.send(embed=embed)
         else:
             track: wavelink.Playable = tracks[0]
             await player.queue.put_wait(track)

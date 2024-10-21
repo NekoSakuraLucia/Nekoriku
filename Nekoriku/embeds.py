@@ -638,7 +638,7 @@ class NekorikuEmbeds:
     @staticmethod
     def no_player_found_in_voice(member: discord.Member, bot: commands.Bot) -> discord.Embed:
         embed = discord.Embed(
-            description=f'TH: ไม่พบผู้เล่นในช่องเสียง\nEN: No player found in voice channel',
+            description='TH: ไม่พบผู้เล่นในช่องเสียง\nEN: No player found in voice channel',
             color=0xFFC0CB
         )
         embed.set_author(name='No player found in voice channel', icon_url=f'{member.display_avatar}?size=512')
@@ -648,9 +648,29 @@ class NekorikuEmbeds:
     @staticmethod
     def no_songs_found_list(member: discord.Member, bot: commands.Bot) -> discord.Embed:
         embed = discord.Embed(
-            description=f'TH: ไม่พบเพลงในรายการ\nEN: No songs found in the list.',
+            description='TH: ไม่พบเพลงในรายการ\nEN: No songs found in the list.',
             color=0xFFC0CB
         )
         embed.set_author(name='No songs found in the list', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="ไม่พบเพลงในรายการ", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        return embed
+    
+    @staticmethod
+    def no_songs_found_match(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        embed = discord.Embed(
+            description=f'{member.mention} - ไม่พบเพลงใด ๆ ที่ตรงกับคำค้นหานั้น โปรดลองอีกครั้ง',
+            color=0xFFC0CB
+        )
+        embed.set_author(name='No songs found match', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_footer(text="ไม่พบเพลงที่ตรงกัน", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        return embed
+    
+    @staticmethod
+    def song_playlist_added(member: discord.Member, bot: commands.Bot, track_name: str | None, track_added: int | None) -> discord.Embed:
+        embed = discord.Embed(
+            description=f'เพิ่มเพลลิสต์เพลงแล้ว **`{track_name}`** | ({track_added} เพลงทั้งหมด) เข้าคิวแล้ว',
+            color=0xFFC0CB
+        )
+        embed.set_author(name='Song Playlist Added', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_footer(text="เพิ่มเพลลิสต์เพลงแล้ว", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed

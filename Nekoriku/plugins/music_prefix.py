@@ -180,12 +180,14 @@ class Nekoriku_Music_Prefix(commands.Cog):
         
         tracks: wavelink.Playable = await wavelink.Playable.search(url)
         if not tracks:
-            await self.send_typing(ctx, message=f'{ctx.author.mention} - ไม่พบเพลงใด ๆ ที่ตรงกับคำค้นหานั้น โปรดลองอีกครั้ง')
+            embed = NekorikuEmbeds.no_songs_found_match(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
             return
         
         if isinstance(tracks, wavelink.Playlist):
             added: int = await player.queue.put_wait(tracks)
-            await self.send_typing(ctx, message=f"เพิ่มเพลลิสต์เพลงแล้ว **`{tracks.name}`** | ({added} เพลงทั้งหมด) เข้าคิวแล้ว")
+            embed = NekorikuEmbeds.song_playlist_added(ctx.author, self.bot, tracks.name, added)
+            await self.send_typing(ctx, embed=embed)
         else:
             track: wavelink.Playable = tracks[0]
             await player.queue.put_wait(track)
