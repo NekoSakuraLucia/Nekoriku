@@ -154,6 +154,12 @@ class Nekoriku_Music_Prefix(commands.Cog):
 
         await msg.edit(view=view)
 
+        try:
+            await asyncio.sleep(5)
+            await ctx.message.delete()
+        except discord.HTTPException:
+            pass
+
 
     @commands.command(name="play")
     async def play(self, ctx: commands.Context, *, url: str) -> None:
@@ -279,7 +285,13 @@ class Nekoriku_Music_Prefix(commands.Cog):
             valid_filters[filter_type](filters)
         else:
             valid_filters_list = ', '.join(valid_filters.keys())
-            await self.send_typing(ctx, message=f'ไม่มีฟิลเตอร์ที่คุณพิมพ์มา ฟิลเตอร์ทั้งหมด: {valid_filters_list}.')
+            embed = discord.Embed(
+                description=f"ไม่มีฟิลเตอร์ที่คุณพิมพ์มา ฟิลเตอร์ทั้งหมด: {valid_filters_list}.",
+                color=0xFFC0CB
+            )
+            embed.set_author(name='The filter you typed does not exist.', icon_url=f'{ctx.author.display_avatar}?size=512')
+            embed.set_footer(text='ไม่มีฟิลเตอร์ที่คุณพิมพ์มา', icon_url=f'{self.bot.user.display_avatar.url}?size=256')
+            await self.send_typing(ctx, embed=embed)
             return
         
         await player.set_filters(filters)
