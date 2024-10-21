@@ -92,9 +92,21 @@ class BotClient(commands.Bot):
 
     async def on_command_error(self, ctx: commands.Context, error: commands.CommandError) -> None:
         if isinstance(error, commands.CommandNotFound):
-            await ctx.send('ไม่มีคำสั่งนี้')
+            embed = discord.Embed(
+                description="ไม่มีคำสั่งนี้ / There is no this command.",
+                color=0xFFC0CB
+            )
+            embed.set_author(name='There is no this command.', icon_url=f'{ctx.author.display_avatar}?size=512')
+            embed.set_footer(text="ไม่มีคำสั่งนี้..", icon_url=f'{self.user.display_avatar.url}?size=256')
+            await ctx.send(embed=embed)
         else:
-            await ctx.send('เกิดข้อผิดพลาดบางอย่าง')
+            embed = discord.Embed(
+                description="เกิดข้อผิดพลาดบางอย่าง / Something went wrong.",
+                color=0xFFC0CB
+            )
+            embed.set_author(name='Something went wrong.', icon_url=f'{ctx.author.display_avatar}?size=512')
+            embed.set_footer(text="เกิดข้อผิดพลาดบางอย่าง..", icon_url=f'{self.user.display_avatar.url}?size=256')
+            await ctx.send(embed=embed)
     
     async def on_wavelink_node_ready(self, payload: wavelink.NodeReadyEventPayload) -> None:
         logger.info(f"[READY] -> Wavelink Node connected: {payload.node}")
