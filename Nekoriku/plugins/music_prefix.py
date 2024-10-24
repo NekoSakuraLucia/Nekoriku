@@ -105,7 +105,7 @@ class Nekoriku_Music_Prefix(commands.Cog):
 
                 if player:
                     await player.queue.put_wait(selected_track)
-                    embed = NekorikuEmbeds.playing_music_embed(interaction.user, self.bot, selected_track)
+                    embed = NekorikuEmbeds.playing_music_embed(interaction.user, self.bot, selected_track, player)
                     await interaction.response.send_message(embed=embed, ephemeral=True)
 
                     if not player.playing:
@@ -132,7 +132,7 @@ class Nekoriku_Music_Prefix(commands.Cog):
                 
                 if player:
                     await player.queue.put_wait(selected_track)
-                    embed = NekorikuEmbeds.playing_music_embed(ctx.author, self.bot, selected_track)
+                    embed = NekorikuEmbeds.playing_music_embed(ctx.author, self.bot, selected_track, player)
                     await interaction.response.send_message(embed=embed, ephemeral=True) 
 
                     if not player.playing:
@@ -198,7 +198,7 @@ class Nekoriku_Music_Prefix(commands.Cog):
         else:
             track: wavelink.Playable = tracks[0]
             await player.queue.put_wait(track)
-            embed = NekorikuEmbeds.playing_music_embed(ctx.author, self.bot, track)
+            embed = NekorikuEmbeds.playing_music_embed(ctx.author, self.bot, track, player)
             await self.send_typing(ctx, embed=embed)
 
         if not player.playing:

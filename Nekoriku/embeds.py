@@ -232,7 +232,7 @@ class NekorikuEmbeds:
         return embed
     
     @staticmethod
-    def playing_music_embed(member: discord.Member, bot: commands.Bot, track: wavelink.Playable) -> discord.Embed:
+    def playing_music_embed(member: discord.Member, bot: commands.Bot, track: wavelink.Playable, player: wavelink.Player) -> discord.Embed:
         """
         TH:
             สร้าง embed เพื่อแจ้งผู้ใช้เกี่ยวกับเพลงที่กำลังเล่น
@@ -256,9 +256,12 @@ class NekorikuEmbeds:
         """
         track_length_formatted = Nekoriku_Utils.format_duration(track.length)
         embed = discord.Embed(
-            description=f"เพิ่มเพลง **`{track.title}`** เข้าคิวเพลงแล้ว | ระยะเวลา **`{track_length_formatted}`**",
+            description=f"เพิ่มเพลง **[{track.title}]({track.uri})** เข้าคิวเพลงแล้ว",
             color=0xFFC0CB
         )
+        embed.add_field(name="`🎶` เจ้าของเพลง", value=f"{track.author}", inline=True)
+        embed.add_field(name="`🎶` ระยะเวลา", value=f"{track_length_formatted}", inline=True)
+        embed.add_field(name="`🎶` คิวทั้งหมด", value=f"{player.queue.count}", inline=True)
         embed.set_author(name='Now Playing..', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="กำลังเล่นเพลง..", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed

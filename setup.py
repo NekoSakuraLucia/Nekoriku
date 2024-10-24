@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="nekoriku",
-    version="0.2.0",
+    version="0.2.1",
     description="แพ็คเกจสำหรับบอทดิสคอร์ดที่มีฟีเจอร์คำสั่งสำหรับเล่นเพลงครบถ้วน",
     long_description=open('README.md', encoding='utf-8').read(),
     long_description_content_type="text/markdown",
