@@ -232,7 +232,7 @@ class NekorikuEmbeds:
         return embed
     
     @staticmethod
-    def playing_music_embed(member: discord.Member, bot: commands.Bot, track: wavelink.Playable) -> discord.Embed:
+    def playing_music_embed(member: discord.Member, bot: commands.Bot, track: wavelink.Playable, playerCount: int, playerNode: str) -> discord.Embed:
         """
         TH:
             สร้าง embed เพื่อแจ้งผู้ใช้เกี่ยวกับเพลงที่กำลังเล่น
@@ -256,9 +256,13 @@ class NekorikuEmbeds:
         """
         track_length_formatted = Nekoriku_Utils.format_duration(track.length)
         embed = discord.Embed(
-            description=f"เพิ่มเพลง **`{track.title}`** เข้าคิวเพลงแล้ว | ระยะเวลา **`{track_length_formatted}`**",
+            description=f"เพิ่มเพลง **[{track.title}]({track.uri})** เข้าคิวเพลงแล้ว",
             color=0xFFC0CB
         )
+        embed.add_field(name="`🎶` เจ้าของเพลง", value=f"{track.author}", inline=True)
+        embed.add_field(name="`🎶` ระยะเวลา", value=f"{track_length_formatted}", inline=True)
+        embed.add_field(name="`🎶` คิวทั้งหมด", value=f"{playerCount}", inline=True)
+        embed.add_field(name="`🎶` เล่นบนโหนด", value=f"{playerNode}", inline=False)
         embed.set_author(name='Now Playing..', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="กำลังเล่นเพลง..", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed
@@ -760,7 +764,7 @@ class NekorikuEmbeds:
         return embed
     
     @staticmethod
-    def song_playlist_added(member: discord.Member, bot: commands.Bot, track_name: str | None, track_added: int | None) -> discord.Embed:
+    def song_playlist_added(member: discord.Member, bot: commands.Bot, track: wavelink.Playlist, track_added: int | None, playerNode: str) -> discord.Embed:
         """
         TH:
             สร้าง embed เพื่อแจ้งผู้ใช้เกี่ยวกับเพิ่มเพลลิสต์เพลง
@@ -783,9 +787,12 @@ class NekorikuEmbeds:
         **As for other languages You can continue adding it yourself. If you are a translator**
         """
         embed = discord.Embed(
-            description=f'เพิ่มเพลลิสต์เพลงแล้ว **`{track_name}`** | ({track_added} เพลงทั้งหมด) เข้าคิวแล้ว',
+            description=f'เพิ่มเพลลิสต์เพลงแล้ว **[{track.name}]({track.url})** เข้าคิวแล้ว',
             color=0xFFC0CB
         )
+        embed.add_field(name="`🎶` เจ้าของเพลง", value=f"{track.author}", inline=True)
+        embed.add_field(name="`🎶` จำนวนเพลงทั้งหมด", value=f"{track_added}", inline=True)
+        embed.add_field(name="`🎶` เล่นบนโหนด", value=f"{playerNode}", inline=True)
         embed.set_author(name='Song Playlist Added', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="เพิ่มเพลลิสต์เพลงแล้ว", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed

@@ -105,7 +105,7 @@ class Nekoriku_Music_Prefix(commands.Cog):
 
                 if player:
                     await player.queue.put_wait(selected_track)
-                    embed = NekorikuEmbeds.playing_music_embed(interaction.user, self.bot, selected_track)
+                    embed = NekorikuEmbeds.playing_music_embed(interaction.user, self.bot, selected_track, player.queue.count, player.node.identifier)
                     await interaction.response.send_message(embed=embed, ephemeral=True)
 
                     if not player.playing:
@@ -132,7 +132,7 @@ class Nekoriku_Music_Prefix(commands.Cog):
                 
                 if player:
                     await player.queue.put_wait(selected_track)
-                    embed = NekorikuEmbeds.playing_music_embed(ctx.author, self.bot, selected_track)
+                    embed = NekorikuEmbeds.playing_music_embed(ctx.author, self.bot, selected_track, player.queue.count, player.node.identifier)
                     await interaction.response.send_message(embed=embed, ephemeral=True) 
 
                     if not player.playing:
@@ -193,12 +193,12 @@ class Nekoriku_Music_Prefix(commands.Cog):
         
         if isinstance(tracks, wavelink.Playlist):
             added: int = await player.queue.put_wait(tracks)
-            embed = NekorikuEmbeds.song_playlist_added(ctx.author, self.bot, tracks.name, added)
+            embed = NekorikuEmbeds.song_playlist_added(ctx.author, self.bot, tracks, added, player.node.identifier)
             await self.send_typing(ctx, embed=embed)
         else:
             track: wavelink.Playable = tracks[0]
             await player.queue.put_wait(track)
-            embed = NekorikuEmbeds.playing_music_embed(ctx.author, self.bot, track)
+            embed = NekorikuEmbeds.playing_music_embed(ctx.author, self.bot, track, player.queue.count, player.node.identifier)
             await self.send_typing(ctx, embed=embed)
 
         if not player.playing:
