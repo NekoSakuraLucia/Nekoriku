@@ -93,7 +93,7 @@ class Nekoriku_Music_Slash(commands.Cog):
 
                 if player:
                     await player.queue.put_wait(selected_track)
-                    embed = NekorikuEmbeds.playing_music_embed(interaction.user, self.bot, selected_track, player.queue.count)
+                    embed = NekorikuEmbeds.playing_music_embed(interaction.user, self.bot, selected_track, player.queue.count, player.node.identifier)
                     await interaction.response.send_message(embed=embed, ephemeral=True)
 
                     if not player.playing:
@@ -120,7 +120,7 @@ class Nekoriku_Music_Slash(commands.Cog):
                 
                 if player:
                     await player.queue.put_wait(selected_track)
-                    embed = NekorikuEmbeds.playing_music_embed(interaction.user, self.bot, selected_track, player.queue.count)
+                    embed = NekorikuEmbeds.playing_music_embed(interaction.user, self.bot, selected_track, player.queue.count, player.node.identifier)
                     await interaction.response.send_message(embed=embed, ephemeral=True) 
                     
                     if not player.playing:
@@ -174,12 +174,12 @@ class Nekoriku_Music_Slash(commands.Cog):
         
         if isinstance(tracks, wavelink.Playlist):
             added: int = await player.queue.put_wait(tracks)
-            embed = NekorikuEmbeds.song_playlist_added(interaction.user, self.bot, tracks.name, added)
+            embed = NekorikuEmbeds.song_playlist_added(interaction.user, self.bot, tracks, added, player.node.identifier)
             await interaction.followup.send(embed=embed)
         else:
             track: wavelink.Playable = tracks[0]
             await player.queue.put_wait(track)
-            embed = NekorikuEmbeds.playing_music_embed(interaction.user, self.bot, track, player.queue.count)
+            embed = NekorikuEmbeds.playing_music_embed(interaction.user, self.bot, track, player.queue.count, player.node.identifier)
             await interaction.followup.send(embed=embed)
         
         if not player.playing:
