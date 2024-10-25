@@ -27,7 +27,7 @@ class Nekoriku_Music_Slash(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self) -> None:
         if logger:
-            logger.info("[READY] -> Music_Slash plugins is ready")
+            logger.info("Music_Slash plugins is ready")
         else:
             raise RuntimeError('TH: Logger ไม่ได้ถูกติดตั้งอย่างถูกต้อง / EN: Logger is not initialized.')
     

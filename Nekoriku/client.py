@@ -84,11 +84,11 @@ class BotClient(commands.Bot):
             node = wavelink.Node(identifier=node_identifier, uri=self.node_uri, password=self.node_password)
             await wavelink.Pool.connect(nodes=[node], client=self, cache_capacity=100)
 
-        logger.info(f"[READY] -> Logged in as {self.user} | {self.user.id}")
+        logger.info(f"Logged in as {self.user} | {self.user.id}")
 
         if self.music_slash:
             await self.tree.sync()
-            logger.info("[READY] -> Slash Commands Synced.")
+            logger.info("Slash Commands Synced.")
 
         activity = discord.Activity(type=discord.ActivityType.watching, name=f"{self.command_prefix}play | /play | Nekoriku v0.2.4")
         await self.change_presence(activity=activity)
@@ -112,4 +112,4 @@ class BotClient(commands.Bot):
             await ctx.send(embed=embed)
     
     async def on_wavelink_node_ready(self, payload: wavelink.NodeReadyEventPayload) -> None:
-        logger.info(f"[READY] -> Wavelink Node connected: {payload.node}")
+        logger.info(f"Wavelink Node connected: {payload.node}")

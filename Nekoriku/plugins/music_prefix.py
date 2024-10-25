@@ -47,7 +47,7 @@ class Nekoriku_Music_Prefix(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self) -> None:
         if logger:
-          logger.info("[READY] -> Music_prefix plugins is ready")
+          logger.info("Music_prefix plugins is ready")
         else:
             raise RuntimeError('TH: Logger ไม่ได้ถูกติดตั้งอย่างถูกต้อง / EN: Logger is not initialized.')
         
