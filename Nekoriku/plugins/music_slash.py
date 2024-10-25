@@ -171,6 +171,7 @@ class Nekoriku_Music_Slash(commands.Cog):
             "🎶 Nightcore": ("ปรับให้เพลงเร็ว และ เสียงร้องแหลมขึ้น", lambda: filters.timescale.set(speed=1.2, pitch=1.2, rate=1)),
             "🎶 Slow": ("ปรับให้เพลงช้าขึ้น และ เสียงร้องต่ำลง", lambda: filters.timescale.set(speed=0.8, pitch=0.9, rate=1)),
             "🎶 Karaoke": ("ตัดเสียงร้องของเพลงออก เหลือแค่ดนตรี", lambda: filters.karaoke.set(level=2, mono_level=1, filter_band=220, filter_width=100)),
+            "🎶 Lowpass": ("ปรับให้เพลงสมูทขึ้น และ เพราะขึ้น", lambda: filters.low_pass.set(smoothing=20)),
             "🎶 Clear Filters": ("ล้างฟิลเตอร์ทั้งหมดที่คุณเปิดไม่ว่าจะเป็นตัวไหนก็ตาม", lambda: filters.reset())
         }
 
@@ -440,6 +441,7 @@ class Nekoriku_Music_Slash(commands.Cog):
             app_commands.Choice(name="Nightcore", value="nightcore"),
             app_commands.Choice(name="Karaoke", value="karaoke"),
             app_commands.Choice(name="LowPass", value="lowpass"),
+            app_commands.Choice(name="Slow", value="slow"),
             app_commands.Choice(name="None", value="none")
         ]
     )
@@ -473,6 +475,7 @@ class Nekoriku_Music_Slash(commands.Cog):
             "nightcore": lambda: filters.timescale.set(speed=1.2, pitch=1.2, rate=1),
             "karaoke": lambda: filters.karaoke.set(level=2, mono_level=1, filter_band=220, filter_width=100),
             "lowpass": lambda: filters.low_pass.set(smoothing=20),
+            "slow": lambda: filters.timescale.set(speed=0.8, pitch=0.9, rate=1),
             "none": lambda: filters.reset()
         }
 
