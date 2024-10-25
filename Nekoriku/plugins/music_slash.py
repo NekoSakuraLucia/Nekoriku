@@ -184,7 +184,8 @@ class Nekoriku_Music_Slash(commands.Cog):
 
             select_filters[selected_filter][1]()
             await player.set_filters(filters)
-            await interaction.response.send_message(f"คุณเลือกฟิลเตอร์: {selected_filter}")
+            embed = NekorikuEmbeds.filters_music_embed(interaction.user, self.bot, selected_filter)
+            await interaction.response.send_message(embed=embed, ephemeral=True)
 
         select.callback = select_callback
         view = discord.ui.View()
@@ -199,7 +200,7 @@ class Nekoriku_Music_Slash(commands.Cog):
         if isinstance(tracks, wavelink.Playlist):
             added: int = await player.queue.put_wait(tracks)
             embed = NekorikuEmbeds.song_playlist_added(interaction.user, self.bot, tracks, added, player.node.identifier)
-            await interaction.followup.send(embed=embed)
+            await interaction.followup.send(embed=embed, view=view)
         else:
             track: wavelink.Playable = tracks[0]
             await player.queue.put_wait(track)
