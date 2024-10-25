@@ -38,11 +38,14 @@ create(
     }
 )
 
+# Bot prefix, for example !O>play
 Nekoriku.setup_prefix(prefix="!O>")
 
+# Node connection example
 Nekoriku.setup_nodes(
-    uri="",
-    password=""
+    identifier="Nekoriku" # or can set identifier=None You can if you don't want to name the identifier.
+    uri="http://localhost:3000",
+    password="youshallnotpass"
 )
 Nekoriku.start('โทเค้นบอทของคุณ / YOUR_BOT_TOKEN')
 ```

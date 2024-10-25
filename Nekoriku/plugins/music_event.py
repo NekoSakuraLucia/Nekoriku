@@ -14,7 +14,7 @@ class Nekoriku_Music_Event(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self) -> None:
         if logger:
-            logger.info('[READY] -> Music_Event is ready.')
+            logger.info('Music_Event is ready.')
         else:
             raise RuntimeError("TH: Logger ไม่ได้ถูกติดตั้งอย่างถูกต้อง / EN: Logger is not initialized.")
 
@@ -28,7 +28,7 @@ class Nekoriku_Music_Event(commands.Cog):
             self.timeout_task.cancel()
             
         track: wavelink.Playable = payload.track
-        logger.info(f'[MUSIC] -> Now playing: {track.title} | Author: {track.author}')
+        logger.info(f'Now playing: {track.title} | Author: {track.author}')
 
     @commands.Cog.listener()
     async def on_wavelink_track_end(self, payload: wavelink.TrackEndEventPayload) -> None:
@@ -45,7 +45,7 @@ class Nekoriku_Music_Event(commands.Cog):
                     await asyncio.sleep(30)
                     if player.queue.is_empty:
                         await player.disconnect()
-                        logger.info("[MUSIC] -> Queue is empty. Player disconnected.")
+                        logger.info("Queue is empty. Player disconnected.")
                 except asyncio.CancelledError:
                     pass
 
@@ -56,7 +56,7 @@ class Nekoriku_Music_Event(commands.Cog):
             
             next_track = player.queue.get()
             await player.play(next_track)
-            logger.info(f"[MUSIC] -> Queue is not empty. Playing next track: {next_track.title}")
+            logger.info(f"Queue is not empty. Playing next track: {next_track.title}")
 
 
 async def setup(bot: commands.Bot):

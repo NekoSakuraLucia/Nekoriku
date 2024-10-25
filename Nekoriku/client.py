@@ -39,7 +39,7 @@ class BotClient(commands.Bot):
         super().__init__(command_prefix=command_prefix, intents=intents)
         self.music_slash = music_slash
     
-    def setup_nodes(self, uri: str, password: str) -> None:
+    def setup_nodes(self, identifier: str | None, uri: str, password: str) -> None:
         """
         EN:
         Sets up the connection parameters for the music nodes.
@@ -47,6 +47,7 @@ class BotClient(commands.Bot):
         TH:
         ฟังก์ชันนี้ใช้ในการตั้งค่าพารามิเตอร์การเชื่อมต่อสำหรับโหนดเพลง
 
+        :param identifier: Set the name of your Client Node. / ตั้งชื่อโหนดของคุณ
         :param uri: The URI for the node connection. / URI สำหรับการเชื่อมต่อโหนด
         :param password: The password for the node connection. / รหัสผ่านสำหรับการเชื่อมต่อโหนด
 
@@ -54,6 +55,7 @@ class BotClient(commands.Bot):
         **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**\n
         **As for other languages You can continue adding it yourself. If you are a translator**
         """
+        self.node_identifier = identifier
         self.node_uri = uri
         self.node_password = password
 
@@ -78,16 +80,17 @@ class BotClient(commands.Bot):
 
     async def on_ready(self):
         if hasattr(self, 'node_uri') and hasattr(self, 'node_password'):
-            node = wavelink.Node(uri=self.node_uri, password=self.node_password)
+            node_identifier = self.node_identifier if self.node_identifier else "Nekoriku/v0.2.4"
+            node = wavelink.Node(identifier=node_identifier, uri=self.node_uri, password=self.node_password)
             await wavelink.Pool.connect(nodes=[node], client=self, cache_capacity=100)
 
-        logger.info(f"[READY] -> Logged in as {self.user} | {self.user.id}")
+        logger.info(f"Logged in as {self.user} | {self.user.id}")
 
         if self.music_slash:
             await self.tree.sync()
-            logger.info("[READY] -> Slash Commands Synced.")
+            logger.info("Slash Commands Synced.")
 
-        activity = discord.Activity(type=discord.ActivityType.watching, name=f"{self.command_prefix}play | /play | Nekoriku v0.2.1")
+        activity = discord.Activity(type=discord.ActivityType.watching, name=f"{self.command_prefix}play | /play | Nekoriku v0.2.4")
         await self.change_presence(activity=activity)
 
     async def on_command_error(self, ctx: commands.Context, error: commands.CommandError) -> None:
@@ -109,4 +112,4 @@ class BotClient(commands.Bot):
             await ctx.send(embed=embed)
     
     async def on_wavelink_node_ready(self, payload: wavelink.NodeReadyEventPayload) -> None:
-        logger.info(f"[READY] -> Wavelink Node connected: {payload.node}")
+        logger.info(f"Wavelink Node connected: {payload.node}")
