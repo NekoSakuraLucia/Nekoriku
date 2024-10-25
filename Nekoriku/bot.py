@@ -17,7 +17,7 @@ def start(token: str) -> None:
     """
     bot.run(token)
 
-def setup_nodes(uri: str, password: str) -> None:
+def setup_nodes(identifier: str | None, uri: str, password: str) -> None:
     """
     TH:
     เริ่มต้นการสร้างโหนดลาวาลิงค์เพื่อให้บอทสามารถเล่นเพลงให้คุณฟังได้
@@ -29,7 +29,7 @@ def setup_nodes(uri: str, password: str) -> None:
     **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
     **As for other languages You can continue adding it yourself. If you are a translator**
     """
-    bot.setup_nodes(uri, password)
+    bot.setup_nodes(identifier, uri, password)
 
 def setup_prefix(prefix: Optional[str] = None) -> None:
     """
