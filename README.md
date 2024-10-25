@@ -43,6 +43,7 @@ Nekoriku.setup_prefix(prefix="!O>")
 
 # Node connection example
 Nekoriku.setup_nodes(
+    identifier="Nekoriku" # or can set identifier=None You can if you don't want to name the identifier.
     uri="http://localhost:3000",
     password="youshallnotpass"
 )
