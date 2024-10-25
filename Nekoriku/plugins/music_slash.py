@@ -166,6 +166,30 @@ class Nekoriku_Music_Slash(commands.Cog):
             await interaction.followup.send(embed=embed)
             return
         
+        filters: wavelink.Filters = player.filters
+        select_filters = {
+            "🎶 Nightcore": lambda: filters.timescale.set(speed=1.2, pitch=1.2, rate=1),
+            "🎶 Slow": lambda: filters.timescale.set(speed=0.8, pitch=0.9, rate=1),
+            "🎶 Karaoke": lambda: filters.karaoke.set(level=2, mono_level=1, filter_band=220, filter_width=100),
+            "🎶 Clear Filters": lambda: filters.reset()
+        }
+
+        select = discord.ui.Select(
+            placeholder="เลือกฟิลเตอร์..",
+            options=[discord.SelectOption(label=name, value=name) for name in select_filters.keys()]
+        )
+
+        async def select_callback(interaction: discord.Interaction):
+            selected_filter = select.values[0]
+
+            select_filters[selected_filter]()
+            await player.set_filters(filters)
+            await interaction.response.send_message(f"คุณเลือกฟิลเตอร์: {selected_filter}")
+
+        select.callback = select_callback
+        view = discord.ui.View()
+        view.add_item(select)
+        
         tracks: wavelink.Player = await wavelink.Playable.search(song)
         if not tracks:
             embed = NekorikuEmbeds.no_songs_found_match(interaction.user, self.bot)
@@ -180,7 +204,7 @@ class Nekoriku_Music_Slash(commands.Cog):
             track: wavelink.Playable = tracks[0]
             await player.queue.put_wait(track)
             embed = NekorikuEmbeds.playing_music_embed(interaction.user, self.bot, track, player.queue.count, player.node.identifier)
-            await interaction.followup.send(embed=embed)
+            await interaction.followup.send(embed=embed, view=view)
         
         if not player.playing:
             next_track = player.queue.get()

@@ -90,7 +90,7 @@ class BotClient(commands.Bot):
             await self.tree.sync()
             logger.info("[READY] -> Slash Commands Synced.")
 
-        activity = discord.Activity(type=discord.ActivityType.watching, name=f"{self.command_prefix}play | /play | Nekoriku v0.2.1")
+        activity = discord.Activity(type=discord.ActivityType.watching, name=f"{self.command_prefix}play | /play | Nekoriku v0.2.4")
         await self.change_presence(activity=activity)
 
     async def on_command_error(self, ctx: commands.Context, error: commands.CommandError) -> None:
