@@ -168,21 +168,21 @@ class Nekoriku_Music_Slash(commands.Cog):
         
         filters: wavelink.Filters = player.filters
         select_filters = {
-            "🎶 Nightcore": lambda: filters.timescale.set(speed=1.2, pitch=1.2, rate=1),
-            "🎶 Slow": lambda: filters.timescale.set(speed=0.8, pitch=0.9, rate=1),
-            "🎶 Karaoke": lambda: filters.karaoke.set(level=2, mono_level=1, filter_band=220, filter_width=100),
-            "🎶 Clear Filters": lambda: filters.reset()
+            "🎶 Nightcore": ("ปรับให้เพลงเร็ว และ เสียงร้องแหลมขึ้น", lambda: filters.timescale.set(speed=1.2, pitch=1.2, rate=1)),
+            "🎶 Slow": ("ปรับให้เพลงช้าขึ้น และ เสียงร้องต่ำลง", lambda: filters.timescale.set(speed=0.8, pitch=0.9, rate=1)),
+            "🎶 Karaoke": ("ตัดเสียงร้องของเพลงออก เหลือแค่ดนตรี", lambda: filters.karaoke.set(level=2, mono_level=1, filter_band=220, filter_width=100)),
+            "🎶 Clear Filters": ("ล้างฟิลเตอร์ทั้งหมดที่คุณเปิดไม่ว่าจะเป็นตัวไหนก็ตาม", lambda: filters.reset())
         }
 
         select = discord.ui.Select(
             placeholder="เลือกฟิลเตอร์..",
-            options=[discord.SelectOption(label=name, value=name) for name in select_filters.keys()]
+            options=[discord.SelectOption(label=name, description=desc, value=name) for name, (desc, _) in select_filters.items()]
         )
 
         async def select_callback(interaction: discord.Interaction):
             selected_filter = select.values[0]
 
-            select_filters[selected_filter]()
+            select_filters[selected_filter][1]()
             await player.set_filters(filters)
             await interaction.response.send_message(f"คุณเลือกฟิลเตอร์: {selected_filter}")
 
