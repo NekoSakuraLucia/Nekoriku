@@ -2,12 +2,13 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from typing import Optional
-from ..colored_logging import get_logger
 import wavelink
-from ..embeds import NekorikuEmbeds
-from ..utils import Nekoriku_Utils
 import re
 import random
+from ..embeds import NekorikuEmbeds
+from ..utils import Nekoriku_Utils
+from ..ControlsView import NekorikuControls
+from ..colored_logging import get_logger
 
 logger = get_logger('nekoriku_logger')
 
@@ -147,7 +148,7 @@ class Nekoriku_Music_Slash(commands.Cog):
             await interaction.followup.send(embed=embed)
             return
 
-        player = interaction.guild.voice_client
+        player: Optional[wavelink.Player] = interaction.guild.voice_client
 
         if not player:
             try:
@@ -165,6 +166,8 @@ class Nekoriku_Music_Slash(commands.Cog):
             embed = NekorikuEmbeds.player_voice_channel(interaction.user, self.bot)
             await interaction.followup.send(embed=embed)
             return
+
+        controls_view = NekorikuControls(bot=interaction.client, player=player)
         
         tracks: wavelink.Player = await wavelink.Playable.search(song)
         if not tracks:
@@ -175,12 +178,12 @@ class Nekoriku_Music_Slash(commands.Cog):
         if isinstance(tracks, wavelink.Playlist):
             added: int = await player.queue.put_wait(tracks)
             embed = NekorikuEmbeds.song_playlist_added(interaction.user, self.bot, tracks, added, player.node.identifier)
-            await interaction.followup.send(embed=embed)
+            await interaction.followup.send(embed=embed, view=controls_view)
         else:
             track: wavelink.Playable = tracks[0]
             await player.queue.put_wait(track)
             embed = NekorikuEmbeds.playing_music_embed(interaction.user, self.bot, track, player.queue.count, player.node.identifier)
-            await interaction.followup.send(embed=embed)
+            await interaction.followup.send(embed=embed, view=controls_view)
         
         if not player.playing:
             next_track = player.queue.get()
