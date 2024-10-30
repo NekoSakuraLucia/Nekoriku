@@ -11,9 +11,12 @@ class NekorikuControls(discord.ui.View):
         self.bot = bot
         self.player = player
 
-        self.autoplay_button = discord.ui.Button(label="Autoplay", style=discord.ButtonStyle.secondary)
+        # ปุ่มสำหรับเปิด Autoplay
+        self.autoplay_button = discord.ui.Button(label="🎶 Autoplay", style=discord.ButtonStyle.secondary)
+        self.autoplay_button.callback = self.toggle_autoplay
         self.add_item(self.autoplay_button)
 
+        # ปุ่มสำหรับเปิด Filters
         self.filters: wavelink.Filters = self.player.filters
         self.select_filter = {
             "🎶 Nightcore": ("ปรับให้เพลงเร็ว และ เสียงร้องแหลมขึ้น", lambda: self.filters.timescale.set(speed=1.2, pitch=1.2, rate=1)),
@@ -29,6 +32,21 @@ class NekorikuControls(discord.ui.View):
         )
         self.select.callback = self.select_callback
         self.add_item(self.select)
+
+    async def toggle_autoplay(self, interaction: discord.Interaction):
+        if self.player.autoplay == wavelink.AutoPlayMode.disabled:
+            self.player.autoplay = wavelink.AutoPlayMode.enabled
+            self.autoplay_button.style = discord.ButtonStyle.green
+        else:
+            self.player.autoplay = wavelink.AutoPlayMode.disabled
+            self.autoplay_button.style = discord.ButtonStyle.secondary
+        
+        # แก้ใข view
+        await interaction.response.edit_message(view=self)
+
+        # ส่งข้อความใหม่เป็น embed
+        embed = NekorikuEmbeds.player_autoplay_embed(interaction.user, self.bot, self.player.autoplay.name)
+        await interaction.followup.send(embed=embed, ephemeral=True)
 
     async def select_callback(self, interaction: discord.Interaction):
         selected_filter = self.select.values[0]
