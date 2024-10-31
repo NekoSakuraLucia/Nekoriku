@@ -47,7 +47,7 @@ class ColoredFormatter(logging.Formatter):
         
         message_color = Fore.WHITE
         asctime_color = Fore.LIGHTGREEN_EX
-        name_color = Fore.LIGHTYELLOW_EX
+        name_color = Fore.LIGHTCYAN_EX
 
         def colorize(text: str, color: str) -> str:
             """
@@ -90,7 +90,7 @@ def get_logger(name: str):
     if not logger.hasHandlers():
         logger.setLevel(logging.DEBUG)
         ch = logging.StreamHandler()
-        formatter = ColoredFormatter('[%(asctime)s] -> [%(levelname)s] -> %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+        formatter = ColoredFormatter('[%(asctime)s] -> [%(name)s] -> [%(levelname)s] -> %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
         ch.setFormatter(formatter)
         logger.addHandler(ch)
     return logger

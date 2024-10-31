@@ -499,7 +499,7 @@ class NekorikuEmbeds:
             Create an embed to notify users about selecting autoplay mode.
 
             The embed should include:
-            - A title: 'Forward Songs'
+            - A title: 'Autoplay Mode'
             - A description: the message: select autoplay mode.
             - A light pink color"
 

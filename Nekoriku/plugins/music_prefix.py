@@ -5,6 +5,7 @@ import wavelink
 from typing import Optional, Callable
 from ..embeds import NekorikuEmbeds
 from ..utils import Nekoriku_Utils
+from ..ControlsView import NekorikuControls
 import asyncio
 import re
 import random
@@ -184,32 +185,8 @@ class Nekoriku_Music_Prefix(commands.Cog):
             embed = NekorikuEmbeds.player_voice_channel(ctx.author, self.bot)
             await self.send_typing(ctx, embed=embed)
             return
-
-        filters: wavelink.Filters = player.filters
-        select_filters = {
-            "🎶 Nightcore": ("ปรับให้เพลงเร็ว และ เสียงร้องแหลมขึ้น", lambda: filters.timescale.set(speed=1.2, pitch=1.2, rate=1)),
-            "🎶 Slow": ("ปรับให้เพลงช้าขึ้น และ เสียงร้องต่ำลง", lambda: filters.timescale.set(speed=0.8, pitch=0.9, rate=1)),
-            "🎶 Karaoke": ("ตัดเสียงร้องของเพลงออก เหลือแค่ดนตรี", lambda: filters.karaoke.set(level=2, mono_level=1, filter_band=220, filter_width=100)),
-            "🎶 Lowpass": ("ปรับให้เพลงสมูทขึ้น และ เพราะขึ้น", lambda: filters.low_pass.set(smoothing=20)),
-            "🎶 Clear Filters": ("ล้างฟิลเตอร์ทั้งหมดที่คุณเปิดไม่ว่าจะเป็นตัวไหนก็ตาม", lambda: filters.reset())
-        }
-
-        select = discord.ui.Select(
-            placeholder="เลือกฟิลเตอร์..",
-            options=[discord.SelectOption(label=name, description=desc, value=name) for name, (desc, _) in select_filters.items()]
-        )
-
-        async def select_callback(interaction: discord.Interaction):
-            selected_filter = select.values[0]
-
-            select_filters[selected_filter][1]()
-            await player.set_filters(filters)
-            embed = NekorikuEmbeds.filters_music_embed(ctx.author, self.bot, selected_filter)
-            await interaction.response.send_message(embed=embed, ephemeral=True)
-
-        select.callback = select_callback
-        view = discord.ui.View()
-        view.add_item(select)
+        
+        controls_view = NekorikuControls(bot=self.bot, player=player)
         
         tracks: wavelink.Playable = await wavelink.Playable.search(url)
         if not tracks:
@@ -220,12 +197,12 @@ class Nekoriku_Music_Prefix(commands.Cog):
         if isinstance(tracks, wavelink.Playlist):
             added: int = await player.queue.put_wait(tracks)
             embed = NekorikuEmbeds.song_playlist_added(ctx.author, self.bot, tracks, added, player.node.identifier)
-            await self.send_typing(ctx, embed=embed, view=view)
+            await self.send_typing(ctx, embed=embed, view=controls_view)
         else:
             track: wavelink.Playable = tracks[0]
             await player.queue.put_wait(track)
             embed = NekorikuEmbeds.playing_music_embed(ctx.author, self.bot, track, player.queue.count, player.node.identifier)
-            await self.send_typing(ctx, embed=embed, view=view)
+            await self.send_typing(ctx, embed=embed, view=controls_view)
 
         if not player.playing:
             next_track = player.queue.get()
