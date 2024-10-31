@@ -6,6 +6,17 @@ import discord.ext
 from .embeds import NekorikuEmbeds
 
 class NekorikuControls(discord.ui.View):
+    """
+    TH:
+    `NekorikuControls` คอนโทลสำหรับควบคุม button และ dropdown ไม่จะว่า events ไหนของปุ่มหรือตัวเลื่อนก็จะรวมอยู่ที่นี่ และ แยกเป็นฟังก์ชั่นแต่ละตัวไม่เหมือนกัน
+
+    EN:
+    `NekorikuControls` for controlling buttons and dropdowns. The events of buttons and sliders are included here and are separated into different functions for each one.
+
+    TH / EN:
+    **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+    **As for other languages You can continue adding it yourself. If you are a translator**
+    """
     def __init__(self, bot: discord.ext.commands.Bot, player: wavelink.Player):
         super().__init__()
         self.bot = bot
@@ -34,6 +45,17 @@ class NekorikuControls(discord.ui.View):
         self.add_item(self.select)
 
     async def toggle_autoplay(self, interaction: discord.Interaction):
+        """
+        TH: ฟังก์ชั่นสลับ **autoplay** หลักการทำงานก็คือเมื่อกดที่ปุ่ม จะสลับจาก disabled เป็น enabled และเปลี่ยนสีจาก secondary เป็น green
+        และถ้าหากกลับกัน ถ้าเป็น enabled อยู่เมื่อสลับก็จะเป็น disabled และเปลี่ยนสีจาก green เป็น secondary ปล.(อธิบายผิดหรือถูกขออภัยด้วยนะจ๊ะ55555)
+
+        EN: Toggle function **autoplay** The working principle is that when pressing the button, it will switch from disabled to enabled and change the color from secondary to green.
+        And if vice versa, if it is enabled, when switching, it will be disabled and change the color from green to secondary. P.S. (I can only explain this, haha)
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         if self.player.autoplay == wavelink.AutoPlayMode.disabled:
             self.player.autoplay = wavelink.AutoPlayMode.enabled
             self.autoplay_button.style = discord.ButtonStyle.green
@@ -49,6 +71,16 @@ class NekorikuControls(discord.ui.View):
         await interaction.followup.send(embed=embed, ephemeral=True)
 
     async def select_callback(self, interaction: discord.Interaction):
+        """
+        TH: ฟังก์ชั่นเลือกฟิลเตอร์ **select_filter** หลักการทำงานก็คือเมื่อเลือกชื่อฟิลเตอร์ใน dropdown จะทำการเช็คว่าตรงกันไหม หากตรงก็จะดำเนินการ set_filters หากไม่ถูกก็ไม่ส่งอะไรไป ปล.(อธิบายผิดหรือถูกขออภัยด้วยนะจ๊ะ555)
+
+        EN: Filter selection function **select_filter** The working principle is that when selecting a filter name in the dropdown
+        it will be checked to see if it matches. If it matches, set_filters will be executed. If not, nothing will be sent. P.S. (I'm sorry if I explained incorrectly or correctly.)
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
         selected_filter = self.select.values[0]
         # เรียกใช้งานฟังก์ชั่นการเลือกฟิลเตอร์
         filter_function = None
