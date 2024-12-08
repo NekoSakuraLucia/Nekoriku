@@ -1,0 +1,9 @@
+# dependabot.yml
+version: 2
+updates:
+  - package-ecosystem: "pip"  # ใช้ pip สำหรับ Python
+    directory: "/"  # กำหนดตำแหน่งที่ไฟล์ requirements.txt อยู่
+    schedule:
+      interval: "weekly"  # กำหนดความถี่ในการตรวจสอบ (daily, weekly, monthly)
+    commit-message:
+      prefix: "fix"  # ข้อความ prefix สำหรับ commit
