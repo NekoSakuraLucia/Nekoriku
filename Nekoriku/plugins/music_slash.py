@@ -465,5 +465,30 @@ class Nekoriku_Music_Slash(commands.Cog):
         embed = NekorikuEmbeds.filters_music_embed(interaction.user, self.bot, filter)
         await interaction.followup.send(embed=embed)
 
+    # คำสั่งดูข้อมูลคิวทั้งหมดของเพลง
+    @app_commands.command(name="queue", description="TH: แสดงรายการคิวเพลง / EN: Show the song queue list.")
+    async def queue_length(self, interacion: discord.Interaction) -> None:
+        await interacion.response.defer()
+        player: Optional[wavelink.Player] = interacion.guild.voice_client
+        if not player or not isinstance(player, wavelink.Player):
+            embed = NekorikuEmbeds.create_player_embed(interacion.user, self.bot)
+            await interacion.followup.send(embed=embed)
+            return
+        
+        if player.channel != interacion.user.voice.channel:
+            embed = NekorikuEmbeds.player_voice_channel(interacion.user, self.bot)
+            await interacion.followup.send(embed=embed)
+            return
+        
+        if player.queue.is_empty:
+            embed = NekorikuEmbeds.queue_empty_embed(interacion.user, self.bot)
+            await interacion.followup.send(embed=embed)
+            return
+        
+        embed = discord.Embed(title="รายการคิวเพลง", color=0xFFC0CB)
+        for index, track in enumerate(player.queue):
+            embed.add_field(name=f"{index + 1}. {track.title}", value=f"โดย: {track.author}", inline=False)
+        await interacion.followup.send(embed=embed)
+
 async def setup(bot: commands.Bot):
     await bot.add_cog(Nekoriku_Music_Slash(bot))

@@ -468,5 +468,30 @@ class Nekoriku_Music_Prefix(commands.Cog):
             embed = NekorikuEmbeds.volume_music_embed_else(ctx.author, self.bot)
             await self.send_typing(ctx, embed=embed)
 
+    # คำสั่งดูข้อมูลคิวทั้งหมดของเพลง
+    @commands.command(name="queue")
+    async def queue_length(self, ctx: commands.Context) -> None:
+        player: Optional[wavelink.Player] = ctx.voice_client
+        if not player or not isinstance(player, wavelink.Player):
+            embed = NekorikuEmbeds.create_player_embed(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
+            return
+        
+        if player.channel != ctx.author.voice.channel:
+            embed = NekorikuEmbeds.player_voice_channel(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
+            return
+        
+        if player.queue.is_empty:
+            embed = NekorikuEmbeds.queue_empty_embed(ctx.author, self.bot)
+            await self.send_typing(ctx, embed=embed)
+            return
+        
+        embed = discord.Embed(title="รายการคิวเพลง", color=0xFFC0CB)
+        for index, track in enumerate(player.queue):
+            embed.add_field(name=f"{index + 1}. {track.title}", value=f"โดย: {track.author}", inline=False)
+        await self.send_typing(ctx, embed=embed)
+        
+
 async def setup(bot: commands.Bot):
     await bot.add_cog(Nekoriku_Music_Prefix(bot))

@@ -796,3 +796,35 @@ class NekorikuEmbeds:
         embed.set_author(name='Song Playlist Added', icon_url=f'{member.display_avatar}?size=512')
         embed.set_footer(text="เพิ่มเพลลิสต์เพลงแล้ว", icon_url=f'{bot.user.display_avatar.url}?size=256')
         return embed
+
+    @staticmethod
+    def queue_empty_embed(member: discord.Member, bot: commands.Bot) -> discord.Embed:
+        """
+        TH:
+            สร้าง embed เพื่อแจ้งผู้ใช้เกี่ยวกับคิวเพลงว่าง
+
+            Embed ประกอบด้วย:
+            - ชื่อ: "Queue Empty"
+            - คำอธิบายที่แสดงคิวเพลงว่าง
+            - สีชมพูอ่อน
+
+        EN:
+            Create an embed to notify users about the Queue Empty
+
+            The embed should include:
+            - A title: 'Queue Empty'
+            - A description: showing the message Queue Empty
+            - A light pink color"
+
+        TH / EN:
+        **ภาษาอื่นๆ คุณสามารถมาเพิ่มต่อเองได้นะ**
+        **As for other languages You can continue adding it yourself. If you are a translator**
+        """
+        embed = discord.Embed(
+            description='TH: คิวเพลงว่าง\nEN: Queue Empty',
+            color=0xFFC0CB
+        )
+        embed.set_author(name='Queue Empty', icon_url=f'{member.display_avatar}?size=512')
+        embed.set_footer(text="คิวเพลงว่าง", icon_url=f'{bot.user.display_avatar.url}?size=256')
+        return embed
+        
